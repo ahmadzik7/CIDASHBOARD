@@ -741,7 +741,19 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 
 <!-- USER LOGIN OVERLAY -->
 <div class="user-overlay" id="user-overlay">
-  <div class="user-box">
+  <!-- Step 1: Password -->
+  <div class="user-box" id="pw-box">
+    <div class="user-box-logo">CI</div>
+    <h2>Akses Terbatas</h2>
+    <p>Masukkan password untuk melanjutkan ke CI Project Command Center.</p>
+    <input type="password" id="pw-input" placeholder="Masukkan password..." maxlength="30"
+      onkeydown="if(event.key==='Enter')checkPassword()"
+      style="letter-spacing:3px;text-align:center;">
+    <div id="pw-error" style="color:var(--danger);font-family:var(--mono);font-size:11px;min-height:18px;margin-bottom:4px;"></div>
+    <button class="btn-primary" style="width:100%;padding:11px;" onclick="checkPassword()">LANJUT →</button>
+  </div>
+  <!-- Step 2: Nama -->
+  <div class="user-box" id="name-box" style="display:none;">
     <div class="user-box-logo">CI</div>
     <h2>Siapa Anda?</h2>
     <p>Masukkan nama Anda agar rekan tim tahu siapa yang melakukan perubahan data.</p>
@@ -774,7 +786,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
     <div class="logo-badge">CI</div>
     <div>
       <div class="header-title">Project Command Center</div>
-      <div class="header-sub">Continuous Improvement · Production Dept · v15</div>
+      <div class="header-sub">Continuous Improvement · Production Dept · v17</div>
     </div>
   </div>
   <div class="header-right">
@@ -2004,7 +2016,9 @@ let hseGroups      = [];
 let materialMaster = [];   // ← database referensi material
 let activityLog = [];
 let unreadCount = 0;
-let _lastDataHash = '';
+let _lastDataHash = "";
+// Track IDs yang sengaja dihapus
+let _deletedIds = new Set(JSON.parse(localStorage.getItem("ci3_deleted_ids")||"[]"));
 
 let editingId       = null;
 let currentDetailId = null;
@@ -2282,15 +2296,22 @@ async function pushToSheetsMerge(localState) {
   }
 }
 
+// Persist deleted IDs ke localStorage (max 500 entries, bersihkan yang lama)
+function persistDeletedIds() {
+  const arr = Array.from(_deletedIds).slice(-500);
+  _deletedIds = new Set(arr);
+  localStorage.setItem('ci3_deleted_ids', JSON.stringify(arr));
+}
+
 // ===== MERGE HELPERS =====
 // Merge dua array by id: local menang jika id sama (edit), tapi item yg hanya ada di remote (CI Form) tetap masuk
+// KECUALI item yang sudah masuk _deletedIds — item terhapus tidak boleh dikembalikan dari Sheets
 function mergeById(localArr, remoteArr) {
   const local  = localArr  || [];
   const remote = remoteArr || [];
   const localIds = new Set(local.map(i => i.id));
-  // Ambil item dari remote yang TIDAK ada di local (submitted via CI Form)
-  const remoteOnly = remote.filter(i => i.id && !localIds.has(i.id));
-  // Remote-only items di depan (baru), local items (sudah ada/diedit) di belakang
+  // Ambil item dari remote yang TIDAK ada di local DAN belum pernah dihapus
+  const remoteOnly = remote.filter(i => i.id && !localIds.has(i.id) && !_deletedIds.has(i.id));
   return [...remoteOnly, ...local];
 }
 
@@ -2883,10 +2904,10 @@ function delMat(id){
   const m = materials.find(x=>x.id===id);
   if(!m) return;
   if(!confirm(`Hapus material "${m.name||m.partno||id}"?`)) return;
+  _deletedIds.add(id); persistDeletedIds();
   materials = materials.filter(x=>x.id!==id);
   logActivity('Hapus Material', m.name||m.partno||id, m.projectId||null);
   save(); renderMaterials(); renderDashboard();
-  // Jika detail panel sedang buka, refresh juga
   if(currentDetailId && document.getElementById('detail-overlay').classList.contains('open')) openDetail(currentDetailId);
 }
 function updMatStatus(id,val){const m=materials.find(x=>x.id===id);if(m){m.status=val;save();renderMaterials();renderDashboard();}}
@@ -3502,14 +3523,18 @@ async function saveProject() {
 function delProject(id){
   const p = projects.find(x=>x.id===id);
   if(!p) return;
-  const matCount = materials.filter(m=>m.projectId===id).length;
+  const matIds = materials.filter(m=>m.projectId===id).map(m=>m.id);
+  const matCount = matIds.length;
   const msg = matCount
     ? `Hapus project "${p.name}"?\n\n⚠ ${matCount} material terkait project ini juga akan dihapus.`
     : `Hapus project "${p.name}"?`;
   if(!confirm(msg)) return;
+  // Daftarkan ID yang dihapus agar merge tidak mengembalikannya dari Sheets
+  _deletedIds.add(id);
+  matIds.forEach(mid => _deletedIds.add(mid));
+  persistDeletedIds();
   projects  = projects.filter(x=>x.id!==id);
-  materials = materials.filter(m=>m.projectId!==id); // cascade delete material
-  // Tutup detail panel jika sedang buka project ini
+  materials = materials.filter(m=>m.projectId!==id);
   if(currentDetailId===id){ document.getElementById('detail-overlay').classList.remove('open'); currentDetailId=null; }
   logActivity('Hapus Project',`"${p.name}" dihapus (${matCount} material)`,id);
   save(); renderAllProjects(); renderMaterials(); renderDashboard();
@@ -3682,6 +3707,7 @@ function updInlineMatStatus(id, val) {
 
 function delInlineMat(id) {
   if(!confirm('Hapus material ini?')) return;
+  _deletedIds.add(id); persistDeletedIds();
   materials = materials.filter(m=>m.id!==id);
   save(); renderDetailMaterials(); renderDashboard(); if(document.getElementById('mat-tbody')) renderMaterials();
 }
@@ -4309,6 +4335,27 @@ function hashColor(name) {
   return USER_COLORS[Math.abs(h) % USER_COLORS.length];
 }
 
+// ===== PASSWORD GATE =====
+const _CI_PASS = 'CI212';
+let _pwVerified = !!sessionStorage.getItem('ci3_pw_ok');
+
+function checkPassword() {
+  const val = document.getElementById('pw-input').value;
+  if (val === _CI_PASS) {
+    sessionStorage.setItem('ci3_pw_ok', '1');
+    _pwVerified = true;
+    document.getElementById('pw-box').style.display   = 'none';
+    document.getElementById('name-box').style.display = 'block';
+    setTimeout(() => document.getElementById('user-name-input').focus(), 80);
+  } else {
+    const err = document.getElementById('pw-error');
+    err.textContent = '⚠ Password salah. Coba lagi.';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+    setTimeout(() => { err.textContent = ''; }, 3000);
+  }
+}
+
 function loginUser() {
   const name = document.getElementById('user-name-input').value.trim();
   if (!name) { document.getElementById('user-name-input').focus(); return; }
@@ -4344,7 +4391,17 @@ function showUserOverlay() {
     `<div class="avatar-btn" onclick="document.getElementById('user-name-input').value='${u}';loginUser()">${u}</div>`
   ).join('');
   document.getElementById('user-overlay').style.display = 'flex';
-  setTimeout(() => document.getElementById('user-name-input').focus(), 100);
+  // Jika session sudah terverifikasi, langsung tampilkan form nama
+  if (_pwVerified) {
+    document.getElementById('pw-box').style.display   = 'none';
+    document.getElementById('name-box').style.display = 'block';
+    setTimeout(() => document.getElementById('user-name-input').focus(), 100);
+  } else {
+    document.getElementById('pw-box').style.display   = 'block';
+    document.getElementById('name-box').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+    setTimeout(() => document.getElementById('pw-input').focus(), 100);
+  }
 }
 
 // =============================================
@@ -6242,8 +6299,14 @@ loadActivityLog();
 loadMasterLocal();
 const savedUser = localStorage.getItem('ci3_user');
 if (savedUser) {
-  try { const u = JSON.parse(savedUser); setCurrentUser(u.name); }
-  catch(e) { showUserOverlay(); }
+  // Jika ada session password, langsung masuk; jika tidak, minta password dulu
+  if (_pwVerified) {
+    try { const u = JSON.parse(savedUser); setCurrentUser(u.name); }
+    catch(e) { showUserOverlay(); }
+  } else {
+    // Password belum diverifikasi di session ini — tampilkan password gate
+    showUserOverlay();
+  }
 } else {
   showUserOverlay();
 }
