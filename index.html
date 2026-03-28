@@ -2879,7 +2879,16 @@ function renderMaterials() {
     </tr>`;
   }).join('') : `<tr><td colspan="11" class="empty-state"><div class="empty-icon">⬡</div>Tidak ada material ditemukan.</td></tr>`;
 }
-function delMat(id){if(!confirm('Hapus material ini?'))return;materials=materials.filter(m=>m.id!==id);save();renderMaterials();renderDashboard();}
+function delMat(id){
+  const m = materials.find(x=>x.id===id);
+  if(!m) return;
+  if(!confirm(`Hapus material "${m.name||m.partno||id}"?`)) return;
+  materials = materials.filter(x=>x.id!==id);
+  logActivity('Hapus Material', m.name||m.partno||id, m.projectId||null);
+  save(); renderMaterials(); renderDashboard();
+  // Jika detail panel sedang buka, refresh juga
+  if(currentDetailId && document.getElementById('detail-overlay').classList.contains('open')) openDetail(currentDetailId);
+}
 function updMatStatus(id,val){const m=materials.find(x=>x.id===id);if(m){m.status=val;save();renderMaterials();renderDashboard();}}
 
 // ===== ISSUES =====
@@ -3490,7 +3499,21 @@ async function saveProject() {
   pendingDocs=[];
   save(); closeModal('modal-project'); renderDashboard(); renderAllProjects();
 }
-function delProject(id){if(!confirm('Hapus project?'))return;projects=projects.filter(p=>p.id!==id);save();renderAllProjects();renderDashboard();}
+function delProject(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  const matCount = materials.filter(m=>m.projectId===id).length;
+  const msg = matCount
+    ? `Hapus project "${p.name}"?\n\n⚠ ${matCount} material terkait project ini juga akan dihapus.`
+    : `Hapus project "${p.name}"?`;
+  if(!confirm(msg)) return;
+  projects  = projects.filter(x=>x.id!==id);
+  materials = materials.filter(m=>m.projectId!==id); // cascade delete material
+  // Tutup detail panel jika sedang buka project ini
+  if(currentDetailId===id){ document.getElementById('detail-overlay').classList.remove('open'); currentDetailId=null; }
+  logActivity('Hapus Project',`"${p.name}" dihapus (${matCount} material)`,id);
+  save(); renderAllProjects(); renderMaterials(); renderDashboard();
+}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 // ===== DETAIL PANEL =====
