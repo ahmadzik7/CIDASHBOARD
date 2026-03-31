@@ -2204,6 +2204,7 @@ let ganttSchedules = [];
 let calibrations   = [];
 let hseGroups      = [];
 let lifetimes      = [];
+let mappings       = [];   // ← layout mapping part (Lifetime Tracker → Mapping tab)
 let materialMaster = [];   // ← database referensi material
 let activityLog = [];
 let unreadCount = 0;
@@ -2372,7 +2373,6 @@ function save() {
 // ===== PUSH WITH MERGE — versi safe, pull-then-merge sebelum push =====
 // Sama seperti yang CI Form lakukan di pushData() — cegah race condition
 async function pushToSheetsMerge(localState) {
-  // FIX Bug #4: guard lebih aman, isSyncing pasti di-reset di finally
   if (isSyncing) { pendingSave = true; return; }
   isSyncing = true;
   setSyncStatus('syncing', 'Menyimpan ke Sheets...');
@@ -2388,22 +2388,22 @@ async function pushToSheetsMerge(localState) {
       clearTimeout(t0);
       if (r0.ok) {
         const txt0 = await r0.text();
-        sheetsData = JSON.parse(txt0);
-        _sheetsDataHash = txt0;
+        try { sheetsData = JSON.parse(txt0); _sheetsDataHash = txt0; }
+        catch(pe) { console.warn('pushToSheetsMerge: pull response bukan JSON', txt0.slice(0,200)); }
       }
     } catch(fetchErr) {
       console.warn('pushToSheetsMerge: pull gagal, pakai state lokal', fetchErr);
       sheetsData = {};
     }
 
-    // 2. Merge: local state menang untuk data yang di-edit di Dashboard,
+    // 2. Merge: local menang untuk data yang di-edit di Dashboard,
     //    tapi pertahankan item dari CI Form yang tidak ada di local state
     const mergedProjects  = mergeById(localState.projects,  sheetsData.projects);
     const mergedIssues    = mergeById(localState.issues,    sheetsData.issues);
     const mergedMaterials = mergeById(localState.materials, sheetsData.materials);
     const mergedLog       = mergeLog(localState.activityLog, sheetsData.activityLog);
 
-    // FIX Bug #1: pastikan semua field ada — lifetimes & mappings wajib disertakan
+    // FIX: eksplisit semua field — cegah undefined kalau localState tidak lengkap
     const merged = {
       ...localState,
       projects:       mergedProjects,
@@ -2417,9 +2417,9 @@ async function pushToSheetsMerge(localState) {
       ganttSchedules: localState.ganttSchedules || [],
       calibrations:   localState.calibrations   || [],
       hseGroups:      localState.hseGroups      || [],
-      lifetimes:      localState.lifetimes      || [],  // FIX: eksplisit
-      mappings:       localState.mappings       || [],  // FIX: eksplisit
-      materialMaster: localState.materialMaster || [],  // FIX: eksplisit
+      lifetimes:      localState.lifetimes      || [],
+      mappings:       localState.mappings       || [],
+      materialMaster: localState.materialMaster || [],
     };
 
     // 3. Update state lokal dengan hasil merge
@@ -2436,26 +2436,29 @@ async function pushToSheetsMerge(localState) {
       sendData.activityLog = sendData.activityLog.slice(0, 50);
     }
 
-    // FIX Bug #3: trim bertahap agar payload tidak melebihi limit GAS (~200KB)
+    // FIX: trim bertahap — cegah payload meledak diam-diam
     let sendPayload = JSON.stringify(sendData);
+    console.log('[pushToSheetsMerge] payload size:', sendPayload.length, 'chars');
     if (sendPayload.length > 180000) {
       // Step 1: hapus materialMaster (bisa puluhan KB)
       const t1 = { ...sendData }; delete t1.materialMaster;
       sendPayload = JSON.stringify(t1);
+      console.log('[pushToSheetsMerge] trimmed step1:', sendPayload.length);
     }
     if (sendPayload.length > 180000) {
       // Step 2: pangkas activityLog lebih agresif
       const t2 = JSON.parse(sendPayload);
       t2.activityLog = (t2.activityLog || []).slice(0, 20);
       sendPayload = JSON.stringify(t2);
+      console.log('[pushToSheetsMerge] trimmed step2:', sendPayload.length);
     }
     if (sendPayload.length > 180000) {
       // Step 3: hapus mappings (bisa besar kalau banyak slot)
       const t3 = JSON.parse(sendPayload);
       delete t3.mappings;
       sendPayload = JSON.stringify(t3);
+      console.log('[pushToSheetsMerge] trimmed step3:', sendPayload.length);
     }
-    console.log('[pushToSheetsMerge] payload size:', sendPayload.length, 'chars');
 
     const controller = new AbortController();
     const timeoutId  = setTimeout(() => controller.abort(), 25000);
@@ -2467,9 +2470,28 @@ async function pushToSheetsMerge(localState) {
       signal:   controller.signal
     });
     clearTimeout(timeoutId);
+    console.log('[pushToSheetsMerge] HTTP status:', res.status, res.type);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const txt = await res.text();
-    if (txt.startsWith('ERROR')) throw new Error(txt);
+    console.log('[pushToSheetsMerge] response (first 200):', txt.slice(0, 200));
+
+    // FIX: GAS v13 return JSON {"ok":true} atau {"ok":false,"error":"..."}
+    // Jangan hanya cek txt.startsWith('ERROR') — parse JSON dulu
+    if (txt.trim().startsWith('{')) {
+      try {
+        const resJson = JSON.parse(txt);
+        if (resJson.ok === false) throw new Error(resJson.error || 'GAS error tanpa pesan');
+      } catch(pe) {
+        if (pe.message !== 'GAS error tanpa pesan' && !pe.message.includes('GAS error')) {
+          console.warn('[pushToSheetsMerge] response JSON parse error (non-fatal):', pe.message);
+        } else {
+          throw pe;
+        }
+      }
+    } else if (txt.startsWith('ERROR')) {
+      throw new Error(txt);
+    }
 
     // ✅ Berhasil
     lastSyncTime = new Date();
