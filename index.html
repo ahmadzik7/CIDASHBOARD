@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>CI Project Command Center </title>
+<title>CI Project Command Center v17</title>
 <!-- PWA -->
 <meta name="application-name" content="CI Command">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -821,9 +821,10 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   <div class="nav-item" onclick="showPage('materials',this)"><span class="nav-icon">⬡</span> Material Tracker</div>
   <div class="nav-item" onclick="showPage('matmaster',this)"><span class="nav-icon">🗂️</span> Material Master <span class="nav-badge" id="nav-master-count" style="background:var(--surface2);color:var(--text-muted);display:none;">0</span></div>
   <div class="nav-item" onclick="showPage('issues',this)"><span class="nav-icon">⚠</span> Issue Log</div>
+  <div class="nav-item" onclick="showPage('ejo',this)"><span class="nav-icon">🏷️</span> EJO Tracker <span class="nav-badge" id="nav-ejo-count" style="background:var(--purple);display:none;">0</span></div>
   <div class="nav-item sop-nav" onclick="showPage('sop',this)"><span class="nav-icon">📁</span> SOP/WI & File Library</div>
   <div class="nav-item" onclick="showPage('cinote',this)" style="--note-color:var(--teal)"><span class="nav-icon">📝</span> CI Note</div>
-  <div class="nav-item" onclick="showPage('framework',this)"><span class="nav-icon">◎</span> CI Framework</div>
+  <div class="nav-item" onclick="showPage('lifetime',this)"><span class="nav-icon">⏳</span> Lifetime Tracker <span class="nav-badge" id="nav-lifetime-warn" style="background:var(--danger);display:none;font-size:9px;">!</span></div>
   <div class="nav-item" onclick="showPage('gantt',this)"><span class="nav-icon">📊</span> Gantt Jadwal</div>
   <div class="nav-item" onclick="showPage('calibration',this)"><span class="nav-icon">🔬</span> Kalibrasi Alat <span class="nav-badge" id="nav-calib-warn" style="background:var(--danger);display:none;font-size:9px;">!</span></div>
   <div class="nav-item" onclick="showPage('hse',this)"><span class="nav-icon">🦺</span> HSE Refreshment <span class="nav-badge" id="nav-hse-warn" style="background:var(--danger);display:none;font-size:9px;">!</span></div>
@@ -1072,49 +1073,150 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 </div>
 
 <!-- ===== CI FRAMEWORK ===== -->
-<div class="page" id="page-framework">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
-    <div style="background:var(--surface);border:1px solid var(--border);padding:16px;">
-      <div class="detail-sec-label">⚡ Problem-Solving Framework (DMAPM)</div>
-      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text-dim);line-height:1.6;">
-        <div style="background:var(--bg);border:1px solid var(--border);padding:10px 12px;border-left:3px solid var(--danger);"><strong style="color:var(--danger);">1. DEFINE</strong><br>Apa masalahnya? Di mana? Kapan? Dampak ke produksi?</div>
-        <div style="background:var(--bg);border:1px solid var(--border);padding:10px 12px;border-left:3px solid var(--warn);"><strong style="color:var(--warn);">2. MEASURE</strong><br>Frekuensi, downtime, estimasi kerugian. Data untuk prioritas.</div>
-        <div style="background:var(--bg);border:1px solid var(--border);padding:10px 12px;border-left:3px solid var(--accent);"><strong style="color:var(--accent);">3. ANALYZE</strong><br>5-Why atau Fishbone. Root cause, bukan symptom.</div>
-        <div style="background:var(--bg);border:1px solid var(--border);padding:10px 12px;border-left:3px solid var(--accent2);"><strong style="color:var(--accent2);">4. PLAN</strong><br>Buat project entry. Konfirmasi material & jadwal Engineering.</div>
-        <div style="background:var(--bg);border:1px solid var(--border);padding:10px 12px;border-left:3px solid var(--accent3);"><strong style="color:var(--accent3);">5. MONITOR</strong><br>Update tiap 2-3 hari. Hambatan → log Issue → eskalasi.</div>
+<!-- ===== LIFETIME / SEQUENCE TRACKER ===== -->
+<div class="page" id="page-lifetime">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+    <div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:2px;">⏳ Lifetime & Sequence Tracker</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Pantau masa pakai alat · Trial process · Monitoring siklus · Alert otomatis</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="lt-search" placeholder="Cari nama / ID..." style="width:160px;font-size:11px;padding:6px 10px;" oninput="renderLifetime()">
+      <select id="lt-filter-type" style="font-size:11px;padding:6px 10px;" onchange="renderLifetime()">
+        <option value="">Semua Tipe</option>
+        <option value="tool">Alat / Tool</option>
+        <option value="trial">Trial Process</option>
+        <option value="consumable">Consumable Part</option>
+        <option value="sequence">Sequence / Urutan</option>
+        <option value="other">Lainnya</option>
+      </select>
+      <select id="lt-filter-status" style="font-size:11px;padding:6px 10px;" onchange="renderLifetime()">
+        <option value="">Semua Status</option>
+        <option value="ok">Normal</option>
+        <option value="warn">Hampir Habis (>80%)</option>
+        <option value="exceed">Melebihi Lifetime</option>
+        <option value="done">Selesai / Target Tercapai</option>
+        <option value="reminder">Reminder Aktif</option>
+      </select>
+      <button class="btn-secondary btn-sm" onclick="exportSheet('lifetime')" style="white-space:nowrap;">⬇ Export</button>
+      <button class="btn-primary" onclick="openLifetimeModal()">+ Tambah</button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="stats-row" id="lt-summary-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px;"></div>
+
+  <!-- Alert bar -->
+  <div id="lt-alert-bar" style="display:none;margin-bottom:14px;"></div>
+
+  <!-- Table -->
+  <div class="section-header">
+    <span class="section-title">▸ Daftar Item Tracked</span>
+    <span id="lt-count-label" style="font-family:var(--mono);font-size:10px;color:var(--text-muted);"></span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:100px;">ID</th>
+          <th>Nama Item</th>
+          <th style="width:80px;">Tipe</th>
+          <th style="width:80px;">Satuan</th>
+          <th style="width:90px;">Aktual</th>
+          <th style="width:90px;">Target</th>
+          <th style="width:110px;">Lifetime Terpakai</th>
+          <th style="width:75px;">Status</th>
+          <th style="width:80px;">Mulai</th>
+          <th style="width:90px;">Reminder</th>
+          <th style="width:60px;">PIC</th>
+          <th style="width:65px;"></th>
+        </tr>
+      </thead>
+      <tbody id="lt-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL LIFETIME -->
+<div class="modal-overlay" id="modal-lifetime">
+  <div class="modal" style="width:640px;border-top-color:var(--teal);">
+    <div class="modal-header">
+      <span class="modal-title" id="lt-modal-title">TAMBAH ITEM TRACKER</span>
+      <button class="modal-close" onclick="closeModal('modal-lifetime')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>ID Item *</label>
+          <input type="text" id="lt-id" placeholder="Contoh: LT-001, SEAL-A, TRIAL-003">
+        </div>
+        <div class="form-group"><label>Tipe *</label>
+          <select id="lt-type">
+            <option value="tool">Alat / Tool</option>
+            <option value="trial">Trial Process</option>
+            <option value="consumable">Consumable Part</option>
+            <option value="sequence">Sequence / Urutan</option>
+            <option value="other">Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group full"><label>Nama Item *</label>
+          <input type="text" id="lt-name" placeholder="Contoh: Mechanical Seal Pompa A, Trial Kecap Asin Batch 3">
+        </div>
+        <div class="form-group"><label>Tanggal Mulai Pakai</label>
+          <input type="date" id="lt-start">
+        </div>
+        <div class="form-group"><label>Tanggal Reminder (opsional)</label>
+          <input type="date" id="lt-reminder">
+        </div>
+        <div class="form-group"><label>Counter Aktual (sekarang)</label>
+          <input type="number" id="lt-actual" min="0" step="0.1" placeholder="0">
+        </div>
+        <div class="form-group"><label>Target Lifetime / Batas</label>
+          <input type="number" id="lt-target" min="1" step="0.1" placeholder="Contoh: 5000">
+        </div>
+        <div class="form-group"><label>Satuan</label>
+          <select id="lt-unit">
+            <option value="jam">Jam (Running Hours)</option>
+            <option value="hari">Hari</option>
+            <option value="siklus">Siklus</option>
+            <option value="batch">Batch</option>
+            <option value="km">Km</option>
+            <option value="pcs">Pcs / Unit</option>
+            <option value="liter">Liter</option>
+            <option value="lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Ambang Warning (%)</label>
+          <input type="number" id="lt-warn-pct" min="1" max="99" value="80" placeholder="80">
+        </div>
+        <div class="form-group"><label>Lokasi / Mesin / Area</label>
+          <input type="text" id="lt-location" placeholder="Contoh: Line 3 - Pompa Kecap">
+        </div>
+        <div class="form-group"><label>PIC</label>
+          <input type="text" id="lt-pic" placeholder="Nama PIC">
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="lt-status">
+            <option value="active">Active — Sedang Berjalan</option>
+            <option value="done">Done — Selesai / Target Tercapai</option>
+            <option value="replaced">Replaced — Sudah Diganti</option>
+            <option value="paused">Paused — Sementara Berhenti</option>
+          </select>
+        </div>
+        <div class="form-group full"><label>Catatan / Keterangan</label>
+          <textarea id="lt-notes" placeholder="Contoh: Ganti seal setiap 5000 jam atau saat terjadi kebocoran. Trial batch 3 target 30 hari observasi." style="min-height:60px;"></textarea>
+        </div>
+        <div class="form-group"><label>Project Terkait (opsional)</label>
+          <select id="lt-project">
+            <option value="">— Tidak Terkait Project —</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);padding:16px;">
-      <div class="detail-sec-label">📧 Template Komunikasi ke Engineering</div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-bottom:5px;">REQUEST PERTAMA</div>
-          <div style="background:var(--bg);border:1px solid var(--border);padding:9px;font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.8;white-space:pre-wrap;">Halo [Nama PIC Engineering],
-
-🔧 ISSUE: [Deskripsi masalah]
-📍 LOKASI: [Mesin/Area]
-💥 DAMPAK: [Dampak ke produksi]
-
-Mohon konfirmasi:
-1. Kebutuhan material (list + part no.)
-2. Estimasi hari kerja
-3. Jadwal availability tim
-
-Target: [tanggal] | EJO: [nomor]
-Terima kasih 🙏</div>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-bottom:5px;">FOLLOW-UP</div>
-          <div style="background:var(--bg);border:1px solid var(--border);padding:9px;font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.8;white-space:pre-wrap;">Halo [Nama],
-
-Follow-up: [nama project / EJO]
-
-✅ Issue sudah diidentifikasi
-⏳ Menunggu info material & jadwal
-
-Ada update? cc: [Atasan jika perlu]</div>
-        </div>
-      </div>
+    <div class="modal-footer">
+      <button class="btn-danger" id="lt-del-btn" style="display:none;margin-right:auto;" onclick="delLifetime(document.getElementById('lt-edit-id').value)">🗑 Hapus</button>
+      <input type="hidden" id="lt-edit-id">
+      <button class="btn-secondary" onclick="closeModal('modal-lifetime')">Batal</button>
+      <button class="btn-primary" onclick="saveLifetime()" style="background:var(--teal);">SIMPAN</button>
     </div>
   </div>
 </div>
@@ -1260,6 +1362,65 @@ Ada update? cc: [Atasan jika perlu]</div>
 </div>
 
 <!-- ===== PAGE: EXPORT LAPORAN ===== -->
+<!-- ===== EJO TRACKER ===== -->
+<div class="page" id="page-ejo">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:2px;">🏷️ EJO Tracker</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Aggregasi otomatis dari data project & fase · Update real-time</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <input type="text" id="ejo-search" placeholder="Cari No. EJO..." style="width:160px;font-size:11px;padding:6px 10px;" oninput="renderEJO()">
+      <select id="ejo-filter-type" style="font-size:11px;padding:6px 10px;" onchange="renderEJO()">
+        <option value="">Semua Jenis</option>
+        <option value="civil">Civil</option>
+        <option value="mechanical">Mechanical</option>
+        <option value="electrical">Electrical</option>
+        <option value="program">Program / Automation</option>
+        <option value="it">IT</option>
+        <option value="kalibrasi">Kalibrasi</option>
+      </select>
+      <select id="ejo-filter-status" style="font-size:11px;padding:6px 10px;" onchange="renderEJO()">
+        <option value="">Semua Status</option>
+        <option value="open">Open</option>
+        <option value="inprogress">On-Going</option>
+        <option value="blocked">Blocked</option>
+        <option value="waiting">Waiting</option>
+        <option value="done">Completed</option>
+      </select>
+      <button class="btn-secondary btn-sm" onclick="exportSheet('ejo')" title="Export EJO ke Excel" style="white-space:nowrap;">⬇ Export</button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="stats-row" id="ejo-summary-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px;"></div>
+
+  <!-- Table -->
+  <div class="section-header"><span class="section-title">▸ Daftar EJO</span><span id="ejo-count-label" style="font-family:var(--mono);font-size:10px;color:var(--text-muted);"></span></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:110px;">No. EJO</th>
+          <th>Project / Fase</th>
+          <th style="width:90px;">Jenis EJO</th>
+          <th style="width:80px;">Kategori CI</th>
+          <th style="width:70px;">PIC</th>
+          <th style="width:80px;">Status</th>
+          <th style="width:95px;">Start</th>
+          <th style="width:95px;">Deadline</th>
+          <th style="width:75px;">Progress</th>
+          <th style="width:50px;"></th>
+        </tr>
+      </thead>
+      <tbody id="ejo-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- EJO Detail Panel (inline expand) -->
+  <div id="ejo-detail-wrap" style="display:none;margin-top:16px;"></div>
+</div>
+
 <div class="page" id="page-export">
   <div class="section-header">
     <span class="section-title" style="color:var(--accent3);">📤 Export Laporan ke Excel</span>
@@ -1331,12 +1492,30 @@ Ada update? cc: [Atasan jika perlu]</div>
         <span class="export-row-count" id="exp-count-gantt">0 data</span>
       </div>
     </div>
+    <div class="export-card" style="border-top:3px solid var(--teal);">
+      <div class="export-card-icon">⏳</div>
+      <div class="export-card-title">Lifetime Tracker</div>
+      <div class="export-card-desc">Semua item tracked: ID, nama, tipe, satuan, aktual, target, % terpakai, status, lokasi, PIC, reminder, project terkait.</div>
+      <div class="export-card-footer">
+        <button class="btn-export" onclick="exportSheet('lifetime')">⬇ Export</button>
+        <span class="export-row-count" id="exp-count-lifetime">0 data</span>
+      </div>
+    </div>
+    <div class="export-card" style="border-top:3px solid var(--purple);">
+      <div class="export-card-icon">🏷️</div>
+      <div class="export-card-title">EJO Tracker</div>
+      <div class="export-card-desc">Semua EJO: nomor, jenis disiplin, kategori CI, status, progress, PIC, lokasi, periode, project/fase terkait.</div>
+      <div class="export-card-footer">
+        <button class="btn-export" onclick="exportSheet('ejo')">⬇ Export</button>
+        <span class="export-row-count" id="exp-count-ejo">0 data</span>
+      </div>
+    </div>
     <div class="export-all-card">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
         <div style="font-size:28px;">📁</div>
         <div style="flex:1;">
           <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent3);letter-spacing:1px;margin-bottom:4px;">EXPORT SEMUA — LAPORAN KOMPREHENSIF</div>
-          <div style="font-size:12px;color:var(--text-muted);">Satu file Excel dengan <strong>7 sheet</strong> (Projects, Material, Issues, To Do, Kalibrasi, HSE, Gantt). Cocok untuk laporan mingguan / bulanan CI.</div>
+          <div style="font-size:12px;color:var(--text-muted);">Satu file Excel dengan <strong>9 sheet</strong> (Projects, Material, Issues, To Do, EJO Tracker, Lifetime Tracker, Kalibrasi, HSE, Gantt). Cocok untuk laporan mingguan / bulanan CI.</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
           <select id="export-period" style="font-size:11px;padding:7px 12px;background:var(--surface2);border:1px solid var(--border);color:var(--text);">
@@ -1547,6 +1726,17 @@ Ada update? cc: [Atasan jika perlu]</div>
           </select>
         </div>
         <div class="form-group"><label>Nomor EJO (Engineering Job Order)</label><input type="text" id="f-ejo" placeholder="Contoh: EJO-2024-001"></div>
+        <div class="form-group"><label>Jenis / Disiplin EJO</label>
+          <select id="f-ejo-type">
+            <option value="">— Pilih Jenis EJO —</option>
+            <option value="civil">Civil</option>
+            <option value="mechanical">Mechanical</option>
+            <option value="electrical">Electrical</option>
+            <option value="program">Program / Automation</option>
+            <option value="it">IT</option>
+            <option value="kalibrasi">Kalibrasi</option>
+          </select>
+        </div>
         <div class="form-group"><label>Lokasi / Mesin / Area</label><input type="text" id="f-location" placeholder="Contoh: Line 3 - Mesin Filling"></div>
         <div class="form-group"><label>PIC Engineering</label><input type="text" id="f-pic" placeholder="Nama PIC Engineering"></div>
         <div class="form-group"><label>Prioritas</label>
@@ -2013,6 +2203,7 @@ let cinotes    = [];
 let ganttSchedules = [];
 let calibrations   = [];
 let hseGroups      = [];
+let lifetimes      = [];
 let materialMaster = [];   // ← database referensi material
 let activityLog = [];
 let unreadCount = 0;
@@ -2084,6 +2275,7 @@ function applyData(data) {
   ganttSchedules = data.ganttSchedules || [];
   calibrations   = data.calibrations   || [];
   hseGroups      = data.hseGroups      || [];
+  lifetimes      = data.lifetimes      || [];
   // materialMaster: hanya update kalau Sheets benar-benar kirim data (array tidak kosong)
   // Kalau tidak ada atau kosong, pertahankan yang sudah ada di memori / localStorage
   if (Array.isArray(data.materialMaster) && data.materialMaster.length > 0) {
@@ -2139,7 +2331,7 @@ function stripPhotosForSheets(data) {
 }
 
 function save() {
-  const stateObj = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, materialMaster, activityLog };
+  const stateObj = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, materialMaster, activityLog };
 
   // Payload LENGKAP (termasuk base64 foto) — untuk localStorage/tampil di browser
   const fullPayload = JSON.stringify(stateObj);
@@ -2279,7 +2471,7 @@ async function pushToSheetsMerge(localState) {
       setSyncStatus('error', `${reason} simpan ke Sheets (retry ${_retryCount}/${MAX_RETRIES} dalam ${delaySec}s) — Data lokal AMAN ✓`);
       _retryTimer = setTimeout(() => {
         _retryTimer = null;
-        const stateObjRetry = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, materialMaster, activityLog };
+        const stateObjRetry = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, materialMaster, activityLog };
         pushToSheetsMerge(stateObjRetry);
       }, delay);
     } else {
@@ -2290,7 +2482,7 @@ async function pushToSheetsMerge(localState) {
     isSyncing = false;
     if (pendingSave) {
       pendingSave = false;
-      const stateObjPending = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, materialMaster, activityLog };
+      const stateObjPending = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, materialMaster, activityLog };
       setTimeout(() => pushToSheetsMerge(stateObjPending), 300);
     }
   }
@@ -2580,7 +2772,7 @@ function refreshAllUI() {
   const ap = document.querySelector('.page.active');
   if (ap) {
     const pid = ap.id.replace('page-','');
-    ({ 'all-projects':renderAllProjects, materials:renderMaterials, issues:renderIssues, sop:renderLibrary, calendar:renderCalendar, cinote:renderNotes, gantt:renderGantt, calibration:renderCalibration, hse:renderHSE, export:renderExportPage, matmaster:()=>{ if(!materialMaster.length) loadMasterLocal(); renderMasterPage(); } })[pid]?.();
+    ({ 'all-projects':renderAllProjects, materials:renderMaterials, issues:renderIssues, sop:renderLibrary, calendar:renderCalendar, cinote:renderNotes, gantt:renderGantt, calibration:renderCalibration, hse:renderHSE, export:renderExportPage, ejo:renderEJO, matmaster:()=>{ if(!materialMaster.length) loadMasterLocal(); renderMasterPage(); } })[pid]?.();
   }
   if (currentDetailId && document.getElementById('detail-overlay').classList.contains('open')) openDetail(currentDetailId);
 }
@@ -2592,7 +2784,7 @@ function showPage(name, el) {
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
   currentCatFilter = '';
-  const renders = { dashboard: renderDashboard, todo: renderTodo, calendar: renderCalendar, 'all-projects': renderAllProjects, materials: renderMaterials, issues: renderIssues, sop: renderLibrary, cinote: renderNotes, gantt: renderGantt, framework: ()=>{}, calibration: renderCalibration, hse: renderHSE, export: renderExportPage,
+  const renders = { dashboard: renderDashboard, todo: renderTodo, calendar: renderCalendar, 'all-projects': renderAllProjects, materials: renderMaterials, issues: renderIssues, sop: renderLibrary, cinote: renderNotes, gantt: renderGantt, lifetime: renderLifetime, calibration: renderCalibration, hse: renderHSE, export: renderExportPage, ejo: renderEJO,
     matmaster: ()=>{ if(!materialMaster.length) loadMasterLocal(); renderMasterPage(); }
   };
   if (renders[name]) renders[name]();
@@ -3442,7 +3634,7 @@ let phaseCount=0;
 function openNewProject() {
   editingId=null;
   document.getElementById('modal-proj-title').textContent='NEW PROJECT';
-  ['f-name','f-ejo','f-location','f-pic','f-rootcause','f-notes','f-start','f-end','f-gdrive'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';})
+  ['f-name','f-ejo','f-location','f-pic','f-rootcause','f-notes','f-start','f-end','f-gdrive'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const ejoTypeEl=document.getElementById('f-ejo-type');if(ejoTypeEl)ejoTypeEl.value='';
   pendingPhotos=[]; renderPhotoPreview();;
   pendingDocs=[]; renderDocQueue();
   document.getElementById('f-category').value='perbaikan';
@@ -3487,6 +3679,7 @@ async function saveProject() {
   const data = {
     name, category:document.getElementById('f-category').value,
     ejo:document.getElementById('f-ejo').value.trim(),
+    ejoType:document.getElementById('f-ejo-type')?.value||'',
     location:document.getElementById('f-location').value,
     pic:document.getElementById('f-pic').value,
     priority:document.getElementById('f-priority').value,
@@ -3713,7 +3906,7 @@ function delInlineMat(id) {
 }
 function closeDetail(e){if(!e||e.target===document.getElementById('detail-overlay'))document.getElementById('detail-overlay').classList.remove('open');}
 function updateStatus(){const p=projects.find(x=>x.id===currentDetailId);if(!p)return;p.status=document.getElementById('d-status-sel').value;p.progress=parseInt(document.getElementById('d-prog-input').value)||0;if(p.status==='done')p.progress=100;save();openDetail(currentDetailId);renderDashboard();renderAllProjects();}
-function editProject(){const p=projects.find(x=>x.id===currentDetailId);if(!p)return;closeDetail();editingId=p.id;document.getElementById('modal-proj-title').textContent='EDIT PROJECT';document.getElementById('f-name').value=p.name;document.getElementById('f-category').value=p.category||'perbaikan';document.getElementById('f-ejo').value=p.ejo||'';document.getElementById('f-location').value=p.location||'';document.getElementById('f-pic').value=p.pic||'';document.getElementById('f-priority').value=p.priority||'M';document.getElementById('f-status').value=p.status;document.getElementById('f-start').value=p.startDate||'';document.getElementById('f-end').value=p.endDate||'';document.getElementById('f-mat-status').value=p.matStatus||'pending';document.getElementById('f-rootcause').value=p.rootcause||'';document.getElementById('f-notes').value=p.notes||'';document.getElementById('f-gdrive').value=p.gdrive||'';pendingPhotos=[...(p.photos||[])];renderPhotoPreview();
+function editProject(){const p=projects.find(x=>x.id===currentDetailId);if(!p)return;closeDetail();editingId=p.id;document.getElementById('modal-proj-title').textContent='EDIT PROJECT';document.getElementById('f-name').value=p.name;document.getElementById('f-category').value=p.category||'perbaikan';document.getElementById('f-ejo').value=p.ejo||'';if(document.getElementById('f-ejo-type'))document.getElementById('f-ejo-type').value=p.ejoType||'';document.getElementById('f-location').value=p.location||'';document.getElementById('f-pic').value=p.pic||'';document.getElementById('f-priority').value=p.priority||'M';document.getElementById('f-status').value=p.status;document.getElementById('f-start').value=p.startDate||'';document.getElementById('f-end').value=p.endDate||'';document.getElementById('f-mat-status').value=p.matStatus||'pending';document.getElementById('f-rootcause').value=p.rootcause||'';document.getElementById('f-notes').value=p.notes||'';document.getElementById('f-gdrive').value=p.gdrive||'';pendingPhotos=[...(p.photos||[])];renderPhotoPreview();
   pendingDocs=[]; renderDocQueue(p.docs||[]);
   const dd=document.getElementById('f-doc-dest');if(dd)dd.textContent='CI_Projects / '+p.name;
   document.getElementById('phase-rows').innerHTML='';phaseCount=0;(p.phases||[]).forEach(ph=>addPhaseRow(ph));document.getElementById('modal-project').classList.add('open');}
@@ -5907,6 +6100,14 @@ function delHSE(id) {
 // =============================================
 
 function updateNavWarnings() {
+  // Lifetime badge
+  const ltWarnCount = lifetimes.filter(lt => {
+    const s = ltStatus(lt);
+    const today = new Date().toISOString().slice(0,10);
+    return s.code === 'exceed' || s.code === 'warn' || (lt.reminder && lt.reminder <= today && lt.status === 'active');
+  }).length;
+  const ltBadge = document.getElementById('nav-lifetime-warn');
+  if(ltBadge) { ltBadge.textContent = ltWarnCount; ltBadge.style.display = ltWarnCount > 0 ? 'inline-block' : 'none'; }
   // Calibration badge
   const calibWarn = calibrations.filter(c => calibStatus(c).code !== 'ok').length;
   const calibBadge = document.getElementById('nav-calib-warn');
@@ -5937,6 +6138,8 @@ function renderExportPage() {
     calibration: calibrations.length,
     hse:         hseGroups.length,
     gantt:       ganttSchedules.length,
+    ejo:         buildEJOList().length,
+    lifetime:    lifetimes.length,
   };
   Object.entries(counts).forEach(([k,v]) => {
     const el = document.getElementById('exp-count-'+k);
@@ -6095,6 +6298,33 @@ function downloadXLSX(sheetDatas, filename) {
   }
 }
 
+function buildEJOData() {
+  const ejos = buildEJOList();
+  const EJO_TYPE_LABELS = {civil:'Civil',mechanical:'Mechanical',electrical:'Electrical',program:'Program / Automation',it:'IT',kalibrasi:'Kalibrasi'};
+  const STATUS_LABELS   = {open:'Open',inprogress:'On-Going',blocked:'Blocked',waiting:'Waiting',done:'Completed'};
+  const CAT_LABELS      = {'5r':'5R',she:'SHE',improve:'Improve',perbaikan:'Perbaikan'};
+  return {
+    headers: ['No','No. EJO','Jenis EJO','Kategori CI','Status','Progress (%)','PIC','Lokasi','Start','Deadline','Jumlah Project/Fase','Project Terkait'],
+    rows: ejos.map((ejo, i) => {
+      const projNames = [...new Set(ejo.entries.map(e => e.type==='project'?e.name:e.projName))].join('; ');
+      return [
+        i+1,
+        ejo.no,
+        EJO_TYPE_LABELS[ejo.ejoType] || '—',
+        CAT_LABELS[ejo.entries[0]?.category] || ejo.entries[0]?.category || '—',
+        STATUS_LABELS[ejo.aggStatus] || ejo.aggStatus,
+        ejo.avgProg,
+        ejo.entries[0]?.pic || '—',
+        ejo.entries[0]?.location || '—',
+        ejo.entries[0]?.startDate || '—',
+        ejo.entries[0]?.endDate   || '—',
+        ejo.entries.length,
+        projNames,
+      ];
+    })
+  };
+}
+
 function exportSheet(type) {
   const filter = null; // individual export = all data
   const now    = todayStr();
@@ -6106,6 +6336,8 @@ function exportSheet(type) {
     calibration: () => ({name:'Kalibrasi',   data: buildCalibData()}),
     hse:         () => ({name:'HSE',         data: buildHseData()}),
     gantt:       () => ({name:'Gantt',       data: buildGanttData()}),
+    ejo:         () => ({name:'EJO Tracker', data: buildEJOData()}),
+    lifetime:    () => ({name:'Lifetime Tracker', data: buildLifetimeData()}),
   };
   const sheet = maps[type]?.();
   if(!sheet) return;
@@ -6118,13 +6350,15 @@ function exportAllToXLSX() {
   const period = document.getElementById('export-period')?.value || 'all';
   const periodLabel = {all:'Semua',thisweek:'MingguIni',thismonth:'BulanIni',lastmonth:'BulanLalu'}[period]||'';
   const sheets = [
-    {name:'Projects',   data: buildProjectsData(filter)},
-    {name:'Material',   data: buildMaterialsData(filter)},
-    {name:'Issue Log',  data: buildIssuesData(filter)},
-    {name:'To Do',      data: buildTodosData(filter)},
-    {name:'Kalibrasi',  data: buildCalibData()},
-    {name:'HSE',        data: buildHseData()},
-    {name:'Gantt',      data: buildGanttData()},
+    {name:'Projects',    data: buildProjectsData(filter)},
+    {name:'Material',    data: buildMaterialsData(filter)},
+    {name:'Issue Log',   data: buildIssuesData(filter)},
+    {name:'To Do',       data: buildTodosData(filter)},
+    {name:'EJO Tracker',      data: buildEJOData()},
+    {name:'Lifetime Tracker', data: buildLifetimeData()},
+    {name:'Kalibrasi',   data: buildCalibData()},
+    {name:'HSE',         data: buildHseData()},
+    {name:'Gantt',       data: buildGanttData()},
   ];
   downloadXLSX(sheets, `CI_LaporanKomprehensif_${periodLabel}_${now}.xlsx`);
 }
@@ -6295,6 +6529,610 @@ function exportBOQ(projId) {
 // =============================================
 // ===== INIT =====
 // =============================================
+
+// ============================================================
+// ===== EJO TRACKER =====
+// ============================================================
+
+// Kumpulkan semua EJO dari projects (level project + level fase)
+function buildEJOList() {
+  const map = {}; // ejoNo -> { no, entries:[], status, progress }
+
+  projects.forEach(p => {
+    // EJO di level project
+    if (p.ejo && p.ejo.trim()) {
+      const key = p.ejo.trim().toUpperCase();
+      if (!map[key]) map[key] = { no: key, entries: [] };
+      map[key].entries.push({
+        type: 'project',
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        ejoType: p.ejoType || '',
+        pic: p.pic || '—',
+        status: p.status,
+        progress: p.progress || 0,
+        startDate: p.startDate || '',
+        endDate: p.endDate || '',
+        location: p.location || '',
+        rootcause: p.rootcause || '',
+        notes: p.notes || '',
+      });
+    }
+
+    // EJO di level fase
+    (p.phases || []).forEach(ph => {
+      if (!ph.ejo || !ph.ejo.trim()) return;
+      const key = ph.ejo.trim().toUpperCase();
+      if (!map[key]) map[key] = { no: key, entries: [] };
+      map[key].entries.push({
+        type: 'fase',
+        id: p.id + '_' + (ph.id||ph.name),
+        projId: p.id,
+        projName: p.name,
+        faseName: ph.name || '—',
+        category: p.category,
+        pic: ph.pic || p.pic || '—',
+        status: ph.status || p.status,
+        progress: p.progress || 0,
+        startDate: ph.start || p.startDate || '',
+        endDate: ph.end || p.endDate || '',
+        location: p.location || '',
+        desc: ph.desc || '',
+      });
+    });
+  });
+
+  // Aggregate status & progress per EJO
+  return Object.values(map).map(ejo => {
+    const statuses = ejo.entries.map(e => e.status);
+    let aggStatus = 'open';
+    if (statuses.every(s => s === 'done')) aggStatus = 'done';
+    else if (statuses.some(s => s === 'blocked')) aggStatus = 'blocked';
+    else if (statuses.some(s => s === 'inprogress')) aggStatus = 'inprogress';
+    else if (statuses.some(s => s === 'waiting')) aggStatus = 'waiting';
+    const avgProg = Math.round(ejo.entries.reduce((a,e)=>a+(e.progress||0),0)/ejo.entries.length);
+    // Ambil ejoType dari entry pertama yang punya nilai
+    const ejoType = ejo.entries.map(e=>e.ejoType||'').find(t=>t) || '';
+    return { ...ejo, aggStatus, avgProg, ejoType };
+  }).sort((a,b) => a.no.localeCompare(b.no));
+}
+
+let _ejoExpanded = null; // EJO no yang sedang di-expand
+
+function renderEJO() {
+  const ejos = buildEJOList();
+  const search = (document.getElementById('ejo-search')?.value||'').toLowerCase();
+  const filterSt = document.getElementById('ejo-filter-status')?.value || '';
+
+  // Update nav badge
+  const badge = document.getElementById('nav-ejo-count');
+  if (badge) {
+    if (ejos.length > 0) { badge.textContent = ejos.length; badge.style.display = 'inline-flex'; }
+    else badge.style.display = 'none';
+  }
+
+  // Summary cards
+  const total    = ejos.length;
+  const open     = ejos.filter(e=>e.aggStatus==='open').length;
+  const ongoing  = ejos.filter(e=>e.aggStatus==='inprogress').length;
+  const blocked  = ejos.filter(e=>e.aggStatus==='blocked'||e.aggStatus==='waiting').length;
+  const done     = ejos.filter(e=>e.aggStatus==='done').length;
+  const summaryEl = document.getElementById('ejo-summary-row');
+  if (summaryEl) summaryEl.innerHTML = `
+    <div class="stat-card purple" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('ejo-filter-status').value='';renderEJO()">
+      <div class="stat-label" style="color:var(--purple)">Total EJO</div>
+      <div class="stat-value" style="font-size:20px;">${total}</div>
+      <div class="stat-sub">Semua EJO terdaftar</div>
+    </div>
+    <div class="stat-card blue" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('ejo-filter-status').value='open';renderEJO()">
+      <div class="stat-label">Open</div>
+      <div class="stat-value" style="font-size:20px;">${open}</div>
+      <div class="stat-sub">Belum dimulai</div>
+    </div>
+    <div class="stat-card amber" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('ejo-filter-status').value='inprogress';renderEJO()">
+      <div class="stat-label">On-Going</div>
+      <div class="stat-value" style="font-size:20px;">${ongoing}</div>
+      <div class="stat-sub">Sedang berjalan</div>
+    </div>
+    <div class="stat-card red" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('ejo-filter-status').value='blocked';renderEJO()">
+      <div class="stat-label">Blocked/Wait</div>
+      <div class="stat-value" style="font-size:20px;">${blocked}</div>
+      <div class="stat-sub">Perlu perhatian</div>
+    </div>
+    <div class="stat-card green" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('ejo-filter-status').value='done';renderEJO()">
+      <div class="stat-label">Completed</div>
+      <div class="stat-value" style="font-size:20px;">${done}</div>
+      <div class="stat-sub">Selesai</div>
+    </div>
+  `;
+
+  const EJO_TYPE_CFG = {
+    civil:      { label:'Civil',      color:'#64748b', bg:'rgba(100,116,139,0.15)' },
+    mechanical: { label:'Mechanical', color:'#f59e0b', bg:'rgba(245,158,11,0.15)'  },
+    electrical: { label:'Electrical', color:'#3b82f6', bg:'rgba(59,130,246,0.15)'  },
+    program:    { label:'Program',    color:'#8b5cf6', bg:'rgba(139,92,246,0.15)'  },
+    it:         { label:'IT',         color:'#06b6d4', bg:'rgba(6,182,212,0.15)'   },
+    kalibrasi:  { label:'Kalibrasi',  color:'#10b981', bg:'rgba(16,185,129,0.15)'  },
+  };
+
+  // Filter
+  const filterType = document.getElementById('ejo-filter-type')?.value || '';
+  let list = ejos;
+  if (search) list = list.filter(e =>
+    e.no.toLowerCase().includes(search) ||
+    e.entries.some(x=>(x.name||x.faseName||'').toLowerCase().includes(search)||
+                       (x.projName||'').toLowerCase().includes(search))
+  );
+  if (filterType) list = list.filter(e => e.ejoType === filterType);
+  if (filterSt) {
+    if (filterSt === 'blocked') list = list.filter(e => e.aggStatus==='blocked'||e.aggStatus==='waiting');
+    else list = list.filter(e => e.aggStatus === filterSt);
+  }
+
+  const countLabel = document.getElementById('ejo-count-label');
+  if (countLabel) countLabel.textContent = `${list.length} EJO ditemukan`;
+
+  const STATUS_CFG = {
+    open:       { label:'Open',      dot:'var(--accent2)',  cls:'open'      },
+    inprogress: { label:'On-Going',  dot:'var(--accent)',   cls:'inprogress'},
+    blocked:    { label:'Blocked',   dot:'var(--danger)',   cls:'blocked'   },
+    waiting:    { label:'Waiting',   dot:'var(--text-muted)',cls:'waiting'  },
+    done:       { label:'Done',      dot:'var(--accent3)',  cls:'done'      },
+  };
+  const CAT_LABELS = { '5r':'5R','she':'SHE','improve':'Improve','perbaikan':'Perbaikan' };
+
+  const tbody = document.getElementById('ejo-tbody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon">🏷️</div>${ejos.length===0?'Belum ada EJO terdaftar di project manapun.':'Tidak ada EJO yang cocok dengan filter ini.'}</td></tr>`;
+    document.getElementById('ejo-detail-wrap').style.display = 'none';
+    return;
+  }
+
+  tbody.innerHTML = list.map(ejo => {
+    const sc    = STATUS_CFG[ejo.aggStatus] || STATUS_CFG.open;
+    const cat   = CAT_LABELS[ejo.entries[0]?.category] || ejo.entries[0]?.category || '—';
+    const catClass = 'cat-' + (ejo.entries[0]?.category || 'perbaikan');
+    const pic   = ejo.entries[0]?.pic || '—';
+    const start = ejo.entries[0]?.startDate ? fmt(ejo.entries[0].startDate) : '—';
+    const end   = ejo.entries[0]?.endDate   ? fmt(ejo.entries[0].endDate)   : '—';
+    const progColor = ejo.aggStatus==='done'?'var(--accent3)':ejo.aggStatus==='blocked'?'var(--danger)':'var(--accent)';
+    const isExpanded = _ejoExpanded === ejo.no;
+    const ejtCfg = EJO_TYPE_CFG[ejo.ejoType] || null;
+
+    // Build project/phase summary for display
+    const projNames = [...new Set(ejo.entries.map(e => e.type==='project'?e.name:e.projName))].slice(0,2).join(', ');
+    const moreCount = ejo.entries.length - 1;
+    const phaseCount = ejo.entries.filter(e=>e.type==='fase').length;
+
+    return `<tr class="${isExpanded?'ejo-row-expand':''}" style="cursor:pointer;" onclick="toggleEJODetail('${ejo.no.replace(/'/g,"\'")}')">
+      <td><span class="ejo-no-badge">${ejo.no}</span></td>
+      <td>
+        <div class="ejo-source-proj">${projNames}${ejo.entries.length>1?` <span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">+${moreCount} lainnya</span>`:''}</div>
+        ${phaseCount>0?`<div class="ejo-source-fase">🔹 ${phaseCount} fase terkait</div>`:''}
+      </td>
+      <td>${ejtCfg?`<span style="font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;background:${ejtCfg.bg};color:${ejtCfg.color};border-radius:2px;">${ejtCfg.label}</span>`:'<span style="color:var(--text-muted);font-size:10px;">—</span>'}</td>
+      <td><span class="cat-badge ${catClass}">${cat}</span></td>
+      <td style="font-size:11px;">${pic}</td>
+      <td>
+        <span class="badge ${sc.cls}">
+          <span class="badge-dot" style="background:${sc.dot}"></span>${sc.label}
+        </span>
+      </td>
+      <td style="font-family:var(--mono);font-size:10px;">${start}</td>
+      <td style="font-family:var(--mono);font-size:10px;">${end}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="ejo-progress-wrap"><div class="ejo-progress-fill" style="width:${ejo.avgProg}%;background:${progColor};"></div></div>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${ejo.avgProg}%</span>
+        </div>
+      </td>
+      <td><button class="ejo-expand-btn" onclick="event.stopPropagation();toggleEJODetail('${ejo.no.replace(/'/g,"\'")}')">
+        ${isExpanded?'▲ Tutup':'▼ Detail'}
+      </button></td>
+    </tr>`;
+  }).join('');
+
+  // Render expanded detail if any
+  renderEJODetail(list);
+}
+
+function toggleEJODetail(ejoNo) {
+  _ejoExpanded = _ejoExpanded === ejoNo ? null : ejoNo;
+  renderEJO();
+  if (_ejoExpanded) {
+    setTimeout(() => {
+      document.getElementById('ejo-detail-wrap')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }, 80);
+  }
+}
+
+function renderEJODetail(list) {
+  const wrap = document.getElementById('ejo-detail-wrap');
+  if (!_ejoExpanded) { wrap.style.display='none'; return; }
+  const ejo = list.find(e => e.no === _ejoExpanded);
+  if (!ejo) { wrap.style.display='none'; return; }
+
+  const STATUS_CFG = {
+    open:{label:'Open',dot:'var(--accent2)'},inprogress:{label:'On-Going',dot:'var(--accent)'},
+    blocked:{label:'Blocked',dot:'var(--danger)'},waiting:{label:'Waiting',dot:'var(--text-muted)'},
+    done:{label:'Done',dot:'var(--accent3)'},
+  };
+  const CAT_LABELS = {'5r':'5R','she':'SHE','improve':'Improve','perbaikan':'Perbaikan'};
+
+  const entriesHtml = ejo.entries.map(e => {
+    const sc = STATUS_CFG[e.status] || STATUS_CFG.open;
+    const projLink = e.type==='project'?e.id:(e.projId||'');
+    return `<div class="ejo-linked-row">
+      <span class="${e.type==='project'?'ejo-type-proj':'ejo-type-fase'}">${e.type==='project'?'PROJECT':'FASE'}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+          ${e.type==='project'?e.name:`${e.faseName} <span style="color:var(--text-muted);font-size:10px;">← ${e.projName}</span>`}
+        </div>
+        ${(e.desc||e.rootcause||e.notes)?`<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${e.desc||e.rootcause||e.notes||''}</div>`:''}
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <span class="badge ${sc.cls||'open'}"><span class="badge-dot" style="background:${sc.dot}"></span>${sc.label}</span>
+        ${e.startDate?`<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${fmt(e.startDate)} → ${e.endDate?fmt(e.endDate):'?'}</span>`:''}
+      </div>
+      ${projLink?`<button class="btn-secondary btn-sm" onclick="showPage('all-projects',null);setTimeout(()=>openDetail('${projLink}'),200)">↗ Buka</button>`:''}
+    </div>`;
+  }).join('');
+
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div class="ejo-detail-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--purple);">${ejo.no}</span>
+        <span style="font-size:12px;color:var(--text-muted);">${ejo.entries.length} item terkait</span>
+      </div>
+      <button class="btn-secondary btn-sm" onclick="_ejoExpanded=null;renderEJO()">× Tutup</button>
+    </div>
+    <div class="ejo-detail-grid">
+      <div class="ejo-detail-item"><div class="ejo-detail-label">Status Agregat</div>
+        <div class="ejo-detail-val"><span class="badge ${ejo.aggStatus}"><span class="badge-dot" style="background:${(STATUS_CFG[ejo.aggStatus]||{}).dot||'gray'}"></span>${(STATUS_CFG[ejo.aggStatus]||{}).label||ejo.aggStatus}</span></div>
+      </div>
+      <div class="ejo-detail-item"><div class="ejo-detail-label">Avg Progress</div>
+        <div class="ejo-detail-val" style="display:flex;align-items:center;gap:8px;">
+          <div class="ejo-progress-wrap" style="width:90px;"><div class="ejo-progress-fill" style="width:${ejo.avgProg}%;background:${ejo.aggStatus==='done'?'var(--accent3)':'var(--accent)'};"></div></div>
+          <span style="font-family:var(--mono);font-size:12px;font-weight:700;">${ejo.avgProg}%</span>
+        </div>
+      </div>
+      <div class="ejo-detail-item"><div class="ejo-detail-label">Jenis EJO</div>
+        <div class="ejo-detail-val">${(()=>{const EJO_TYPE_CFG={civil:{label:'Civil',color:'#64748b',bg:'rgba(100,116,139,0.15)'},mechanical:{label:'Mechanical',color:'#f59e0b',bg:'rgba(245,158,11,0.15)'},electrical:{label:'Electrical',color:'#3b82f6',bg:'rgba(59,130,246,0.15)'},program:{label:'Program',color:'#8b5cf6',bg:'rgba(139,92,246,0.15)'},it:{label:'IT',color:'#06b6d4',bg:'rgba(6,182,212,0.15)'},kalibrasi:{label:'Kalibrasi',color:'#10b981',bg:'rgba(16,185,129,0.15)'}};const c=EJO_TYPE_CFG[ejo.ejoType];return c?`<span style="font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 8px;background:${c.bg};color:${c.color};border-radius:2px;">${c.label}</span>`:'<span style="color:var(--text-muted);">—</span>';})()}</div>
+      </div>
+      <div class="ejo-detail-item"><div class="ejo-detail-label">Kategori CI</div>
+        <div class="ejo-detail-val">${CAT_LABELS[ejo.entries[0]?.category]||ejo.entries[0]?.category||'—'}</div>
+      </div>
+      <div class="ejo-detail-item"><div class="ejo-detail-label">PIC</div><div class="ejo-detail-val">${ejo.entries[0]?.pic||'—'}</div></div>
+      <div class="ejo-detail-item"><div class="ejo-detail-label">Lokasi</div><div class="ejo-detail-val">${ejo.entries[0]?.location||'—'}</div></div>
+      <div class="ejo-detail-item"><div class="ejo-detail-label">Periode</div>
+        <div class="ejo-detail-val" style="font-family:var(--mono);font-size:11px;">
+          ${ejo.entries[0]?.startDate?fmt(ejo.entries[0].startDate):'?'} → ${ejo.entries[0]?.endDate?fmt(ejo.entries[0].endDate):'?'}
+        </div>
+      </div>
+    </div>
+    <div class="ejo-linked-section">
+      <div class="ejo-linked-title">Project & Fase Terkait EJO ${ejo.no}</div>
+      ${entriesHtml}
+    </div>
+  </div>`;
+}
+
+
+// ============================================================
+// ===== LIFETIME / SEQUENCE TRACKER =====
+// ============================================================
+
+const LT_TYPE_CFG = {
+  tool:       { label:'Alat / Tool',       cls:'lt-type-tool'       },
+  trial:      { label:'Trial Process',     cls:'lt-type-trial'      },
+  consumable: { label:'Consumable Part',   cls:'lt-type-consumable' },
+  sequence:   { label:'Sequence',          cls:'lt-type-sequence'   },
+  other:      { label:'Lainnya',           cls:'lt-type-other'      },
+};
+const LT_UNIT_LABELS = { jam:'Jam', hari:'Hari', siklus:'Siklus', batch:'Batch', km:'Km', pcs:'Pcs', liter:'Liter', lainnya:'' };
+
+// Hitung status lifetime suatu item
+function ltStatus(lt) {
+  if (lt.status === 'done')     return { code:'done',    label:'Selesai',       cls:'lt-status-done'    };
+  if (lt.status === 'replaced') return { code:'replaced', label:'Diganti',      cls:'lt-status-replaced' };
+  if (lt.status === 'paused')   return { code:'paused',   label:'Paused',       cls:'lt-status-paused'   };
+
+  const actual  = parseFloat(lt.actual)  || 0;
+  const target  = parseFloat(lt.target)  || 0;
+  const warnPct = parseFloat(lt.warnPct) || 80;
+  const pct     = target > 0 ? (actual / target) * 100 : 0;
+  const today   = new Date().toISOString().slice(0,10);
+
+  if (target > 0 && actual >= target)         return { code:'exceed', label:'MELEBIHI LIMIT', cls:'lt-status-exceed', pct };
+  if (pct >= warnPct)                          return { code:'warn',   label:'Hampir Habis',   cls:'lt-status-warn',   pct };
+  if (lt.reminder && lt.reminder <= today)     return { code:'reminder',label:'Reminder!',     cls:'lt-status-warn',   pct };
+  return { code:'ok', label:'Normal', cls:'lt-status-ok', pct };
+}
+
+function ltPct(lt) {
+  const actual = parseFloat(lt.actual) || 0;
+  const target = parseFloat(lt.target) || 0;
+  return target > 0 ? Math.min(Math.round((actual / target) * 100), 200) : 0;
+}
+
+function openLifetimeModal(id) {
+  // Populate project dropdown
+  const sel = document.getElementById('lt-project');
+  sel.innerHTML = '<option value="">— Tidak Terkait Project —</option>' +
+    projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+
+  const editId = document.getElementById('lt-edit-id');
+  const delBtn = document.getElementById('lt-del-btn');
+  document.getElementById('lt-modal-title').textContent = id ? 'EDIT ITEM TRACKER' : 'TAMBAH ITEM TRACKER';
+  delBtn.style.display = id ? 'inline-flex' : 'none';
+
+  if (id) {
+    const lt = lifetimes.find(x => x.id === id);
+    if (!lt) return;
+    editId.value = id;
+    document.getElementById('lt-id').value       = lt.ltId || '';
+    document.getElementById('lt-name').value     = lt.name || '';
+    document.getElementById('lt-type').value     = lt.type || 'tool';
+    document.getElementById('lt-start').value    = lt.startDate || '';
+    document.getElementById('lt-reminder').value = lt.reminder || '';
+    document.getElementById('lt-actual').value   = lt.actual !== undefined ? lt.actual : '';
+    document.getElementById('lt-target').value   = lt.target || '';
+    document.getElementById('lt-unit').value     = lt.unit || 'jam';
+    document.getElementById('lt-warn-pct').value = lt.warnPct || 80;
+    document.getElementById('lt-location').value = lt.location || '';
+    document.getElementById('lt-pic').value      = lt.pic || '';
+    document.getElementById('lt-status').value   = lt.status || 'active';
+    document.getElementById('lt-notes').value    = lt.notes || '';
+    document.getElementById('lt-project').value  = lt.projectId || '';
+  } else {
+    editId.value = '';
+    ['lt-id','lt-name','lt-start','lt-reminder','lt-actual','lt-target','lt-location','lt-pic','lt-notes'].forEach(i => {
+      const el = document.getElementById(i); if(el) el.value = '';
+    });
+    document.getElementById('lt-type').value     = 'tool';
+    document.getElementById('lt-unit').value     = 'jam';
+    document.getElementById('lt-warn-pct').value = '80';
+    document.getElementById('lt-status').value   = 'active';
+    document.getElementById('lt-project').value  = '';
+    // Default start = hari ini
+    document.getElementById('lt-start').value = new Date().toISOString().slice(0,10);
+  }
+  document.getElementById('modal-lifetime').classList.add('open');
+}
+
+function saveLifetime() {
+  const name   = document.getElementById('lt-name').value.trim();
+  const ltIdEl = document.getElementById('lt-id').value.trim();
+  if (!name)  { alert('Nama item harus diisi!'); return; }
+  if (!ltIdEl) { alert('ID item harus diisi!'); return; }
+
+  const target = parseFloat(document.getElementById('lt-target').value) || 0;
+  if (target <= 0) { alert('Target lifetime harus diisi dan > 0!'); return; }
+
+  const editId = document.getElementById('lt-edit-id').value;
+  const data = {
+    ltId:      ltIdEl,
+    name,
+    type:      document.getElementById('lt-type').value,
+    startDate: document.getElementById('lt-start').value,
+    reminder:  document.getElementById('lt-reminder').value,
+    actual:    parseFloat(document.getElementById('lt-actual').value) || 0,
+    target,
+    unit:      document.getElementById('lt-unit').value,
+    warnPct:   parseFloat(document.getElementById('lt-warn-pct').value) || 80,
+    location:  document.getElementById('lt-location').value.trim(),
+    pic:       document.getElementById('lt-pic').value.trim(),
+    status:    document.getElementById('lt-status').value,
+    notes:     document.getElementById('lt-notes').value.trim(),
+    projectId: document.getElementById('lt-project').value,
+    updatedAt: Date.now(),
+  };
+
+  if (editId) {
+    const idx = lifetimes.findIndex(x => x.id === editId);
+    if (idx >= 0) lifetimes[idx] = { ...lifetimes[idx], ...data };
+  } else {
+    lifetimes.unshift({ id: genId('LT'), createdAt: Date.now(), ...data });
+  }
+
+  logActivity(editId ? 'Update Lifetime' : 'Tambah Lifetime', name);
+  save(); closeModal('modal-lifetime'); renderLifetime(); updateNavWarnings();
+}
+
+function delLifetime(id) {
+  const lt = lifetimes.find(x => x.id === id);
+  if (!lt) return;
+  if (!confirm(`Hapus "${lt.name}"?`)) return;
+  _deletedIds.add(id); persistDeletedIds();
+  lifetimes = lifetimes.filter(x => x.id !== id);
+  save(); closeModal('modal-lifetime'); renderLifetime(); updateNavWarnings();
+}
+
+// Update counter aktual langsung dari tabel (inline +/- atau input)
+function ltUpdateActual(id, delta) {
+  const lt = lifetimes.find(x => x.id === id);
+  if (!lt) return;
+  lt.actual = Math.max(0, (parseFloat(lt.actual) || 0) + delta);
+  lt.updatedAt = Date.now();
+  // Auto-set status done jika target tercapai dan tipe trial/sequence
+  if ((lt.type === 'trial' || lt.type === 'sequence') && lt.target > 0 && lt.actual >= lt.target) {
+    if (lt.status === 'active') lt.status = 'done';
+  }
+  save(); renderLifetime(); updateNavWarnings();
+}
+
+function ltSetActual(id, val) {
+  const lt = lifetimes.find(x => x.id === id);
+  if (!lt) return;
+  lt.actual = Math.max(0, parseFloat(val) || 0);
+  lt.updatedAt = Date.now();
+  save(); renderLifetime(); updateNavWarnings();
+}
+
+function renderLifetime() {
+  const search    = (document.getElementById('lt-search')?.value || '').toLowerCase();
+  const filterTp  = document.getElementById('lt-filter-type')?.value || '';
+  const filterSt  = document.getElementById('lt-filter-status')?.value || '';
+  const today     = new Date().toISOString().slice(0,10);
+
+  // ── Summary cards ──
+  const total   = lifetimes.length;
+  const exceed  = lifetimes.filter(lt => ltStatus(lt).code === 'exceed').length;
+  const warn    = lifetimes.filter(lt => ltStatus(lt).code === 'warn').length;
+  const done    = lifetimes.filter(lt => lt.status === 'done' || lt.status === 'replaced').length;
+  const remind  = lifetimes.filter(lt => lt.reminder && lt.reminder <= today && lt.status === 'active').length;
+
+  // Nav badge
+  const navBadge = document.getElementById('nav-lifetime-warn');
+  const alertCount = exceed + warn + remind;
+  if (navBadge) {
+    navBadge.textContent   = alertCount;
+    navBadge.style.display = alertCount > 0 ? 'inline-block' : 'none';
+  }
+
+  const sumEl = document.getElementById('lt-summary-row');
+  if (sumEl) sumEl.innerHTML = `
+    <div class="stat-card teal" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('lt-filter-status').value='';renderLifetime()">
+      <div class="stat-label" style="color:var(--teal);">Total Item</div>
+      <div class="stat-value" style="font-size:20px;">${total}</div>
+      <div class="stat-sub">Semua tracked</div>
+    </div>
+    <div class="stat-card red" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('lt-filter-status').value='exceed';renderLifetime()">
+      <div class="stat-label">🔴 Melebihi Limit</div>
+      <div class="stat-value" style="font-size:20px;">${exceed}</div>
+      <div class="stat-sub">Perlu tindakan</div>
+    </div>
+    <div class="stat-card amber" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('lt-filter-status').value='warn';renderLifetime()">
+      <div class="stat-label">⚠ Hampir Habis</div>
+      <div class="stat-value" style="font-size:20px;">${warn}</div>
+      <div class="stat-sub">&gt;80% terpakai</div>
+    </div>
+    <div class="stat-card green" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('lt-filter-status').value='done';renderLifetime()">
+      <div class="stat-label">✓ Selesai</div>
+      <div class="stat-value" style="font-size:20px;">${done}</div>
+      <div class="stat-sub">Done / Diganti</div>
+    </div>
+    <div class="stat-card cyan" style="padding:11px 14px;cursor:pointer;" onclick="document.getElementById('lt-filter-status').value='reminder';renderLifetime()">
+      <div class="stat-label">🔔 Reminder</div>
+      <div class="stat-value" style="font-size:20px;">${remind}</div>
+      <div class="stat-sub">Tanggal terlewat</div>
+    </div>
+  `;
+
+  // ── Alert bar ──
+  const alertBar  = document.getElementById('lt-alert-bar');
+  const exceedItems  = lifetimes.filter(lt => ltStatus(lt).code === 'exceed');
+  const warnItems    = lifetimes.filter(lt => ltStatus(lt).code === 'warn' && ltStatus(lt).code !== 'exceed');
+  const remindItems  = lifetimes.filter(lt => lt.reminder && lt.reminder <= today && lt.status === 'active');
+  const doneTrials   = lifetimes.filter(lt => lt.status === 'done' && (lt.type==='trial'||lt.type==='sequence'));
+
+  const alertHtml = [
+    ...exceedItems.map(lt => `<div class="lt-alert-chip exceed" onclick="openLifetimeModal('${lt.id}')">🔴 <strong>${lt.ltId}</strong> — ${lt.name}: <strong>${lt.actual} / ${lt.target} ${LT_UNIT_LABELS[lt.unit]||lt.unit}</strong> · MELEBIHI LIFETIME</div>`),
+    ...warnItems.map(lt  => `<div class="lt-alert-chip warn"   onclick="openLifetimeModal('${lt.id}')">⚠ <strong>${lt.ltId}</strong> — ${lt.name}: ${ltPct(lt)}% terpakai (${lt.actual}/${lt.target} ${LT_UNIT_LABELS[lt.unit]||lt.unit})</div>`),
+    ...remindItems.map(lt=> `<div class="lt-alert-chip reminder" onclick="openLifetimeModal('${lt.id}')">🔔 <strong>${lt.ltId}</strong> — ${lt.name}: Reminder ${fmt(lt.reminder)}</div>`),
+    ...doneTrials.map(lt => `<div class="lt-alert-chip" style="background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.3);color:var(--accent3);" onclick="openLifetimeModal('${lt.id}')">✅ <strong>${lt.ltId}</strong> — ${lt.name}: Trial/Sequence SELESAI</div>`),
+  ].join('');
+  if (alertBar) {
+    alertBar.innerHTML = alertHtml;
+    alertBar.style.display = alertHtml ? 'block' : 'none';
+  }
+
+  // ── Filter + render table ──
+  let list = lifetimes;
+  if (search)   list = list.filter(lt => lt.name.toLowerCase().includes(search) || (lt.ltId||'').toLowerCase().includes(search) || (lt.location||'').toLowerCase().includes(search));
+  if (filterTp) list = list.filter(lt => lt.type === filterTp);
+  if (filterSt) {
+    if (filterSt === 'exceed')   list = list.filter(lt => ltStatus(lt).code === 'exceed');
+    else if (filterSt === 'warn')list = list.filter(lt => ltStatus(lt).code === 'warn');
+    else if (filterSt === 'done')list = list.filter(lt => lt.status === 'done' || lt.status === 'replaced');
+    else if (filterSt === 'reminder') list = list.filter(lt => lt.reminder && lt.reminder <= today && lt.status === 'active');
+    else if (filterSt === 'ok')  list = list.filter(lt => ltStatus(lt).code === 'ok');
+  }
+
+  const countEl = document.getElementById('lt-count-label');
+  if (countEl) countEl.textContent = `${list.length} item`;
+
+  const tbody = document.getElementById('lt-tbody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="12" class="empty-state"><div class="empty-icon">⏳</div>${total===0?'Belum ada item yang di-track. Klik + Tambah untuk mulai.':'Tidak ada item yang cocok dengan filter ini.'}</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(lt => {
+    const st   = ltStatus(lt);
+    const pct  = ltPct(lt);
+    const unit = LT_UNIT_LABELS[lt.unit] || lt.unit || '';
+    const tp   = LT_TYPE_CFG[lt.type] || LT_TYPE_CFG.other;
+    const barColor = st.code==='exceed'?'var(--danger)':st.code==='warn'?'var(--accent)':st.code==='done'||lt.status==='done'?'var(--accent3)':'var(--teal)';
+    const barW = Math.min(pct, 100);
+    const proj = projects.find(p => p.id === lt.projectId);
+    const reminderFlag = lt.reminder && lt.reminder <= today && lt.status === 'active'
+      ? `<span style="font-family:var(--mono);font-size:8px;color:var(--teal);background:rgba(20,184,166,0.1);padding:1px 4px;border-radius:2px;margin-left:3px;">🔔</span>` : '';
+
+    // Inline counter buttons (for active items)
+    const isActive = lt.status === 'active';
+    const counterCell = isActive
+      ? `<div class="lt-counter-cell">
+           <button onclick="event.stopPropagation();ltUpdateActual('${lt.id}',-1)" style="background:none;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;width:18px;height:18px;font-size:10px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;">−</button>
+           <input type="number" value="${lt.actual}" min="0" step="1" style="width:58px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;padding:2px 4px;background:var(--bg);border:1px solid var(--border);color:var(--text);"
+             onchange="event.stopPropagation();ltSetActual('${lt.id}',this.value)"
+             onclick="event.stopPropagation()">
+           <button onclick="event.stopPropagation();ltUpdateActual('${lt.id}',1)" style="background:none;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;width:18px;height:18px;font-size:10px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;">+</button>
+           <span class="lt-counter-unit">${unit}</span>
+         </div>`
+      : `<span class="lt-counter-val">${lt.actual}</span> <span class="lt-counter-unit">${unit}</span>`;
+
+    return `<tr onclick="openLifetimeModal('${lt.id}')" style="cursor:pointer;">
+      <td style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--teal);">${lt.ltId||'—'}</td>
+      <td>
+        <div style="font-size:12px;font-weight:600;">${lt.name}${reminderFlag}</div>
+        ${proj?`<div style="font-family:var(--mono);font-size:9px;color:var(--accent2);margin-top:1px;">↗ ${proj.name}</div>`:''}
+        ${lt.notes?`<div style="font-size:10px;color:var(--text-muted);margin-top:1px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${lt.notes}</div>`:''}
+      </td>
+      <td><span class="lt-type-badge ${tp.cls}">${tp.label}</span></td>
+      <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${unit}</td>
+      <td onclick="event.stopPropagation();">${counterCell}</td>
+      <td style="font-family:var(--mono);font-size:11px;">${lt.target} <span style="font-size:9px;color:var(--text-muted);">${unit}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="lt-progress-wrap"><div class="lt-progress-fill" style="width:${barW}%;background:${barColor};"></div></div>
+          <span class="lt-pct ${st.code==='exceed'?'exceed':st.code==='warn'?'warn':'ok'}">${pct}%</span>
+        </div>
+      </td>
+      <td><span class="lt-status-badge ${st.cls}">${st.label}</span></td>
+      <td style="font-family:var(--mono);font-size:10px;">${lt.startDate?fmt(lt.startDate):'—'}</td>
+      <td style="font-family:var(--mono);font-size:10px;${lt.reminder&&lt.reminder<=today&&lt.status==='active'?'color:var(--teal);font-weight:700;':''}">${lt.reminder?fmt(lt.reminder):'—'}</td>
+      <td style="font-size:11px;color:var(--text-muted);">${lt.pic||'—'}</td>
+      <td><button class="btn-secondary btn-sm" onclick="event.stopPropagation();openLifetimeModal('${lt.id}')">Edit</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function buildLifetimeData() {
+  const STATUS_LABELS = { active:'Active', done:'Selesai', replaced:'Diganti', paused:'Paused' };
+  const TYPE_LABELS   = { tool:'Alat / Tool', trial:'Trial Process', consumable:'Consumable Part', sequence:'Sequence', other:'Lainnya' };
+  return {
+    headers: ['No','ID','Nama Item','Tipe','Satuan','Aktual','Target','% Terpakai','Status Lifetime','Status Item','Lokasi','PIC','Tgl Mulai','Reminder','Project Terkait','Catatan'],
+    rows: lifetimes.map((lt, i) => {
+      const st   = ltStatus(lt);
+      const pct  = ltPct(lt);
+      const proj = projects.find(p => p.id === lt.projectId);
+      return [
+        i+1, lt.ltId||'', lt.name||'',
+        TYPE_LABELS[lt.type]||lt.type||'',
+        LT_UNIT_LABELS[lt.unit]||lt.unit||'',
+        lt.actual||0, lt.target||0, pct,
+        st.label, STATUS_LABELS[lt.status]||lt.status||'',
+        lt.location||'', lt.pic||'',
+        lt.startDate||'', lt.reminder||'',
+        proj?.name||'', lt.notes||''
+      ];
+    })
+  };
+}
+
 loadActivityLog();
 loadMasterLocal();
 const savedUser = localStorage.getItem('ci3_user');
