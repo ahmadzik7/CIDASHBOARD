@@ -2331,7 +2331,7 @@ function stripPhotosForSheets(data) {
 }
 
 function save() {
-  const stateObj = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, materialMaster, activityLog };
+  const stateObj = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog };
 
   // Payload LENGKAP (termasuk base64 foto) — untuk localStorage/tampil di browser
   const fullPayload = JSON.stringify(stateObj);
@@ -2372,6 +2372,7 @@ function save() {
 // ===== PUSH WITH MERGE — versi safe, pull-then-merge sebelum push =====
 // Sama seperti yang CI Form lakukan di pushData() — cegah race condition
 async function pushToSheetsMerge(localState) {
+  // FIX Bug #4: guard lebih aman, isSyncing pasti di-reset di finally
   if (isSyncing) { pendingSave = true; return; }
   isSyncing = true;
   setSyncStatus('syncing', 'Menyimpan ke Sheets...');
@@ -2388,7 +2389,6 @@ async function pushToSheetsMerge(localState) {
       if (r0.ok) {
         const txt0 = await r0.text();
         sheetsData = JSON.parse(txt0);
-        // Update sheetsDataHash agar auto-pull tidak push ulang
         _sheetsDataHash = txt0;
       }
     } catch(fetchErr) {
@@ -2403,25 +2403,29 @@ async function pushToSheetsMerge(localState) {
     const mergedMaterials = mergeById(localState.materials, sheetsData.materials);
     const mergedLog       = mergeLog(localState.activityLog, sheetsData.activityLog);
 
+    // FIX Bug #1: pastikan semua field ada — lifetimes & mappings wajib disertakan
     const merged = {
       ...localState,
-      projects:     mergedProjects,
-      issues:       mergedIssues,
-      materials:    mergedMaterials,
-      activityLog:  mergedLog.slice(0, 100),
-      todos:        localState.todos,
-      libFolders:   localState.libFolders,
-      libDocs:      localState.libDocs,
-      cinotes:      localState.cinotes,
-      ganttSchedules: localState.ganttSchedules,
-      calibrations:   localState.calibrations,
-      hseGroups:      localState.hseGroups,
+      projects:       mergedProjects,
+      issues:         mergedIssues,
+      materials:      mergedMaterials,
+      activityLog:    mergedLog.slice(0, 100),
+      todos:          localState.todos          || [],
+      libFolders:     localState.libFolders     || [],
+      libDocs:        localState.libDocs        || [],
+      cinotes:        localState.cinotes        || [],
+      ganttSchedules: localState.ganttSchedules || [],
+      calibrations:   localState.calibrations   || [],
+      hseGroups:      localState.hseGroups      || [],
+      lifetimes:      localState.lifetimes      || [],  // FIX: eksplisit
+      mappings:       localState.mappings       || [],  // FIX: eksplisit
+      materialMaster: localState.materialMaster || [],  // FIX: eksplisit
     };
 
-    // 3. Update state lokal dengan hasil merge (tampilkan item dari CI Form)
-    projects   = merged.projects;
-    issues     = merged.issues;
-    materials  = merged.materials;
+    // 3. Update state lokal dengan hasil merge
+    projects    = merged.projects;
+    issues      = merged.issues;
+    materials   = merged.materials;
     activityLog = merged.activityLog;
     const mergedFull = JSON.stringify(merged);
     localStorage.setItem('ci3_cache', mergedFull);
@@ -2431,11 +2435,27 @@ async function pushToSheetsMerge(localState) {
     if (Array.isArray(sendData.activityLog) && sendData.activityLog.length > 50) {
       sendData.activityLog = sendData.activityLog.slice(0, 50);
     }
+
+    // FIX Bug #3: trim bertahap agar payload tidak melebihi limit GAS (~200KB)
     let sendPayload = JSON.stringify(sendData);
     if (sendPayload.length > 180000) {
-      const t = { ...sendData }; delete t.materialMaster;
-      sendPayload = JSON.stringify(t);
+      // Step 1: hapus materialMaster (bisa puluhan KB)
+      const t1 = { ...sendData }; delete t1.materialMaster;
+      sendPayload = JSON.stringify(t1);
     }
+    if (sendPayload.length > 180000) {
+      // Step 2: pangkas activityLog lebih agresif
+      const t2 = JSON.parse(sendPayload);
+      t2.activityLog = (t2.activityLog || []).slice(0, 20);
+      sendPayload = JSON.stringify(t2);
+    }
+    if (sendPayload.length > 180000) {
+      // Step 3: hapus mappings (bisa besar kalau banyak slot)
+      const t3 = JSON.parse(sendPayload);
+      delete t3.mappings;
+      sendPayload = JSON.stringify(t3);
+    }
+    console.log('[pushToSheetsMerge] payload size:', sendPayload.length, 'chars');
 
     const controller = new AbortController();
     const timeoutId  = setTimeout(() => controller.abort(), 25000);
@@ -2471,7 +2491,7 @@ async function pushToSheetsMerge(localState) {
       setSyncStatus('error', `${reason} simpan ke Sheets (retry ${_retryCount}/${MAX_RETRIES} dalam ${delaySec}s) — Data lokal AMAN ✓`);
       _retryTimer = setTimeout(() => {
         _retryTimer = null;
-        const stateObjRetry = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, materialMaster, activityLog };
+        const stateObjRetry = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog };
         pushToSheetsMerge(stateObjRetry);
       }, delay);
     } else {
@@ -2482,7 +2502,7 @@ async function pushToSheetsMerge(localState) {
     isSyncing = false;
     if (pendingSave) {
       pendingSave = false;
-      const stateObjPending = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, materialMaster, activityLog };
+      const stateObjPending = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog };
       setTimeout(() => pushToSheetsMerge(stateObjPending), 300);
     }
   }
