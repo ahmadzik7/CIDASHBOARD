@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -14,7 +15,8 @@
 <link rel="manifest" id="pwa-manifest">
 <link rel="apple-touch-icon" id="apple-touch-icon">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+</script>
 <style>
 :root{
   --bg:#0d0f12;--surface:#151820;--surface2:#1c2130;--border:#2a3145;
@@ -515,7 +517,7 @@ select option{background:var(--surface);}
 .user-name-sm{font-family:var(--mono);font-size:10px;color:var(--text-dim);}
 
 /* ===== DASHBOARD TABLES SCROLLABLE ===== */
-.table-wrap{overflow-x:auto;max-height:280px;overflow-y:auto;border:1px solid var(--border);}
+.table-wrap{overflow-x:auto;max-height:calc(100vh - 200px);overflow-y:auto;border:1px solid var(--border);}
 .stat-card{cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;}
 .stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3);}
 
@@ -625,7 +627,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   .detail-panel{width:100%!important;}
   .lib-layout{flex-direction:column;}
   .lib-sidebar{width:100%!important;border-right:none;border-bottom:1px solid var(--border);max-height:160px;}
-  .table-wrap{max-height:220px;}
+  .table-wrap{max-height:calc(100vh - 230px);}
   .note-grid{grid-template-columns:1fr;}
   .bulk-mat-table{font-size:10px;}
   .phase-header-labels{display:none;}
@@ -735,6 +737,74 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .pwa-banner-title{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:1px;margin-bottom:6px;}
 .pwa-banner-msg{font-size:12px;color:var(--text-dim);margin-bottom:12px;line-height:1.5;}
 .pwa-banner-actions{display:flex;gap:8px;}
+
+/* =================== LIFETIME TABS =================== */
+.lt-tabs{display:flex;gap:6px;margin-bottom:18px;}
+.lt-tab{padding:8px 20px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:transparent;transition:all 0.15s;user-select:none;}
+.lt-tab.active{background:var(--teal);color:#000;border-color:var(--teal);box-shadow:0 2px 12px rgba(20,184,166,0.3);}
+.lt-tab:hover:not(.active){border-color:var(--teal);color:var(--teal);}
+/* =================== VISUAL MAPPING =================== */
+.mp-layout-btn{padding:7px 16px;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:var(--surface);transition:all 0.15s;display:inline-flex;align-items:center;gap:8px;user-select:none;}
+.mp-layout-btn.active{background:rgba(20,184,166,0.15);color:var(--teal);border-color:var(--teal);}
+.mp-layout-btn:hover:not(.active){border-color:var(--text-muted);}
+.mp-layout-edit{font-size:12px;opacity:0.5;padding:2px 4px;border-radius:2px;transition:opacity 0.1s;}
+.mp-layout-edit:hover{opacity:1;}
+.mp-legend{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:4px;margin-bottom:16px;}
+.mp-leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);}
+.mp-leg-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
+.mp-canvas{display:flex;flex-direction:column;gap:20px;}
+.mp-group{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:4px;}
+.mp-group-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);}
+.mp-group-title-txt{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;}
+.mp-group-meta{font-family:var(--mono);font-size:10px;color:var(--purple);background:rgba(168,85,247,0.1);padding:2px 8px;border-radius:2px;}
+.mp-grid-wrap{display:flex;flex-direction:column;padding:14px;gap:6px;}
+.mp-col-labels-row{display:grid;gap:10px;margin-bottom:4px;}
+.mp-col-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;}
+.mp-slots-grid{display:grid;gap:10px;}
+.mp-slot{position:relative;border-radius:10px;cursor:pointer;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;padding:8px 6px;text-align:center;overflow:hidden;}
+.mp-slot:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.3);}
+.mp-slot-hdr{display:flex;align-items:flex-start;justify-content:space-between;width:100%;margin-bottom:4px;}
+.mp-slot-rlabel{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--text-muted);background:rgba(255,255,255,0.06);padding:2px 5px;border-radius:2px;}
+.mp-slot-plus{font-size:24px;color:var(--border);font-weight:300;transition:color 0.15s;}
+.mp-slot:hover .mp-slot-plus{color:var(--text-muted);}
+.mp-slot-code{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:2px;width:100%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mp-slot-label{font-size:11px;font-weight:600;color:var(--text);line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;}
+.mp-slot-pct{font-family:var(--mono);font-size:9px;font-weight:700;margin-top:4px;padding:2px 6px;border-radius:2px;}
+.mp-slot-pct.ok{background:rgba(16,185,129,0.15);color:var(--accent3);}
+.mp-slot-pct.warn{background:rgba(245,158,11,0.15);color:var(--accent);}
+.mp-slot-pct.exceed{background:rgba(239,68,68,0.15);color:var(--danger);}
+.sl-empty{background:var(--bg);border:2px dashed var(--border);}
+.sl-empty:hover{border-color:var(--teal);background:rgba(20,184,166,0.04);}
+.sl-ok{background:rgba(16,185,129,0.08);border:2px solid rgba(16,185,129,0.4);}
+.sl-ok:hover{background:rgba(16,185,129,0.14);}
+.sl-warn{background:rgba(245,158,11,0.1);border:2px solid rgba(245,158,11,0.4);}
+.sl-exceed{background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.5);}
+.sl-done{background:rgba(100,116,139,0.1);border:2px solid rgba(100,116,139,0.35);}
+.mp-sdot{position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:50%;}
+.sl-ok .mp-sdot{background:rgba(16,185,129,0.9);}
+.sl-warn .mp-sdot{background:rgba(245,158,11,0.9);}
+.sl-exceed .mp-sdot{background:rgba(239,68,68,0.9);}
+.sl-done .mp-sdot{background:rgba(100,116,139,0.7);}
+.sl-empty .mp-sdot{display:none;}
+/* =================== EJO EDIT =================== */
+.ejo-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;}
+.ejo-tc{padding:10px 8px;border-radius:6px;border:2px solid var(--border);cursor:pointer;transition:all 0.15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.ejo-tc:hover{border-color:var(--text-muted);}
+.ejo-tc.sel{box-shadow:0 0 0 2px currentColor;background:rgba(255,255,255,0.05);}
+.ejo-tc-icon{font-size:18px;}
+.ejo-tc-lbl{font-family:var(--mono);font-size:10px;font-weight:700;}
+
+/* =================== MATERIAL TRACKER DAYS COUNTER =================== */
+.mat-days-ok{color:var(--accent3);font-weight:700;font-family:var(--mono);}
+.mat-days-warn{color:var(--accent);font-weight:700;font-family:var(--mono);}
+.mat-days-danger{color:var(--danger);font-weight:700;font-family:var(--mono);}
+/* =================== LIFETIME INSTALLED TYPE =================== */
+.lt-type-installed{background:rgba(20,184,166,0.15);color:var(--teal);border:1px solid rgba(20,184,166,0.3);}
+/* =================== FULL HEIGHT PAGES =================== */
+.page.active{display:flex;flex-direction:column;}
+.page-body{flex:1;display:flex;flex-direction:column;}
+.table-wrap-full{flex:1;overflow-y:auto;overflow-x:auto;background:var(--surface);border:1px solid var(--border);margin-bottom:0;}
+
 </style>
 </head>
 <body>
@@ -863,14 +933,14 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   </div>
   <div id="alert-row" class="alert-row"></div>
   <div class="section-header"><span class="section-title">▸ Project Terbaru</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Scroll untuk lihat semua</span></div>
-  <div class="table-wrap" style="max-height:280px;">
+  <div class="table-wrap" style="max-height:calc(100vh - 220px);">
     <table>
       <thead><tr><th>ID</th><th>EJO</th><th>Project</th><th>Kategori</th><th>Prioritas</th><th>Status</th><th>PIC Eng.</th><th>Material</th><th>Deadline</th><th>Progress</th></tr></thead>
       <tbody id="db-tbody"></tbody>
     </table>
   </div>
   <div class="section-header" style="margin-top:16px;"><span class="section-title">▸ Material Belum Ready</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">Scroll untuk lihat semua</span></div>
-  <div class="table-wrap" style="max-height:260px;">
+  <div class="table-wrap" style="max-height:calc(100vh - 220px);">
     <table>
       <thead><tr><th>Project</th><th>Material</th><th>Qty</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th></tr></thead>
       <tbody id="mat-alert-tbody"></tbody>
@@ -971,9 +1041,9 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="used">Used</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 280px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
     <table>
-      <thead><tr><th>Project</th><th>Material</th><th>Part No.</th><th>Qty</th><th>Sat.</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th><th>Update</th><th>Hapus</th></tr></thead>
+      <thead><tr><th>Project</th><th>Material</th><th>Part No.</th><th>Qty</th><th>Sat.</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th><th>Tgl Pasang</th><th>Hari Pakai</th><th>Update</th><th>Hapus</th></tr></thead>
       <tbody id="mat-tbody"></tbody>
     </table>
   </div>
@@ -1085,9 +1155,9 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   </div>
 
   <!-- Tab Bar -->
-  <div class="lt-tabs" style="margin-bottom:16px;">
+  <div class="lt-tabs">
     <div class="lt-tab active" id="lt-tab-tracker" onclick="switchLtTab('tracker',this)">⏳ Tracker</div>
-    <div class="lt-tab" id="lt-tab-mapping" onclick="switchLtTab('mapping',this)">🗺️ Mapping</div>
+    <div class="lt-tab" id="lt-tab-mapping" onclick="switchLtTab('mapping',this)">🗺️ Visual Mapping</div>
   </div>
 
   <!-- ══ SUB-PAGE: TRACKER ══ -->
@@ -1273,6 +1343,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
             <option value="consumable">Consumable Part</option>
             <option value="sequence">Sequence / Urutan</option>
             <option value="other">Lainnya</option>
+            <option value="installed">Terpasang (tanpa target)</option>
           </select>
         </div>
         <div class="form-group full"><label>Nama Item *</label>
@@ -1432,7 +1503,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="overdue">🔴 Overdue / Belum</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 310px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
     <table>
       <thead><tr>
         <th>#</th><th>Nama Alat</th><th>Tag Number</th><th>Kalibrator</th>
@@ -1463,7 +1534,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="overdue">🔴 Overdue</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 310px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
     <table>
       <thead><tr>
         <th>#</th><th>Nama Grup</th><th>Topik Refreshment</th><th>PIC</th>
@@ -1525,9 +1596,10 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
           <th style="width:70px;">PIC</th>
           <th style="width:80px;">Status</th>
           <th style="width:95px;">Start</th>
-          <th style="width:95px;">Deadline</th>
+          <th style="width:95px;">Tgl Selesai</th>
           <th style="width:75px;">Progress</th>
           <th style="width:50px;"></th>
+          <th style="width:36px;"></th>
         </tr>
       </thead>
       <tbody id="ejo-tbody"></tbody>
@@ -1783,6 +1855,8 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
         <div class="form-group"><label>ETA</label><input type="date" id="me-eta"></div>
         <div class="form-group"><label>No PR</label><input type="text" id="me-nopr" placeholder="Nomor Purchase Request"></div>
         <div class="form-group"><label>Tanggal Naik PR</label><input type="date" id="me-tglpr"></div>
+        <div class="form-group"><label>Tgl Dipasang</label><input type="date" id="mfe-install-date" title="Tanggal material dipasang"></div>
+        <div class="form-group"><label>Tgl Dipasang</label><input type="date" id="me-install-date" title="Tanggal material dipasang/digunakan"></div>
         <div class="form-group full"><label>Catatan</label><textarea id="me-notes" rows="2"></textarea></div>
       </div>
     </div>
@@ -1993,6 +2067,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
           <div class="form-group"><label>ETA</label><input type="date" id="mf-eta"></div>
           <div class="form-group"><label>No PR</label><input type="text" id="mf-nopr" placeholder="Nomor Purchase Request"></div>
           <div class="form-group"><label>Tanggal Naik PR</label><input type="date" id="mf-tglpr"></div>
+          <div class="form-group"><label>Tgl Dipasang</label><input type="date" id="mf-install-date" title="Tanggal material dipasang/digunakan"></div>
           <div class="form-group full"><label>Catatan</label><textarea id="mf-notes" rows="2"></textarea></div>
         </div>
       </div>
@@ -3256,6 +3331,12 @@ function renderMaterials() {
     const proj = projects.find(p=>p.id===m.projectId);
     const isUsed = m.status==='used';
     const rowCls = isUsed ? 'mat-used' : 'mat-row-clickable';
+    // Days counter calculation
+    const installD = m.installDate || '';
+    const daysSince = installD ? Math.floor((Date.now() - new Date(installD).getTime()) / 86400000) : null;
+    const daysCell = daysSince !== null
+      ? `<span style="font-family:var(--mono);font-size:10px;font-weight:700;color:${daysSince>365?'var(--danger)':daysSince>180?'var(--accent)':'var(--accent3)'};">${daysSince}h</span>`
+      : '<span style="color:var(--border);">—</span>';
     return `<tr class="${rowCls}" onclick="openMatEditModal('${m.id}')">
       <td style="font-size:11px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${proj?proj.name:'—'}</td>
       <td style="font-weight:500;">${m.name}</td>
@@ -3266,6 +3347,8 @@ function renderMaterials() {
       <td style="font-family:var(--mono);font-size:9px;">${fmt(m.eta)}</td>
       <td style="font-family:var(--mono);font-size:10px;">${m.nopr||'—'}</td>
       <td style="font-family:var(--mono);font-size:9px;">${fmt(m.tglpr)}</td>
+      <td style="font-family:var(--mono);font-size:9px;">${installD?fmt(installD):'<span style="color:var(--border);">—</span>'}</td>
+      <td>${daysCell}</td>
       <td>${isUsed?'<span style="font-size:10px;color:var(--text-muted);">Used</span>':`<select onchange="updMatStatus('${m.id}',this.value)" style="font-size:10px;padding:3px;width:95px;" onclick="event.stopPropagation()">
         <option value="pending" ${m.status==='pending'?'selected':''}>Pending</option>
         <option value="order"   ${m.status==='order'  ?'selected':''}>On Order</option>
@@ -4190,7 +4273,7 @@ function saveMaterialModal() {
   if(currentMatTab==='single'){
     const name=document.getElementById('mf-name').value.trim();
     if(!name){alert('Nama material harus diisi!');return;}
-    const m={id:genId('MAT'),projectId:projId,name,partno:document.getElementById('mf-partno').value,qty:document.getElementById('mf-qty').value,unit:document.getElementById('mf-unit').value,status:document.getElementById('mf-status').value,eta:document.getElementById('mf-eta').value,nopr:document.getElementById('mf-nopr').value,tglpr:document.getElementById('mf-tglpr').value,notes:document.getElementById('mf-notes').value,createdAt:Date.now()};
+    const m={id:genId('MAT'),projectId:projId,name,partno:document.getElementById('mf-partno').value,qty:document.getElementById('mf-qty').value,unit:document.getElementById('mf-unit').value,status:document.getElementById('mf-status').value,eta:document.getElementById('mf-eta').value,nopr:document.getElementById('mf-nopr').value,tglpr:document.getElementById('mf-tglpr').value,notes:document.getElementById('mf-notes').value,installDate:document.getElementById('mf-install-date')?.value||'',createdAt:Date.now()};
     materials.push(m);
     const proj=projects.find(p=>p.id===projId);
     if(proj) logActivity('Tambah Material',`${name} → ${proj.name}`,proj.id);
@@ -4895,6 +4978,7 @@ function openMatEditModal(id) {
   document.getElementById('me-nopr').value = m.nopr||'';
   document.getElementById('me-tglpr').value = m.tglpr||'';
   document.getElementById('me-notes').value = m.notes||'';
+  if(document.getElementById('me-install-date')) document.getElementById('me-install-date').value = m.installDate||'';
   document.getElementById('modal-mat-edit').classList.add('open');
 }
 
@@ -4913,6 +4997,7 @@ function saveMatEdit() {
   m.nopr    = document.getElementById('me-nopr').value;
   m.tglpr   = document.getElementById('me-tglpr').value;
   m.notes   = document.getElementById('me-notes').value;
+  if(document.getElementById('me-install-date')) m.installDate = document.getElementById('me-install-date').value;
   const proj = projects.find(p=>p.id===m.projectId);
   if(proj) logActivity('Update Material', `${name} → ${proj.name}`, proj.id);
   save();
@@ -6881,10 +6966,13 @@ function renderEJO() {
     const catClass = 'cat-' + (ejo.entries[0]?.category || 'perbaikan');
     const pic   = ejo.entries[0]?.pic || '—';
     const start = ejo.entries[0]?.startDate ? fmt(ejo.entries[0].startDate) : '—';
-    const end   = ejo.entries[0]?.endDate   ? fmt(ejo.entries[0].endDate)   : '—';
+    const _ov   = ejoOverrides[ejo.no] || {};
+    const _ejoT = _ov.ejoType || ejo.ejoType;
+    const _endR = _ov.endDate || (ejo.entries[0] ? ejo.entries[0].endDate : '') || '';
+    const end   = _endR ? fmt(_endR) : '—';
     const progColor = ejo.aggStatus==='done'?'var(--accent3)':ejo.aggStatus==='blocked'?'var(--danger)':'var(--accent)';
     const isExpanded = _ejoExpanded === ejo.no;
-    const ejtCfg = EJO_TYPE_CFG[ejo.ejoType] || null;
+    const ejtCfg = EJO_TYPE_CFG[_ejoT] || null;
 
     // Build project/phase summary for display
     const projNames = [...new Set(ejo.entries.map(e => e.type==='project'?e.name:e.projName))].slice(0,2).join(', ');
@@ -6916,6 +7004,7 @@ function renderEJO() {
       <td><button class="ejo-expand-btn" onclick="event.stopPropagation();toggleEJODetail('${ejo.no.replace(/'/g,"\'")}')">
         ${isExpanded?'▲ Tutup':'▼ Detail'}
       </button></td>
+      <td><button class="btn-secondary btn-sm" style="padding:3px 6px;font-size:9px;" title="Edit EJO" onclick="event.stopPropagation();openEjoEditModal('${ejo.no.replace(/'/g,"\'")}')">&#9998;</button></td>
     </tr>`;
   }).join('');
 
@@ -7016,11 +7105,18 @@ const LT_TYPE_CFG = {
   consumable: { label:'Consumable Part',   cls:'lt-type-consumable' },
   sequence:   { label:'Sequence',          cls:'lt-type-sequence'   },
   other:      { label:'Lainnya',           cls:'lt-type-other'      },
+  installed:  { label:'Terpasang',          cls:'lt-type-installed'  },
 };
 const LT_UNIT_LABELS = { jam:'Jam', hari:'Hari', siklus:'Siklus', batch:'Batch', km:'Km', pcs:'Pcs', liter:'Liter', lainnya:'' };
 
 // Hitung status lifetime suatu item
 function ltStatus(lt) {
+  if (lt.type === 'installed') {
+    const installDate = lt.installDate || lt.startDate || '';
+    if (!installDate) return { code:'ok', label:'Terpasang', cls:'lt-status-ok' };
+    const days = Math.floor((Date.now() - new Date(installDate).getTime()) / 86400000);
+    return { code:'ok', label:'Terpasang ' + days + ' hari', cls:'lt-status-ok', days };
+  }
   if (lt.status === 'done')     return { code:'done',    label:'Selesai',       cls:'lt-status-done'    };
   if (lt.status === 'replaced') return { code:'replaced', label:'Diganti',      cls:'lt-status-replaced' };
   if (lt.status === 'paused')   return { code:'paused',   label:'Paused',       cls:'lt-status-paused'   };
@@ -7209,8 +7305,8 @@ function renderLifetime() {
 
   // ── Alert bar ──
   const alertBar  = document.getElementById('lt-alert-bar');
-  const exceedItems  = lifetimes.filter(lt => ltStatus(lt).code === 'exceed');
-  const warnItems    = lifetimes.filter(lt => ltStatus(lt).code === 'warn' && ltStatus(lt).code !== 'exceed');
+  const exceedItems  = lifetimes.filter(lt => lt.type !== 'installed' && ltStatus(lt).code === 'exceed');
+  const warnItems    = lifetimes.filter(lt => lt.type !== 'installed' && ltStatus(lt).code === 'warn' && ltStatus(lt).code !== 'exceed');
   const remindItems  = lifetimes.filter(lt => lt.reminder && lt.reminder <= today && lt.status === 'active');
   const doneTrials   = lifetimes.filter(lt => lt.status === 'done' && (lt.type==='trial'||lt.type==='sequence'));
 
@@ -7259,7 +7355,15 @@ function renderLifetime() {
 
     // Inline counter buttons (for active items)
     const isActive = lt.status === 'active';
-    const counterCell = isActive
+    const isInstalled = lt.type === 'installed';
+    const counterCell = isInstalled
+      ? (()=>{
+          const installD = lt.installDate || lt.startDate || '';
+          if (!installD) return '<span style="color:var(--border);font-family:var(--mono);font-size:11px;">Belum dipasang</span>';
+          const d = Math.floor((Date.now() - new Date(installD).getTime()) / 86400000);
+          return '<span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--teal);">' + d + '</span> <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">hari</span>';
+        })()
+      : isActive
       ? `<div class="lt-counter-cell">
            <button onclick="event.stopPropagation();ltUpdateActual('${lt.id}',-1)" style="background:none;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;width:18px;height:18px;font-size:10px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;">−</button>
            <input type="number" value="${lt.actual}" min="0" step="1" style="width:58px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;padding:2px 4px;background:var(--bg);border:1px solid var(--border);color:var(--text);"
@@ -7280,12 +7384,12 @@ function renderLifetime() {
       <td><span class="lt-type-badge ${tp.cls}">${tp.label}</span></td>
       <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${unit}</td>
       <td onclick="event.stopPropagation();">${counterCell}</td>
-      <td style="font-family:var(--mono);font-size:11px;">${lt.target} <span style="font-size:9px;color:var(--text-muted);">${unit}</span></td>
+      <td style="font-family:var(--mono);font-size:11px;">${lt.type==='installed'?'<span style="color:var(--teal);font-size:10px;">—</span>':lt.target+' <span style="font-size:9px;color:var(--text-muted);">'+unit+'</span>'}</td>
       <td>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div class="lt-progress-wrap"><div class="lt-progress-fill" style="width:${barW}%;background:${barColor};"></div></div>
-          <span class="lt-pct ${st.code==='exceed'?'exceed':st.code==='warn'?'warn':'ok'}">${pct}%</span>
-        </div>
+        ${lt.type==='installed'
+          ? '<span style="color:var(--teal);font-size:10px;font-family:var(--mono);">hari aktif</span>'
+          : `<div style="display:flex;align-items:center;gap:6px;"><div class="lt-progress-wrap"><div class="lt-progress-fill" style="width:${barW}%;background:${barColor};"></div></div><span class="lt-pct ${st.code==='exceed'?'exceed':st.code==='warn'?'warn':'ok'}">${pct}%</span></div>`
+        }
       </td>
       <td><span class="lt-status-badge ${st.cls}">${st.label}</span></td>
       <td style="font-family:var(--mono);font-size:10px;">${lt.startDate?fmt(lt.startDate):'—'}</td>
@@ -7548,63 +7652,88 @@ function selectMapLayout(id) {
 
 function renderMappingCanvas(ml) {
   const ST_CLASS = { ok:'sl-ok', warn:'sl-warn', exceed:'sl-exceed', done:'sl-done', empty:'sl-empty' };
-  const ST_LABEL = { ok:'OK', warn:'⚠ Hampir Habis', exceed:'🔴 Kritis', done:'✓ Selesai', empty:'—' };
 
-  function resolveSlotStatus(slotData) {
-    if (!slotData || (!slotData.code && !slotData.label && !slotData.ltId)) return 'empty';
-    if (slotData.ltId) {
-      const lt = lifetimes.find(x => x.id === slotData.ltId);
-      if (lt) return ltStatus(lt).code;
-    }
-    return slotData.manualStatus || 'ok';
+  function resolveSlotStatus(sd) {
+    if (!sd || (!sd.code && !sd.label && !sd.ltId)) return 'empty';
+    if (sd.ltId) { const lt = lifetimes.find(x => x.id === sd.ltId); if (lt) return ltStatus(lt).code; }
+    return sd.manualStatus || 'ok';
   }
-  function resolveSlotPct(slotData) {
-    if (!slotData?.ltId) return null;
-    const lt = lifetimes.find(x => x.id === slotData.ltId);
+  function resolveSlotPct(sd) {
+    if (!sd?.ltId) return null;
+    const lt = lifetimes.find(x => x.id === sd.ltId);
     return lt ? ltPct(lt) : null;
   }
 
-  const legend = `
-    <div class="mp-legend">
-      <div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(16,185,129,.5);border:2px solid rgba(16,185,129,.8);"></div>Normal / OK</div>
-      <div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(245,158,11,.5);border:2px solid rgba(245,158,11,.8);"></div>Hampir Habis / Perhatian</div>
-      <div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(239,68,68,.5);border:2px solid rgba(239,68,68,.8);"></div>Kritis / Ganti</div>
-      <div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(100,116,139,.4);border:2px solid rgba(100,116,139,.6);"></div>Selesai / Diganti</div>
-      <div class="mp-leg-item"><div class="mp-leg-dot" style="background:var(--bg);border:2px dashed var(--border);"></div>Kosong</div>
-      <div style="margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--text-muted);">${ml.area?'📍 '+ml.area+' · ':''}<span style="color:var(--purple);">${(ml.groups||[]).length} GRUP · ${(ml.groups||[]).reduce((a,g)=>a+(g.slots||0),0)} SLOT</span></div>
-    </div>`;
+  const totalSlots  = (ml.groups||[]).reduce((a,g)=>a+(g.slots||0),0);
+  const filledSlots = (ml.groups||[]).reduce((a,g)=>
+    a+Object.values(g.slotData||{}).filter(sd=>sd&&(sd.code||sd.label||sd.ltId)).length ,0);
 
-  const canvas = `<div class="mp-canvas">${(ml.groups||[]).map(grp => {
+  const legend = '<div class="mp-legend">'
+    + '<div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(16,185,129,.5);border:2px solid rgba(16,185,129,.8);"></div>Normal</div>'
+    + '<div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(245,158,11,.5);border:2px solid rgba(245,158,11,.8);"></div>Hampir Habis</div>'
+    + '<div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(239,68,68,.5);border:2px solid rgba(239,68,68,.8);"></div>Kritis</div>'
+    + '<div class="mp-leg-item"><div class="mp-leg-dot" style="background:rgba(100,116,139,.4);border:2px solid rgba(100,116,139,.6);"></div>Selesai</div>'
+    + '<div class="mp-leg-item"><div class="mp-leg-dot" style="background:var(--bg);border:2px dashed var(--border);"></div>Kosong</div>'
+    + '<div style="margin-left:auto;display:flex;align-items:center;gap:14px;">'
+    + (ml.area ? '<span style="font-size:11px;color:var(--text-muted);">&#128205; ' + ml.area + '</span>' : '')
+    + '<span style="font-family:var(--mono);font-size:10px;color:var(--purple);">' + (ml.groups||[]).length + ' GRUP</span>'
+    + '<span style="font-family:var(--mono);font-size:10px;color:var(--teal);">' + filledSlots + '/' + totalSlots + ' TERISI</span>'
+    + '</div></div>';
+
+  const groupsHtml = (ml.groups||[]).map(function(grp) {
     const cols = grp.cols || 2;
-    const slotsHtml = Array.from({length: grp.slots||4}, (_, i) => {
-      const sd  = (grp.slotData||{})[i] || null;
-      const stKey = resolveSlotStatus(sd);
-      const stCls = ST_CLASS[stKey] || 'sl-empty';
-      const pct   = resolveSlotPct(sd);
-      const pctCls = stKey==='exceed'?'exceed':stKey==='warn'?'warn':'ok';
-      const isEmpty = stKey === 'empty';
-      const linkedLt = sd?.ltId ? lifetimes.find(x=>x.id===sd.ltId) : null;
-      return `<div class="mp-slot ${stCls}" onclick="openSlotModal('${ml.id}','${grp.id}',${i})" title="${sd?.notes||'Klik untuk isi/edit slot'}">
-        ${sd?.ltId?`<span class="mp-slot-linked">🔗</span>`:''}
-        ${isEmpty
-          ? `<div class="mp-slot-plus">+</div>`
-          : `<div class="mp-slot-code">${sd.code||'—'}</div>
-             <div class="mp-slot-label">${sd.label||''}</div>
-             ${pct!==null?`<div class="mp-slot-pct ${pctCls}">${pct}%</div>`:''}
-             ${sd.notes?`<div class="mp-slot-note">${sd.notes}</div>`:''}`
-        }
-      </div>`;
-    }).join('');
-    return `<div class="mp-group">
-      <div class="mp-group-title">
-        <span>${grp.name||'Grup'}</span>
-        <span class="mp-group-label">${grp.slots||0} SLOT</span>
-      </div>
-      <div class="mp-slots" style="grid-template-columns:repeat(${cols},1fr);">${slotsHtml}</div>
-    </div>`;
-  }).join('')}</div>`;
+    const totalGrpSlots = grp.slots || 4;
+    const rows = Math.ceil(totalGrpSlots / cols);
 
-  document.getElementById('mp-canvas-wrap').innerHTML = legend + canvas;
+    var colLabels = '';
+    for (var c2 = 0; c2 < cols; c2++) {
+      colLabels += '<div class="mp-col-label">Slot ' + (c2+1) + '</div>';
+    }
+
+    var slotsHtml = '';
+    for (var idx2 = 0; idx2 < totalGrpSlots; idx2++) {
+      var r2 = Math.floor(idx2 / cols);
+      var sd  = (grp.slotData||{})[idx2] || null;
+      var stKey = resolveSlotStatus(sd);
+      var stCls = ST_CLASS[stKey] || 'sl-empty';
+      var pct   = resolveSlotPct(sd);
+      var pctCls = stKey==='exceed'?'exceed':stKey==='warn'?'warn':'ok';
+      var isEmpty = stKey === 'empty';
+      var rowLbl = rows > 1 ? 'T'+(r2+1) : '';
+
+      slotsHtml += '<div class="mp-slot ' + stCls + '" onclick="openSlotModal(\'' + ml.id + '\',\'' + grp.id + '\',' + idx2 + ')"'
+        + ' title="' + (sd && sd.label ? sd.label : 'Klik untuk isi/edit slot') + '">'
+        + '<div class="mp-sdot"></div>';
+
+      if (!isEmpty) {
+        slotsHtml += '<div class="mp-slot-hdr">'
+          + '<span class="mp-slot-rlabel">' + (rowLbl || (sd && sd.ltId ? '&#128279;' : '')) + '</span>'
+          + '<span style="font-size:10px;">' + (sd && sd.ltId ? '&#128279;' : '') + '</span>'
+          + '</div>';
+        slotsHtml += '<div class="mp-slot-code">' + (sd.code||'&#8212;') + '</div>';
+        slotsHtml += '<div class="mp-slot-label">' + (sd.label||'') + '</div>';
+        if (pct !== null) {
+          slotsHtml += '<div class="mp-slot-pct ' + pctCls + '">' + pct + '%</div>';
+        }
+      } else {
+        slotsHtml += '<div class="mp-slot-plus">+</div>';
+        if (rowLbl) slotsHtml += '<div style="font-family:var(--mono);font-size:9px;color:var(--border);margin-top:4px;">' + rowLbl + ' &middot; S' + ((idx2%cols)+1) + '</div>';
+      }
+      slotsHtml += '</div>';
+    }
+
+    return '<div class="mp-group">'
+      + '<div class="mp-group-header">'
+      + '<span class="mp-group-title-txt">&#128230; ' + (grp.name||'Grup') + '</span>'
+      + '<span class="mp-group-meta">' + totalGrpSlots + ' SLOT &middot; ' + cols + ' kolom' + (rows>1?' &middot; '+rows+' baris':'') + '</span>'
+      + '</div>'
+      + '<div class="mp-grid-wrap">'
+      + '<div class="mp-col-labels-row" style="grid-template-columns:repeat(' + cols + ',1fr);">' + colLabels + '</div>'
+      + '<div class="mp-slots-grid" style="grid-template-columns:repeat(' + cols + ',1fr);">' + slotsHtml + '</div>'
+      + '</div></div>';
+  }).join('');
+
+  document.getElementById('mp-canvas-wrap').innerHTML = legend + '<div class="mp-canvas">' + groupsHtml + '</div>';
 }
 
 function buildMappingData() {
@@ -7646,6 +7775,181 @@ if (savedUser) {
 } else {
   showUserOverlay();
 }
+
+// ===== EJO EDIT MODAL FUNCTIONS =====
+var ejoOverrides = {};
+
+function openEjoEditModal(ejoNo) {
+  var ov  = ejoOverrides[ejoNo] || {};
+  var all = buildEJOList();
+  var ejo = null;
+  for (var i=0;i<all.length;i++){if(all[i].no===ejoNo){ejo=all[i];break;}}
+  document.getElementById('ejo-edit-no').value       = ejoNo;
+  document.getElementById('ejo-edit-no-disp').value  = ejoNo;
+  document.getElementById('ejo-edit-title').textContent = 'EDIT EJO — ' + ejoNo;
+  var curType = ov.ejoType || (ejo ? ejo.ejoType : '') || '';
+  selectEjoTC(curType, false);
+  var curEnd = ov.endDate || (ejo && ejo.entries[0] ? ejo.entries[0].endDate : '') || '';
+  document.getElementById('ejo-edit-enddate').value = curEnd;
+  document.getElementById('ejo-edit-notes').value   = ov.notes || '';
+  document.getElementById('modal-ejo-edit').classList.add('open');
+}
+
+function selectEjoTC(type, doHighlight) {
+  if (doHighlight === undefined) doHighlight = true;
+  var cards = document.querySelectorAll('.ejo-tc');
+  for (var i=0;i<cards.length;i++){
+    var card = cards[i];
+    card.classList.remove('sel');
+    card.style.background = '';
+    card.style.boxShadow  = '';
+  }
+  if (!type) return;
+  var sel = document.querySelector('.ejo-tc[data-type="' + type + '"]');
+  if (sel) {
+    sel.classList.add('sel');
+    var colorMap = {civil:'100,116,139',mechanical:'245,158,11',electrical:'59,130,246',program:'139,92,246',it:'6,182,212',kalibrasi:'16,185,129'};
+    var rgb = colorMap[type] || '245,158,11';
+    sel.style.background  = 'rgba(' + rgb + ',0.15)';
+    sel.style.boxShadow   = '0 0 0 2px ' + sel.style.color;
+  }
+}
+
+function saveEjoEdit() {
+  var ejoNo = document.getElementById('ejo-edit-no').value;
+  if (!ejoNo) return;
+  var sel     = document.querySelector('.ejo-tc.sel');
+  var ejoType = sel ? sel.dataset.type : '';
+  var endDate = document.getElementById('ejo-edit-enddate').value;
+  var notes   = document.getElementById('ejo-edit-notes').value.trim();
+  ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
+  // Also update ejoType on matching projects
+  for (var i=0;i<projects.length;i++){
+    if (projects[i].ejo === ejoNo) {
+      projects[i].ejoType = ejoType;
+      if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
+    }
+  }
+  save();
+  closeModal('modal-ejo-edit');
+  renderEJO();
+  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
+}
+
+
+// ===== EJO EDIT MODAL FUNCTIONS =====
+var ejoOverrides = {};
+
+function openEjoEditModal(ejoNo) {
+  var ov  = ejoOverrides[ejoNo] || {};
+  var all = buildEJOList();
+  var ejo = null;
+  for (var i=0;i<all.length;i++){if(all[i].no===ejoNo){ejo=all[i];break;}}
+  document.getElementById('ejo-edit-no').value       = ejoNo;
+  document.getElementById('ejo-edit-no-disp').value  = ejoNo;
+  document.getElementById('ejo-edit-title').textContent = 'EDIT EJO — ' + ejoNo;
+  var curType = ov.ejoType || (ejo ? ejo.ejoType : '') || '';
+  selectEjoTC(curType, false);
+  var curEnd = ov.endDate || (ejo && ejo.entries[0] ? ejo.entries[0].endDate : '') || '';
+  document.getElementById('ejo-edit-enddate').value = curEnd;
+  document.getElementById('ejo-edit-notes').value   = ov.notes || '';
+  document.getElementById('modal-ejo-edit').classList.add('open');
+}
+
+function selectEjoTC(type, doHighlight) {
+  if (doHighlight === undefined) doHighlight = true;
+  var cards = document.querySelectorAll('.ejo-tc');
+  for (var i=0;i<cards.length;i++){
+    var card = cards[i];
+    card.classList.remove('sel');
+    card.style.background = '';
+    card.style.boxShadow  = '';
+  }
+  if (!type) return;
+  var sel = document.querySelector('.ejo-tc[data-type="' + type + '"]');
+  if (sel) {
+    sel.classList.add('sel');
+    var colorMap = {civil:'100,116,139',mechanical:'245,158,11',electrical:'59,130,246',program:'139,92,246',it:'6,182,212',kalibrasi:'16,185,129'};
+    var rgb = colorMap[type] || '245,158,11';
+    sel.style.background  = 'rgba(' + rgb + ',0.15)';
+    sel.style.boxShadow   = '0 0 0 2px ' + sel.style.color;
+  }
+}
+
+function saveEjoEdit() {
+  var ejoNo = document.getElementById('ejo-edit-no').value;
+  if (!ejoNo) return;
+  var sel     = document.querySelector('.ejo-tc.sel');
+  var ejoType = sel ? sel.dataset.type : '';
+  var endDate = document.getElementById('ejo-edit-enddate').value;
+  var notes   = document.getElementById('ejo-edit-notes').value.trim();
+  ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
+  // Also update ejoType on matching projects
+  for (var i=0;i<projects.length;i++){
+    if (projects[i].ejo === ejoNo) {
+      projects[i].ejoType = ejoType;
+      if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
+    }
+  }
+  save();
+  closeModal('modal-ejo-edit');
+  renderEJO();
+  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
+}
+
 </script>
+
+<!-- ===== EJO EDIT MODAL ===== -->
+<div class="modal-overlay" id="modal-ejo-edit">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <span class="modal-title" id="ejo-edit-title">EDIT EJO</span>
+      <button class="modal-close" onclick="closeModal('modal-ejo-edit')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ejo-edit-no">
+      <div class="form-group full">
+        <label>No. EJO</label>
+        <input type="text" id="ejo-edit-no-disp" disabled style="opacity:0.6;font-family:var(--mono);">
+      </div>
+      <div class="form-group full">
+        <label>Jenis EJO / Disiplin</label>
+        <div class="ejo-type-grid">
+          <div class="ejo-tc" data-type="civil" onclick="selectEjoTC('civil')" style="color:#64748b;">
+            <span class="ejo-tc-icon">&#127959;&#65039;</span><span class="ejo-tc-lbl">Civil</span>
+          </div>
+          <div class="ejo-tc" data-type="mechanical" onclick="selectEjoTC('mechanical')" style="color:#f59e0b;">
+            <span class="ejo-tc-icon">&#9881;&#65039;</span><span class="ejo-tc-lbl">Mechanical</span>
+          </div>
+          <div class="ejo-tc" data-type="electrical" onclick="selectEjoTC('electrical')" style="color:#3b82f6;">
+            <span class="ejo-tc-icon">&#9889;</span><span class="ejo-tc-lbl">Electrical</span>
+          </div>
+          <div class="ejo-tc" data-type="program" onclick="selectEjoTC('program')" style="color:#8b5cf6;">
+            <span class="ejo-tc-icon">&#129302;</span><span class="ejo-tc-lbl">Program</span>
+          </div>
+          <div class="ejo-tc" data-type="it" onclick="selectEjoTC('it')" style="color:#06b6d4;">
+            <span class="ejo-tc-icon">&#128187;</span><span class="ejo-tc-lbl">IT</span>
+          </div>
+          <div class="ejo-tc" data-type="kalibrasi" onclick="selectEjoTC('kalibrasi')" style="color:#10b981;">
+            <span class="ejo-tc-icon">&#128300;</span><span class="ejo-tc-lbl">Kalibrasi</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tanggal Selesai</label>
+        <input type="date" id="ejo-edit-enddate">
+      </div>
+      <div class="form-group">
+        <label>Catatan EJO</label>
+        <textarea id="ejo-edit-notes" rows="2" placeholder="Catatan tambahan..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-ejo-edit')">Batal</button>
+      <button class="btn-primary" onclick="saveEjoEdit()" style="background:var(--purple);">&#128190; SIMPAN</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
