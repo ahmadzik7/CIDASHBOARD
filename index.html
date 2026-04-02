@@ -517,7 +517,7 @@ select option{background:var(--surface);}
 .user-name-sm{font-family:var(--mono);font-size:10px;color:var(--text-dim);}
 
 /* ===== DASHBOARD TABLES SCROLLABLE ===== */
-.table-wrap{overflow-x:auto;max-height:calc(100vh - 200px);overflow-y:auto;border:1px solid var(--border);}
+.table-wrap{overflow-x:auto;max-height:calc(100vh - 240px);overflow-y:auto;border:1px solid var(--border);}
 .stat-card{cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;}
 .stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3);}
 
@@ -582,7 +582,7 @@ select option{background:var(--surface);}
 .master-tbl th{background:var(--surface2);padding:8px 10px;text-align:left;font-family:var(--mono);font-size:10px;color:var(--text-muted);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:2;}
 .master-tbl td{padding:7px 10px;border-bottom:1px solid var(--border);}
 .master-tbl tr:hover td{background:rgba(255,255,255,0.025);}
-.master-tbl-wrap{max-height:480px;overflow-y:auto;border:1px solid var(--border);}
+.master-tbl-wrap{max-height:calc(100vh - 340px);overflow-y:auto;border:1px solid var(--border);}
 .master-pn{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;}
 .master-unit-badge{font-family:var(--mono);font-size:9px;padding:2px 6px;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);}
 .master-import-progress{display:none;margin-top:10px;}
@@ -627,7 +627,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   .detail-panel{width:100%!important;}
   .lib-layout{flex-direction:column;}
   .lib-sidebar{width:100%!important;border-right:none;border-bottom:1px solid var(--border);max-height:160px;}
-  .table-wrap{max-height:calc(100vh - 230px);}
+  .table-wrap{max-height:calc(100vh - 260px);}
   .note-grid{grid-template-columns:1fr;}
   .bulk-mat-table{font-size:10px;}
   .phase-header-labels{display:none;}
@@ -1038,7 +1038,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="used">Used</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 260px);">
     <table>
       <thead><tr><th>Project</th><th>Material</th><th>Part No.</th><th>Qty</th><th>Sat.</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th><th>Tgl Pasang</th><th>Hari Pakai</th><th>Update</th><th>Hapus</th></tr></thead>
       <tbody id="mat-tbody"></tbody>
@@ -1500,7 +1500,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="overdue">🔴 Overdue / Belum</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 260px);">
     <table>
       <thead><tr>
         <th>#</th><th>Nama Alat</th><th>Tag Number</th><th>Kalibrator</th>
@@ -1531,7 +1531,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="overdue">🔴 Overdue</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 260px);">
     <table>
       <thead><tr>
         <th>#</th><th>Nama Grup</th><th>Topik Refreshment</th><th>PIC</th>
