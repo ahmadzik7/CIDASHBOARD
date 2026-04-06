@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>CI Project Command Center v17</title>
+<title>CI Project Command Center v21</title>
 <!-- PWA -->
 <meta name="application-name" content="CI Command">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -517,7 +517,7 @@ select option{background:var(--surface);}
 .user-name-sm{font-family:var(--mono);font-size:10px;color:var(--text-dim);}
 
 /* ===== DASHBOARD TABLES SCROLLABLE ===== */
-.table-wrap{overflow-x:auto;max-height:calc(100vh - 240px);overflow-y:auto;border:1px solid var(--border);}
+.table-wrap{overflow-x:auto;max-height:calc(100vh - 200px);overflow-y:auto;border:1px solid var(--border);}
 .stat-card{cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;}
 .stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3);}
 
@@ -582,7 +582,7 @@ select option{background:var(--surface);}
 .master-tbl th{background:var(--surface2);padding:8px 10px;text-align:left;font-family:var(--mono);font-size:10px;color:var(--text-muted);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:2;}
 .master-tbl td{padding:7px 10px;border-bottom:1px solid var(--border);}
 .master-tbl tr:hover td{background:rgba(255,255,255,0.025);}
-.master-tbl-wrap{max-height:calc(100vh - 340px);overflow-y:auto;border:1px solid var(--border);}
+.master-tbl-wrap{max-height:480px;overflow-y:auto;border:1px solid var(--border);}
 .master-pn{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;}
 .master-unit-badge{font-family:var(--mono);font-size:9px;padding:2px 6px;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);}
 .master-import-progress{display:none;margin-top:10px;}
@@ -627,7 +627,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   .detail-panel{width:100%!important;}
   .lib-layout{flex-direction:column;}
   .lib-sidebar{width:100%!important;border-right:none;border-bottom:1px solid var(--border);max-height:160px;}
-  .table-wrap{max-height:calc(100vh - 260px);}
+  .table-wrap{max-height:calc(100vh - 230px);}
   .note-grid{grid-template-columns:1fr;}
   .bulk-mat-table{font-size:10px;}
   .phase-header-labels{display:none;}
@@ -1038,7 +1038,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="used">Used</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 260px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
     <table>
       <thead><tr><th>Project</th><th>Material</th><th>Part No.</th><th>Qty</th><th>Sat.</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th><th>Tgl Pasang</th><th>Hari Pakai</th><th>Update</th><th>Hapus</th></tr></thead>
       <tbody id="mat-tbody"></tbody>
@@ -1500,7 +1500,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="overdue">🔴 Overdue / Belum</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 260px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
     <table>
       <thead><tr>
         <th>#</th><th>Nama Alat</th><th>Tag Number</th><th>Kalibrator</th>
@@ -1531,7 +1531,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <option value="overdue">🔴 Overdue</option>
     </select>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 260px);">
+  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
     <table>
       <thead><tr>
         <th>#</th><th>Nama Grup</th><th>Topik Refreshment</th><th>PIC</th>
@@ -6861,7 +6861,16 @@ function buildEJOList() {
     else if (statuses.some(s => s === 'waiting')) aggStatus = 'waiting';
     const avgProg = Math.round(ejo.entries.reduce((a,e)=>a+(e.progress||0),0)/ejo.entries.length);
     // Ambil ejoType dari entry pertama yang punya nilai
-    const ejoType = ejo.entries.map(e=>e.ejoType||'').find(t=>t) || '';
+    // ejoType: check entry ejoType first, then parent project as fallback
+    const ejoType = ejo.entries.map(e => {
+      if (e.ejoType) return e.ejoType;
+      // For fase entries, look up parent project's ejoType
+      if (e.type === 'fase' && e.projId) {
+        const proj = projects.find(p => p.id === e.projId);
+        return (proj && proj.ejoType) || '';
+      }
+      return '';
+    }).find(t=>t) || '';
     return { ...ejo, aggStatus, avgProg, ejoType };
   }).sort((a,b) => a.no.localeCompare(b.no));
 }
@@ -7774,66 +7783,6 @@ if (savedUser) {
 }
 
 // ===== EJO EDIT MODAL FUNCTIONS =====
-var ejoOverrides = {};
-
-function openEjoEditModal(ejoNo) {
-  var ov  = ejoOverrides[ejoNo] || {};
-  var all = buildEJOList();
-  var ejo = null;
-  for (var i=0;i<all.length;i++){if(all[i].no===ejoNo){ejo=all[i];break;}}
-  document.getElementById('ejo-edit-no').value       = ejoNo;
-  document.getElementById('ejo-edit-no-disp').value  = ejoNo;
-  document.getElementById('ejo-edit-title').textContent = 'EDIT EJO — ' + ejoNo;
-  var curType = ov.ejoType || (ejo ? ejo.ejoType : '') || '';
-  selectEjoTC(curType, false);
-  var curEnd = ov.endDate || (ejo && ejo.entries[0] ? ejo.entries[0].endDate : '') || '';
-  document.getElementById('ejo-edit-enddate').value = curEnd;
-  document.getElementById('ejo-edit-notes').value   = ov.notes || '';
-  document.getElementById('modal-ejo-edit').classList.add('open');
-}
-
-function selectEjoTC(type, doHighlight) {
-  if (doHighlight === undefined) doHighlight = true;
-  var cards = document.querySelectorAll('.ejo-tc');
-  for (var i=0;i<cards.length;i++){
-    var card = cards[i];
-    card.classList.remove('sel');
-    card.style.background = '';
-    card.style.boxShadow  = '';
-  }
-  if (!type) return;
-  var sel = document.querySelector('.ejo-tc[data-type="' + type + '"]');
-  if (sel) {
-    sel.classList.add('sel');
-    var colorMap = {civil:'100,116,139',mechanical:'245,158,11',electrical:'59,130,246',program:'139,92,246',it:'6,182,212',kalibrasi:'16,185,129'};
-    var rgb = colorMap[type] || '245,158,11';
-    sel.style.background  = 'rgba(' + rgb + ',0.15)';
-    sel.style.boxShadow   = '0 0 0 2px ' + sel.style.color;
-  }
-}
-
-function saveEjoEdit() {
-  var ejoNo = document.getElementById('ejo-edit-no').value;
-  if (!ejoNo) return;
-  var sel     = document.querySelector('.ejo-tc.sel');
-  var ejoType = sel ? sel.dataset.type : '';
-  var endDate = document.getElementById('ejo-edit-enddate').value;
-  var notes   = document.getElementById('ejo-edit-notes').value.trim();
-  ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
-  // Also update ejoType on matching projects
-  for (var i=0;i<projects.length;i++){
-    if (projects[i].ejo === ejoNo) {
-      projects[i].ejoType = ejoType;
-      if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
-    }
-  }
-  save();
-  closeModal('modal-ejo-edit');
-  renderEJO();
-  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
-}
-
-
 // ===== EJO EDIT MODAL FUNCTIONS =====
 var ejoOverrides = {};
 
@@ -7881,11 +7830,18 @@ function saveEjoEdit() {
   var endDate = document.getElementById('ejo-edit-enddate').value;
   var notes   = document.getElementById('ejo-edit-notes').value.trim();
   ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
-  // Also update ejoType on matching projects
+  // Update ejoType on matching projects AND their phases
   for (var i=0;i<projects.length;i++){
     if (projects[i].ejo === ejoNo) {
       projects[i].ejoType = ejoType;
       if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
+    }
+    // Also update phases that have this EJO number
+    var phases = projects[i].phases || [];
+    for (var j=0;j<phases.length;j++){
+      if (phases[j].ejo && phases[j].ejo.trim().toUpperCase() === ejoNo) {
+        phases[j].ejoType = ejoType;
+      }
     }
   }
   save();
