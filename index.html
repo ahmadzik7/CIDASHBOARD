@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>CI Project Command Center v21</title>
+<title>CI Project Command Center v22</title>
 <!-- PWA -->
 <meta name="application-name" content="CI Command">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -7847,7 +7847,7 @@ function saveEjoEdit() {
   save();
   closeModal('modal-ejo-edit');
   renderEJO();
-  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
+  logActivity('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
 }
 
 </script>
