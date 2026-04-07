@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>CI Project Command Center v22</title>
+<title>CI Project Command Center v17</title>
 <!-- PWA -->
 <meta name="application-name" content="CI Command">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,18 +19,18 @@
 </script>
 <style>
 :root{
-  --bg:#0d0f12;--surface:#151820;--surface2:#1c2130;--border:#2a3145;
-  --accent:#f59e0b;--accent2:#3b82f6;--accent3:#10b981;
-  --danger:#ef4444;--warn:#f97316;--purple:#a855f7;--teal:#14b8a6;
-  --text:#e2e8f0;--text-muted:#64748b;--text-dim:#94a3b8;
+  --bg:#f4f6f9;--surface:#ffffff;--surface2:#f0f2f7;--border:#dde1ea;
+  --accent:#d97706;--accent2:#2563eb;--accent3:#059669;
+  --danger:#dc2626;--warn:#ea580c;--purple:#7c3aed;--teal:#0d9488;
+  --text:#1e2535;--text-muted:#64748b;--text-dim:#475569;
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
-  --c5r:#06b6d4;--cshe:#f43f5e;--cimprove:#8b5cf6;--cperbaikan:#f59e0b;
+  --c5r:#0891b2;--cshe:#e11d48;--cimprove:#7c3aed;--cperbaikan:#d97706;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
 
 /* HEADER */
-.header{background:var(--surface);border-bottom:2px solid var(--accent);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header{background:var(--surface);border-bottom:2px solid var(--accent);box-shadow:0 1px 4px rgba(0,0,0,0.08);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .header-left{display:flex;align-items:center;gap:11px;}
 .logo-badge{background:var(--accent);color:#000;font-family:var(--mono);font-weight:700;font-size:11px;padding:4px 9px;letter-spacing:1px;}
 .header-title{font-size:14px;font-weight:600;letter-spacing:0.3px;}
@@ -48,11 +48,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 /* LAYOUT */
 .app{display:flex;min-height:calc(100vh - 52px);}
-.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;overflow-y:auto;}
+.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);box-shadow:2px 0 8px rgba(0,0,0,0.04);padding:16px 0;flex-shrink:0;overflow-y:auto;}
 .nav-label{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;padding:0 14px 6px;text-transform:uppercase;}
 .nav-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.12s;border-left:3px solid transparent;color:var(--text-dim);}
-.nav-item:hover{background:var(--surface2);color:var(--text);}
-.nav-item.active{border-left-color:var(--accent);background:var(--surface2);color:var(--accent);}
+.nav-item:hover{background:rgba(0,0,0,0.04);color:var(--text);}
+.nav-item.active{border-left-color:var(--accent);background:rgba(217,119,6,0.08);color:var(--accent);}
 .nav-item.todo-nav.active{border-left-color:var(--teal);color:var(--teal);}
 .nav-item.sop-nav.active{border-left-color:var(--purple);color:var(--purple);}
 .cat-tab.tab-form{color:#60A5FA;border-bottom-color:transparent;}
@@ -96,7 +96,7 @@ th{font-family:var(--mono);font-size:9px;letter-spacing:1.2px;color:var(--text-m
 td{padding:9px 11px;font-size:12px;border-bottom:1px solid var(--border);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tbody tr{transition:background 0.12s;cursor:pointer;}
-tbody tr:hover{background:var(--surface2);}
+tbody tr:hover{background:rgba(0,0,0,0.025);}
 
 /* BADGES */
 .badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;font-weight:600;padding:2px 6px;letter-spacing:0.5px;white-space:nowrap;}
@@ -127,9 +127,9 @@ tbody tr:hover{background:var(--surface2);}
 .ejo-badge{font-family:var(--mono);font-size:9px;color:var(--purple);background:rgba(168,85,247,0.12);padding:2px 6px;border-radius:2px;}
 
 /* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:200;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--surface);border:1px solid var(--border);width:720px;max-height:90vh;overflow-y:auto;border-top:3px solid var(--accent);}
+.modal{background:var(--surface);box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid var(--border);width:720px;max-height:90vh;overflow-y:auto;border-top:3px solid var(--accent);}
 .modal.wide{width:800px;}
 .modal-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;}
 .modal-title{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:1px;}
@@ -345,7 +345,7 @@ select option{background:var(--surface);}
 .photo-lib-item:hover{border-color:var(--accent3);transform:scale(1.02);}
 .photo-lib-item img{width:100%;height:100%;object-fit:cover;display:block;}
 .photo-lib-item-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;}
-.photo-lib-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);padding:4px 6px;font-size:9px;color:#fff;font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.photo-lib-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(15,23,42,0.5);padding:4px 6px;font-size:9px;color:#fff;font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .photo-lib-proj-badge{position:absolute;top:4px;left:4px;background:rgba(16,185,129,0.85);color:#fff;font-size:8px;padding:1px 5px;font-family:var(--mono);max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
 /* Sidebar section headers untuk tree baru */
@@ -519,7 +519,7 @@ select option{background:var(--surface);}
 /* ===== DASHBOARD TABLES SCROLLABLE ===== */
 .table-wrap{overflow-x:auto;max-height:calc(100vh - 200px);overflow-y:auto;border:1px solid var(--border);}
 .stat-card{cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3);}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.12);}
 
 /* ===== CI NOTE ===== */
 .note-filter-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
@@ -581,7 +581,7 @@ select option{background:var(--surface);}
 .master-tbl{width:100%;border-collapse:collapse;font-size:12px;}
 .master-tbl th{background:var(--surface2);padding:8px 10px;text-align:left;font-family:var(--mono);font-size:10px;color:var(--text-muted);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:2;}
 .master-tbl td{padding:7px 10px;border-bottom:1px solid var(--border);}
-.master-tbl tr:hover td{background:rgba(255,255,255,0.025);}
+.master-tbl tr:hover td{background:rgba(0,0,0,0.02);}
 .master-tbl-wrap{max-height:480px;overflow-y:auto;border:1px solid var(--border);}
 .master-pn{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;}
 .master-unit-badge{font-family:var(--mono);font-size:9px;padding:2px 6px;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);}
@@ -754,7 +754,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .mp-leg-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
 .mp-canvas{display:flex;flex-direction:column;gap:20px;}
 .mp-group{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:4px;}
-.mp-group-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);}
+.mp-group-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,0.02);border-bottom:1px solid var(--border);}
 .mp-group-title-txt{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;}
 .mp-group-meta{font-family:var(--mono);font-size:10px;color:var(--purple);background:rgba(168,85,247,0.1);padding:2px 8px;border-radius:2px;}
 .mp-grid-wrap{display:flex;flex-direction:column;padding:14px;gap:6px;}
@@ -762,7 +762,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .mp-col-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;}
 .mp-slots-grid{display:grid;gap:10px;}
 .mp-slot{position:relative;border-radius:10px;cursor:pointer;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;padding:8px 6px;text-align:center;overflow:hidden;}
-.mp-slot:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.3);}
+.mp-slot:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.12);}
 .mp-slot-hdr{display:flex;align-items:flex-start;justify-content:space-between;width:100%;margin-bottom:4px;}
 .mp-slot-rlabel{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--text-muted);background:rgba(255,255,255,0.06);padding:2px 5px;border-radius:2px;}
 .mp-slot-plus{font-size:24px;color:var(--border);font-weight:300;transition:color 0.15s;}
@@ -801,6 +801,116 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 /* =================== LIFETIME INSTALLED TYPE =================== */
 .lt-type-installed{background:rgba(20,184,166,0.15);color:var(--teal);border:1px solid rgba(20,184,166,0.3);}
 
+
+
+/* =================== MATERIAL TABS (Tracker / Warehouse) =================== */
+.mat-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.mat-tab{padding:9px 20px;font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.8px;cursor:pointer;border-bottom:2px solid transparent;
+  margin-bottom:-2px;color:var(--text-muted);transition:all .15s;user-select:none;}
+.mat-tab:hover{color:var(--text);}
+.mat-tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+
+/* =================== WAREHOUSE STOCK =================== */
+.wh-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+.wh-toolbar input{flex:1;min-width:160px;}
+.wh-toolbar select{min-width:160px;}
+
+.wh-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.wh-tab{padding:7px 18px;font-family:var(--mono);font-size:11px;font-weight:700;
+  cursor:pointer;border-radius:3px;border:2px solid var(--border);
+  color:var(--text-muted);background:transparent;transition:all .15s;}
+.wh-tab:hover{border-color:var(--text-muted);}
+.wh-tab.active{border-color:var(--teal);color:var(--teal);background:rgba(20,184,166,.08);}
+
+.wh-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px;}
+.wh-stat{background:var(--surface);border:1px solid var(--border);padding:12px 14px;border-top:2px solid var(--teal);box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.wh-stat-val{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--teal);}
+.wh-stat-lbl{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;margin-top:2px;}
+
+/* Stock table */
+.wh-stock-low td{background:rgba(239,68,68,.04)!important;}
+.wh-stock-warn td{background:rgba(245,158,11,.04)!important;}
+.stock-qty-cell{display:flex;align-items:center;gap:5px;}
+.stock-qty-val{font-family:var(--mono);font-size:12px;font-weight:700;}
+.stock-badge{font-family:var(--mono);font-size:9px;padding:1px 6px;font-weight:700;}
+.stock-badge.ok  {background:rgba(16,185,129,.12);color:var(--accent3);border:1px solid rgba(16,185,129,.25);}
+.stock-badge.warn{background:rgba(245,158,11,.12);color:var(--accent);border:1px solid rgba(245,158,11,.25);}
+.stock-badge.low {background:rgba(239,68,68,.12);color:var(--danger);border:1px solid rgba(239,68,68,.25);}
+.stock-loc-badge{font-family:var(--mono);font-size:9px;padding:2px 7px;font-weight:700;}
+.stock-loc-badge.km{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.25);}
+.stock-loc-badge.sh{background:rgba(20,184,166,.12);color:var(--teal);border:1px solid rgba(20,184,166,.25);}
+.stock-loc-badge.all{background:rgba(59,130,246,.12);color:var(--accent2);border:1px solid rgba(59,130,246,.25);}
+
+/* Mutasi / history */
+.mutasi-row{font-size:11px;padding:6px 10px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;}
+.mutasi-row:last-child{border-bottom:none;}
+.mutasi-row.in {border-left:3px solid var(--accent3);}
+.mutasi-row.out{border-left:3px solid var(--danger);}
+.mutasi-type{font-family:var(--mono);font-size:9px;font-weight:700;min-width:55px;}
+.mutasi-type.in {color:var(--accent3);}
+.mutasi-type.out{color:var(--danger);}
+.mutasi-info{flex:1;min-width:0;}
+.mutasi-qty{font-family:var(--mono);font-size:11px;font-weight:700;flex-shrink:0;}
+.mutasi-qty.in {color:var(--accent3);}
+.mutasi-qty.out{color:var(--danger);}
+
+/* Stock inline adj */
+.stock-adj-wrap{display:flex;align-items:center;gap:4px;}
+.stock-adj-btn{background:none;border:1px solid var(--border);color:var(--text-muted);
+  cursor:pointer;width:20px;height:20px;font-size:11px;display:flex;align-items:center;
+  justify-content:center;transition:all .12s;flex-shrink:0;}
+.stock-adj-btn:hover{border-color:var(--accent);color:var(--accent);}
+.stock-adj-input{width:54px;text-align:center;font-family:var(--mono);font-size:11px;
+  font-weight:700;background:var(--bg);border:1px solid var(--border);
+  color:var(--text);padding:2px 4px;}
+
+/* Use from stock button */
+.btn-use-stock{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
+  background:transparent;border:1px solid rgba(20,184,166,.4);color:var(--teal);
+  cursor:pointer;transition:all .12s;white-space:nowrap;}
+.btn-use-stock:hover{background:rgba(20,184,166,.1);border-color:var(--teal);}
+
+
+/* ── WSP RESERVASI ── */
+.stock-loc-badge.wsp{background:rgba(220,38,38,.1);color:var(--danger);border:1px solid rgba(220,38,38,.25);}
+.wsp-tab.active{border-color:var(--danger)!important;color:var(--danger)!important;background:rgba(220,38,38,.06)!important;}
+
+.reservasi-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.reservasi-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:9px 13px;background:var(--surface);border:1px solid var(--border);
+  border-left:3px solid var(--border);}
+.reservasi-row.pending{border-left-color:var(--accent);}
+.reservasi-row.approved{border-left-color:var(--accent3);}
+.reservasi-row.rejected{border-left-color:var(--danger);opacity:0.7;}
+.reservasi-row.released{border-left-color:var(--text-muted);opacity:0.6;}
+.rsv-badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;flex-shrink:0;}
+.rsv-badge.pending {background:rgba(217,119,6,.1);color:var(--accent);border:1px solid rgba(217,119,6,.25);}
+.rsv-badge.approved{background:rgba(5,150,105,.1);color:var(--accent3);border:1px solid rgba(5,150,105,.25);}
+.rsv-badge.rejected{background:rgba(220,38,38,.1);color:var(--danger);border:1px solid rgba(220,38,38,.25);}
+.rsv-badge.released{background:rgba(100,116,139,.1);color:var(--text-muted);border:1px solid var(--border);}
+.rsv-info{flex:1;min-width:0;}
+.rsv-name{font-size:12px;font-weight:600;}
+.rsv-meta{font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-top:1px;}
+.rsv-qty{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent2);flex-shrink:0;}
+.rsv-actions{display:flex;gap:4px;flex-shrink:0;}
+.btn-rsv-approve{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
+  background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.3);color:var(--accent3);cursor:pointer;transition:all .12s;}
+.btn-rsv-approve:hover{background:rgba(5,150,105,.2);}
+.btn-rsv-reject{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
+  background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);color:var(--danger);cursor:pointer;transition:all .12s;}
+.btn-rsv-reject:hover{background:rgba(220,38,38,.15);}
+.btn-rsv-release{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
+  background:rgba(13,148,136,.1);border:1px solid rgba(13,148,136,.3);color:var(--teal);cursor:pointer;transition:all .12s;}
+.btn-rsv-release:hover{background:rgba(13,148,136,.2);}
+
+/* Reserved qty indicator */
+.wsp-reserved-info{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:2px;}
+.wsp-avail-info{font-family:var(--mono);font-size:10px;color:var(--accent3);font-weight:700;}
+
+/* WSP tab in wh-tabs */
+.wh-tab.wsp-tab{border-color:rgba(220,38,38,.3);color:var(--danger);}
+.wh-tab.wsp-tab.active{border-color:var(--danger);background:rgba(220,38,38,.06);}
 
 </style>
 </head>
@@ -886,7 +996,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   <div class="nav-item todo-nav" onclick="showPage('todo',this)"><span class="nav-icon">✅</span> To Do List <span class="nav-badge" id="nav-todo-count">0</span></div>
   <div class="nav-item" onclick="showPage('calendar',this)"><span class="nav-icon">📅</span> Kalender</div>
   <div class="nav-item" onclick="showPage('all-projects',this)"><span class="nav-icon">▤</span> Semua Project</div>
-  <div class="nav-item" onclick="showPage('materials',this)"><span class="nav-icon">⬡</span> Material Tracker</div>
+  <div class="nav-item" onclick="showPage('materials',this)"><span class="nav-icon">⬡</span> Material Tracker <span class="nav-badge" id="nav-wh-low" style="background:var(--danger);display:none;font-size:9px;">!</span></div>
   <div class="nav-item" onclick="showPage('matmaster',this)"><span class="nav-icon">🗂️</span> Material Master <span class="nav-badge" id="nav-master-count" style="background:var(--surface2);color:var(--text-muted);display:none;">0</span></div>
   <div class="nav-item" onclick="showPage('issues',this)"><span class="nav-icon">⚠</span> Issue Log</div>
   <div class="nav-item" onclick="showPage('ejo',this)"><span class="nav-icon">🏷️</span> EJO Tracker <span class="nav-badge" id="nav-ejo-count" style="background:var(--purple);display:none;">0</span></div>
@@ -1021,30 +1131,103 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 
 <!-- ===== MATERIALS ===== -->
 <div class="page" id="page-materials">
-  <div class="section-header">
-    <span class="section-title">▸ Material Tracker</span>
-    <button class="btn-primary" onclick="openMatModal()">+ TAMBAH MATERIAL</button>
+  <!-- ─── TAB BAR ─── -->
+  <div class="mat-tabs">
+    <div class="mat-tab active" id="mattab-tracker" onclick="switchMatPage('tracker',this)">⬡ Material Tracker</div>
+    <div class="mat-tab" id="mattab-warehouse" onclick="switchMatPage('warehouse',this)">🏭 Stock Gudang</div>
   </div>
-  <div class="mat-filter-bar">
-    <input type="text" id="mat-search" placeholder="🔍 Cari nama material / part no..." oninput="renderMaterials()">
-    <select id="mat-filter-proj" onchange="renderMaterials()">
-      <option value="">— Semua Project —</option>
-    </select>
-    <select id="mat-filter-status" onchange="renderMaterials()">
-      <option value="">— Semua Status —</option>
-      <option value="pending">Pending</option>
-      <option value="order">On Order</option>
-      <option value="ready">Ready</option>
-      <option value="used">Used</option>
-    </select>
+
+  <!-- ═══════════════════════════════════════════════════
+       SUB-PAGE 1 : MATERIAL TRACKER (existing)
+  ════════════════════════════════════════════════════════ -->
+  <div id="mat-sub-tracker">
+    <div class="section-header">
+      <span class="section-title">▸ Material Tracker</span>
+      <button class="btn-primary" onclick="openMatModal()">+ TAMBAH MATERIAL</button>
+    </div>
+    <div class="mat-filter-bar">
+      <input type="text" id="mat-search" placeholder="🔍 Cari nama material / part no..." oninput="renderMaterials()">
+      <select id="mat-filter-proj" onchange="renderMaterials()">
+        <option value="">— Semua Project —</option>
+      </select>
+      <select id="mat-filter-status" onchange="renderMaterials()">
+        <option value="">— Semua Status —</option>
+        <option value="pending">Pending</option>
+        <option value="order">On Order</option>
+        <option value="ready">Ready</option>
+        <option value="used">Used</option>
+      </select>
+    </div>
+    <div class="table-wrap" style="max-height:calc(100vh - 240px);">
+      <table>
+        <thead><tr><th>Project</th><th>Material</th><th>Part No.</th><th>Qty</th><th>Sat.</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th><th>Tgl Pasang</th><th>Hari Pakai</th><th>Update</th><th>Hapus</th></tr></thead>
+        <tbody id="mat-tbody"></tbody>
+      </table>
+    </div>
+    <div class="note-box"><strong>💡 TIP — </strong>Material project yang sudah Done otomatis ditandai "Used". Gunakan filter di atas untuk pencarian cepat.</div>
   </div>
-  <div class="table-wrap" style="max-height:calc(100vh - 190px);">
-    <table>
-      <thead><tr><th>Project</th><th>Material</th><th>Part No.</th><th>Qty</th><th>Sat.</th><th>Status</th><th>ETA</th><th>No PR</th><th>Tgl PR</th><th>Tgl Pasang</th><th>Hari Pakai</th><th>Update</th><th>Hapus</th></tr></thead>
-      <tbody id="mat-tbody"></tbody>
-    </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       SUB-PAGE 2 : STOCK GUDANG
+  ════════════════════════════════════════════════════════ -->
+  <div id="mat-sub-warehouse" style="display:none;">
+    <div class="section-header" style="margin-bottom:12px;">
+      <span class="section-title">▸ Stock Gudang</span>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;">
+        <button class="btn-secondary btn-sm" onclick="exportWarehouse()">⬇ Export</button>
+        <button class="btn-primary" onclick="openWhModal()">+ Tambah Item</button>
+      </div>
+    </div>
+
+    <!-- Location tabs -->
+    <div class="wh-tabs">
+      <div class="wh-tab active" id="whtab-all" onclick="switchWhLoc('all',this)">📦 Semua Lokasi</div>
+      <div class="wh-tab" id="whtab-km"  onclick="switchWhLoc('km',this)">🏠 Kandang Macan</div>
+      <div class="wh-tab" id="whtab-sh"  onclick="switchWhLoc('sh',this)">🏭 Stock House Produksi</div>
+      <div class="wh-tab wsp-tab" id="whtab-wsp" onclick="switchWhLoc('wsp',this)">🔑 WSP — Gudang Utama</div>
+      <div class="wh-tab" id="whtab-reservasi" onclick="switchWhLoc('reservasi',this)" style="border-color:rgba(37,99,235,.3);color:var(--accent2);">📋 Reservasi <span id="nav-rsv-pending" style="display:none;background:var(--accent);color:#fff;font-size:8px;padding:1px 5px;margin-left:4px;font-family:var(--mono);font-weight:700;">0</span></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="wh-stats" id="wh-stats-row"></div>
+
+    <!-- Search & filter -->
+    <div class="wh-toolbar">
+      <input type="text" id="wh-search" placeholder="🔍 Cari nama material / part no..." oninput="renderWarehouse()">
+      <select id="wh-filter-status" onchange="renderWarehouse()">
+        <option value="">— Semua Status —</option>
+        <option value="ok">✅ Stok Cukup</option>
+        <option value="warn">⚠ Stok Rendah</option>
+        <option value="low">🔴 Kritis / Habis</option>
+      </select>
+    </div>
+
+    <!-- Stock table -->
+    <div class="table-wrap" style="max-height:calc(100vh - 340px);">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32px;">#</th>
+            <th>Nama Material</th>
+            <th style="width:130px;">Part No.</th>
+            <th style="width:60px;">Sat.</th>
+            <th style="width:120px;">Kandang Macan</th>
+            <th style="width:120px;">Stock House</th>
+            <th style="width:120px;">WSP (Gudang Utama)</th>
+            <th style="width:90px;">Total Stok</th>
+            <th style="width:80px;">Min. Stok</th>
+            <th style="width:140px;">Aksi</th>
+            <th style="width:40px;"></th>
+          </tr>
+        </thead>
+        <tbody id="wh-tbody"></tbody>
+      </table>
+    </div>
+    <div class="note-box">
+      <strong>💡 — </strong>Klik <strong>Ambil</strong> untuk mengurangi stok saat material digunakan di project.
+      Stok <span style="color:var(--accent);">⚠ Rendah</span> = di bawah minimum · <span style="color:var(--danger);">🔴 Kritis</span> = 0 atau negatif.
+    </div>
   </div>
-  <div class="note-box"><strong>💡 TIP — </strong>Material project yang sudah Done otomatis ditandai "Used". Gunakan filter di atas untuk pencarian cepat.</div>
 </div>
 
 <!-- ===== ISSUES ===== -->
@@ -2398,6 +2581,7 @@ let issues     = [];
 let todos      = [];
 let libFolders    = [];
 let libDocs       = [];
+let warehouse     = []; // Stock gudang: [{id,name,partno,unit,locations:[{loc,qty,minQty}],mutasi:[],notes,updatedAt}]
 let libActiveTab  = 'sop';      // 'sop' | 'cidata' | 'photo'
 let libActiveProjCidata = '';   // project id filter untuk CI Data tab
 let libActiveProjPhoto  = '';   // project id filter untuk Foto tab
@@ -2492,6 +2676,7 @@ function applyData(data) {
   cinotes    = data.cinotes    || [];
   ganttSchedules = data.ganttSchedules || [];
   calibrations   = data.calibrations   || [];
+  warehouse       = data.warehouse       || [];
   hseGroups      = data.hseGroups      || [];
   lifetimes      = data.lifetimes      || [];
   mappings       = data.mappings       || [];
@@ -2588,7 +2773,7 @@ function openSyncUrlConfig() {
 }
 
 function save() {
-  const stateObj = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog };
+  const stateObj = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog, warehouse };
 
   // Payload LENGKAP (termasuk base64 foto) — untuk localStorage/tampil di browser
   const fullPayload = JSON.stringify(stateObj);
@@ -2723,7 +2908,7 @@ async function pushToSheetsMerge(localState) {
       setSyncStatus('error', `${reason} simpan ke Sheets (retry ${_retryCount}/${MAX_RETRIES} dalam ${delaySec}s) — Data lokal AMAN ✓`);
       _retryTimer = setTimeout(() => {
         _retryTimer = null;
-        const stateObjRetry = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog };
+        const stateObjRetry = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog, warehouse };
         pushToSheetsMerge(stateObjRetry);
       }, delay);
     } else {
@@ -2734,7 +2919,7 @@ async function pushToSheetsMerge(localState) {
     isSyncing = false;
     if (pendingSave) {
       pendingSave = false;
-      const stateObjPending = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog };
+      const stateObjPending = { projects, materials, issues, todos, libFolders, libDocs, cinotes, ganttSchedules, calibrations, hseGroups, lifetimes, mappings, materialMaster, activityLog, warehouse };
       setTimeout(() => pushToSheetsMerge(stateObjPending), 300);
     }
   }
@@ -4309,7 +4494,7 @@ function renderPhotoPreview() {
   el.innerHTML=pendingPhotos.map((p,i)=>`
     <div style="position:relative;width:64px;height:64px;border:1px solid var(--border);overflow:hidden;flex-shrink:0;">
       <img src="${p.src}" style="width:100%;height:100%;object-fit:cover;">
-      <button onclick="removePhoto(${i})" style="position:absolute;top:1px;right:1px;background:rgba(0,0,0,0.7);border:none;color:#fff;cursor:pointer;font-size:11px;padding:0 4px;line-height:18px;">×</button>
+      <button onclick="removePhoto(${i})" style="position:absolute;top:1px;right:1px;background:rgba(15,23,42,0.5);border:none;color:#fff;cursor:pointer;font-size:11px;padding:0 4px;line-height:18px;">×</button>
     </div>`).join('');
 }
 
@@ -6365,6 +6550,13 @@ function delHSE(id) {
 // =============================================
 
 function updateNavWarnings() {
+  // Warehouse low stock badge
+  const whLowBadge = document.getElementById('nav-wh-low');
+  if (whLowBadge) {
+    const lowCount = warehouse.filter(i=>whStockStatus(i)!=='ok').length;
+    whLowBadge.style.display = lowCount>0 ? 'inline-flex' : 'none';
+    whLowBadge.textContent = lowCount;
+  }
   // Lifetime badge
   const ltWarnCount = lifetimes.filter(lt => {
     const s = ltStatus(lt);
@@ -6861,16 +7053,7 @@ function buildEJOList() {
     else if (statuses.some(s => s === 'waiting')) aggStatus = 'waiting';
     const avgProg = Math.round(ejo.entries.reduce((a,e)=>a+(e.progress||0),0)/ejo.entries.length);
     // Ambil ejoType dari entry pertama yang punya nilai
-    // ejoType: check entry ejoType first, then parent project as fallback
-    const ejoType = ejo.entries.map(e => {
-      if (e.ejoType) return e.ejoType;
-      // For fase entries, look up parent project's ejoType
-      if (e.type === 'fase' && e.projId) {
-        const proj = projects.find(p => p.id === e.projId);
-        return (proj && proj.ejoType) || '';
-      }
-      return '';
-    }).find(t=>t) || '';
+    const ejoType = ejo.entries.map(e=>e.ejoType||'').find(t=>t) || '';
     return { ...ejo, aggStatus, avgProg, ejoType };
   }).sort((a,b) => a.no.localeCompare(b.no));
 }
@@ -7783,6 +7966,66 @@ if (savedUser) {
 }
 
 // ===== EJO EDIT MODAL FUNCTIONS =====
+var ejoOverrides = {};
+
+function openEjoEditModal(ejoNo) {
+  var ov  = ejoOverrides[ejoNo] || {};
+  var all = buildEJOList();
+  var ejo = null;
+  for (var i=0;i<all.length;i++){if(all[i].no===ejoNo){ejo=all[i];break;}}
+  document.getElementById('ejo-edit-no').value       = ejoNo;
+  document.getElementById('ejo-edit-no-disp').value  = ejoNo;
+  document.getElementById('ejo-edit-title').textContent = 'EDIT EJO — ' + ejoNo;
+  var curType = ov.ejoType || (ejo ? ejo.ejoType : '') || '';
+  selectEjoTC(curType, false);
+  var curEnd = ov.endDate || (ejo && ejo.entries[0] ? ejo.entries[0].endDate : '') || '';
+  document.getElementById('ejo-edit-enddate').value = curEnd;
+  document.getElementById('ejo-edit-notes').value   = ov.notes || '';
+  document.getElementById('modal-ejo-edit').classList.add('open');
+}
+
+function selectEjoTC(type, doHighlight) {
+  if (doHighlight === undefined) doHighlight = true;
+  var cards = document.querySelectorAll('.ejo-tc');
+  for (var i=0;i<cards.length;i++){
+    var card = cards[i];
+    card.classList.remove('sel');
+    card.style.background = '';
+    card.style.boxShadow  = '';
+  }
+  if (!type) return;
+  var sel = document.querySelector('.ejo-tc[data-type="' + type + '"]');
+  if (sel) {
+    sel.classList.add('sel');
+    var colorMap = {civil:'100,116,139',mechanical:'245,158,11',electrical:'59,130,246',program:'139,92,246',it:'6,182,212',kalibrasi:'16,185,129'};
+    var rgb = colorMap[type] || '245,158,11';
+    sel.style.background  = 'rgba(' + rgb + ',0.15)';
+    sel.style.boxShadow   = '0 0 0 2px ' + sel.style.color;
+  }
+}
+
+function saveEjoEdit() {
+  var ejoNo = document.getElementById('ejo-edit-no').value;
+  if (!ejoNo) return;
+  var sel     = document.querySelector('.ejo-tc.sel');
+  var ejoType = sel ? sel.dataset.type : '';
+  var endDate = document.getElementById('ejo-edit-enddate').value;
+  var notes   = document.getElementById('ejo-edit-notes').value.trim();
+  ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
+  // Also update ejoType on matching projects
+  for (var i=0;i<projects.length;i++){
+    if (projects[i].ejo === ejoNo) {
+      projects[i].ejoType = ejoType;
+      if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
+    }
+  }
+  save();
+  closeModal('modal-ejo-edit');
+  renderEJO();
+  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
+}
+
+
 // ===== EJO EDIT MODAL FUNCTIONS =====
 var ejoOverrides = {};
 
@@ -7830,24 +8073,829 @@ function saveEjoEdit() {
   var endDate = document.getElementById('ejo-edit-enddate').value;
   var notes   = document.getElementById('ejo-edit-notes').value.trim();
   ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
-  // Update ejoType on matching projects AND their phases
+  // Also update ejoType on matching projects
   for (var i=0;i<projects.length;i++){
     if (projects[i].ejo === ejoNo) {
       projects[i].ejoType = ejoType;
       if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
     }
-    // Also update phases that have this EJO number
-    var phases = projects[i].phases || [];
-    for (var j=0;j<phases.length;j++){
-      if (phases[j].ejo && phases[j].ejo.trim().toUpperCase() === ejoNo) {
-        phases[j].ejoType = ejoType;
-      }
-    }
   }
   save();
   closeModal('modal-ejo-edit');
   renderEJO();
-  logActivity('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
+  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
+}
+
+
+
+// ================================================================
+// ===== STOCK GUDANG (WAREHOUSE) =====
+// ================================================================
+
+let _whActiveLoc = 'all'; // 'all' | 'km' | 'sh'
+
+// ── Tab switching ─────────────────────────────────────────────────
+function switchMatPage(tab, el) {
+  document.getElementById('mat-sub-tracker').style.display   = tab==='tracker'   ? 'block' : 'none';
+  document.getElementById('mat-sub-warehouse').style.display = tab==='warehouse' ? 'block' : 'none';
+  document.querySelectorAll('.mat-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if(tab==='warehouse') renderWarehouse();
+}
+
+function switchWhLoc(loc, el) {
+  _whActiveLoc = loc;
+  document.querySelectorAll('.wh-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderWarehouse();
+}
+
+// ── Helpers ───────────────────────────────────────────────────────
+function whGetLoc(item, loc) {
+  if (!item.locations) return 0;
+  const l = item.locations.find(x=>x.loc===loc);
+  return l ? (parseFloat(l.qty)||0) : 0;
+}
+function whTotalQty(item) {
+  return (item.locations||[]).reduce((a,l)=>a+(parseFloat(l.qty)||0), 0);
+}
+function whMinQty(item) {
+  return parseFloat(item.minQty) || 0;
+}
+function whStockStatus(item) {
+  const total = whTotalQty(item);
+  const min   = whMinQty(item);
+  if (total <= 0)        return 'low';
+  if (min > 0 && total < min) return 'warn';
+  return 'ok';
+}
+
+// ── Render stats ─────────────────────────────────────────────────
+function renderWhStats() {
+  const list    = warehouse;
+  const totalItems = list.length;
+  const totalKM = list.reduce((a,i)=>a+whGetLoc(i,'km'),0);
+  const totalSH = list.reduce((a,i)=>a+whGetLoc(i,'sh'),0);
+  const lowItems = list.filter(i=>whStockStatus(i)==='low').length;
+  const warnItems= list.filter(i=>whStockStatus(i)==='warn').length;
+  document.getElementById('wh-stats-row').innerHTML = `
+    <div class="wh-stat"><div class="wh-stat-val">${totalItems}</div><div class="wh-stat-lbl">TOTAL ITEM</div></div>
+    <div class="wh-stat" style="border-top-color:var(--purple);"><div class="wh-stat-val" style="color:var(--purple);">${totalKM.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">KANDANG MACAN</div></div>
+    <div class="wh-stat" style="border-top-color:var(--accent2);"><div class="wh-stat-val" style="color:var(--accent2);">${totalSH.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">STOCK HOUSE</div></div>
+    <div class="wh-stat" style="border-top-color:var(--danger);"><div class="wh-stat-val" style="color:var(--danger);">${lowItems}</div><div class="wh-stat-lbl">STOK HABIS</div></div>
+    <div class="wh-stat" style="border-top-color:var(--accent);"><div class="wh-stat-val" style="color:var(--accent);">${warnItems}</div><div class="wh-stat-lbl">STOK RENDAH</div></div>`;
+}
+
+// ── Render table ──────────────────────────────────────────────────
+function renderWarehouse() {
+  renderWhStats();
+  const search   = (document.getElementById('wh-search')?.value||'').toLowerCase();
+  const filterSt = document.getElementById('wh-filter-status')?.value||'';
+  const loc      = _whActiveLoc;
+
+  let list = warehouse;
+  if (search)   list = list.filter(i=>(i.name+i.partno+i.notes).toLowerCase().includes(search));
+  if (filterSt) list = list.filter(i=>whStockStatus(i)===filterSt);
+  if (loc!=='all') list = list.filter(i=>whGetLoc(i,loc)>0);
+
+  const tbody = document.getElementById('wh-tbody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon">📦</div>${warehouse.length===0?'Belum ada item stok. Klik + Tambah Item.':'Tidak ada item yang cocok.'}</td></tr>`;
+    return;
+  }
+
+  const LOC_LABELS = {km:'Kandang Macan',sh:'Stock House'};
+  tbody.innerHTML = list.map((item,idx) => {
+    const qtyKM  = whGetLoc(item,'km');
+    const qtySH  = whGetLoc(item,'sh');
+    const total  = qtyKM + qtySH;
+    const min    = whMinQty(item);
+    const st     = whStockStatus(item);
+    const stBadge= `<span class="stock-badge ${st}">${st==='ok'?'✅ OK':st==='warn'?'⚠ Rendah':'🔴 Kritis'}</span>`;
+    const rowCls = st==='low'?'wh-stock-low':st==='warn'?'wh-stock-warn':'';
+
+    const qtyKMHtml = `<div class="stock-adj-wrap">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','km',-1)">−</button>
+      <input class="stock-adj-input" type="number" value="${qtyKM}" min="0"
+        onchange="event.stopPropagation();whSetQty('${item.id}','km',this.value)"
+        onclick="event.stopPropagation()">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','km',1)">+</button>
+    </div>`;
+    const qtySHHtml = `<div class="stock-adj-wrap">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','sh',-1)">−</button>
+      <input class="stock-adj-input" type="number" value="${qtySH}" min="0"
+        onchange="event.stopPropagation();whSetQty('${item.id}','sh',this.value)"
+        onclick="event.stopPropagation()">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','sh',1)">+</button>
+    </div>`;
+
+    return `<tr class="${rowCls}" onclick="openWhModal('${item.id}')" style="cursor:pointer;">
+      <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${idx+1}</td>
+      <td>
+        <div style="font-weight:600;font-size:12px;">${item.name}</div>
+        ${item.notes?`<div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${item.notes}</div>`:''}
+      </td>
+      <td style="font-family:var(--mono);font-size:10px;">${item.partno||'—'}</td>
+      <td style="font-size:11px;">${item.unit||'pcs'}</td>
+      <td onclick="event.stopPropagation();">${qtyKMHtml}</td>
+      <td onclick="event.stopPropagation();">${qtySHHtml}</td>
+      <td>
+        <div style="font-family:var(--mono);font-size:13px;font-weight:700;">${total.toLocaleString('id-ID')}</div>
+        ${stBadge}
+      </td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">${min>0?min:'—'}</td>
+      <td onclick="event.stopPropagation();">
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          <button class="btn-use-stock" onclick="openUseStockModal('${item.id}')">📤 Ambil</button>
+          <button class="btn-use-stock" style="border-color:rgba(16,185,129,.4);color:var(--accent3);" onclick="openAddStockModal('${item.id}')">📥 Terima</button>
+        </div>
+      </td>
+      <td><button class="btn-danger" style="padding:2px 7px;font-size:10px;" onclick="event.stopPropagation();deleteWhItem('${item.id}')">×</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Inline qty adjustment ─────────────────────────────────────────
+function whAdjQty(id, loc, delta) {
+  const item = warehouse.find(x=>x.id===id);
+  if (!item) return;
+  if (!item.locations) item.locations = [];
+  let l = item.locations.find(x=>x.loc===loc);
+  if (!l) { l = {loc, qty:0}; item.locations.push(l); }
+  const newQty = Math.max(0, (parseFloat(l.qty)||0) + delta);
+  const diff = newQty - (parseFloat(l.qty)||0);
+  l.qty = newQty;
+  if (diff !== 0) {
+    whLogMutasi(item, loc, diff > 0 ? 'in' : 'out', Math.abs(diff), 'Penyesuaian manual', null);
+  }
+  item.updatedAt = Date.now();
+  save(); renderWarehouse();
+}
+
+function whSetQty(id, loc, val) {
+  const item = warehouse.find(x=>x.id===id);
+  if (!item) return;
+  if (!item.locations) item.locations = [];
+  let l = item.locations.find(x=>x.loc===loc);
+  if (!l) { l = {loc, qty:0}; item.locations.push(l); }
+  const newQty = Math.max(0, parseFloat(val)||0);
+  const diff   = newQty - (parseFloat(l.qty)||0);
+  l.qty = newQty;
+  if (diff !== 0) {
+    whLogMutasi(item, loc, diff > 0 ? 'in' : 'out', Math.abs(diff), 'Set manual', null);
+  }
+  item.updatedAt = Date.now();
+  save();
+}
+
+// ── Mutasi log ────────────────────────────────────────────────────
+function whLogMutasi(item, loc, type, qty, notes, projId) {
+  if (!item.mutasi) item.mutasi = [];
+  item.mutasi.unshift({
+    ts: Date.now(), type, loc, qty,
+    notes: notes||'',
+    projId: projId||null,
+    projName: projId ? (projects.find(p=>p.id===projId)?.name||'') : '',
+    by: currentUser?.name || '—'
+  });
+  if (item.mutasi.length > 200) item.mutasi = item.mutasi.slice(0, 200);
+}
+
+// ── Open/Save item modal ──────────────────────────────────────────
+function openWhModal(id) {
+  const isEdit = !!id;
+  const item   = id ? warehouse.find(x=>x.id===id) : null;
+  document.getElementById('wh-modal-title').textContent = isEdit ? 'EDIT ITEM STOK' : 'TAMBAH ITEM STOK';
+  document.getElementById('wh-edit-id').value   = id || '';
+  document.getElementById('wh-name').value      = item?.name   || '';
+  document.getElementById('wh-partno').value    = item?.partno || '';
+  document.getElementById('wh-unit').value      = item?.unit   || 'pcs';
+  document.getElementById('wh-qty-km').value    = item ? whGetLoc(item,'km') : 0;
+  document.getElementById('wh-qty-sh').value    = item ? whGetLoc(item,'sh') : 0;
+  document.getElementById('wh-min-qty').value   = item?.minQty || 0;
+  document.getElementById('wh-notes').value     = item?.notes  || '';
+  document.getElementById('wh-del-btn').style.display = isEdit ? 'inline-flex' : 'none';
+  document.getElementById('wh-del-btn').onclick = () => deleteWhItem(id);
+  document.getElementById('modal-wh').classList.add('open');
+}
+
+function saveWhItem() {
+  const name = document.getElementById('wh-name').value.trim();
+  if (!name) { alert('Nama material harus diisi!'); return; }
+  const id    = document.getElementById('wh-edit-id').value;
+  const qtyKM = parseFloat(document.getElementById('wh-qty-km').value)||0;
+  const qtySH = parseFloat(document.getElementById('wh-qty-sh').value)||0;
+  const minQty= parseFloat(document.getElementById('wh-min-qty').value)||0;
+
+  if (id) {
+    const item = warehouse.find(x=>x.id===id);
+    if (!item) return;
+    const oldKM = whGetLoc(item,'km');
+    const oldSH = whGetLoc(item,'sh');
+    item.name    = name;
+    item.partno  = document.getElementById('wh-partno').value.trim();
+    item.unit    = document.getElementById('wh-unit').value;
+    item.minQty  = minQty;
+    item.notes   = document.getElementById('wh-notes').value.trim();
+    item.updatedAt = Date.now();
+    if (!item.locations) item.locations = [];
+    let lKM = item.locations.find(x=>x.loc==='km');
+    let lSH = item.locations.find(x=>x.loc==='sh');
+    if (!lKM) { lKM={loc:'km',qty:0}; item.locations.push(lKM); }
+    if (!lSH) { lSH={loc:'sh',qty:0}; item.locations.push(lSH); }
+    if (qtyKM !== oldKM) { whLogMutasi(item,'km',qtyKM>oldKM?'in':'out',Math.abs(qtyKM-oldKM),'Update manual',null); lKM.qty=qtyKM; }
+    if (qtySH !== oldSH) { whLogMutasi(item,'sh',qtySH>oldSH?'in':'out',Math.abs(qtySH-oldSH),'Update manual',null); lSH.qty=qtySH; }
+    logActivity('Update Stok Gudang', name);
+  } else {
+    const newItem = {
+      id: genId('WH'), name,
+      partno:  document.getElementById('wh-partno').value.trim(),
+      unit:    document.getElementById('wh-unit').value,
+      minQty,
+      notes:   document.getElementById('wh-notes').value.trim(),
+      locations: [{loc:'km',qty:qtyKM},{loc:'sh',qty:qtySH}],
+      mutasi:  [],
+      createdAt: Date.now(), updatedAt: Date.now()
+    };
+    if (qtyKM>0) whLogMutasi(newItem,'km','in',qtyKM,'Stok awal',null);
+    if (qtySH>0) whLogMutasi(newItem,'sh','in',qtySH,'Stok awal',null);
+    warehouse.push(newItem);
+    logActivity('Tambah Stok Gudang', name);
+  }
+  save(); closeModal('modal-wh'); renderWarehouse();
+}
+
+function deleteWhItem(id) {
+  const item = id ? warehouse.find(x=>x.id===id) : null;
+  const name = item?.name || id;
+  if (!confirm('Hapus item "'+name+'" dari stok gudang?')) return;
+  warehouse = warehouse.filter(x=>x.id!==id);
+  logActivity('Hapus Stok Gudang', name);
+  save(); closeModal('modal-wh'); renderWarehouse();
+}
+
+// ── Use stock (ambil untuk project) ──────────────────────────────
+function openUseStockModal(id) {
+  const item = warehouse.find(x=>x.id===id);
+  if (!item) return;
+  document.getElementById('whu-item-id').value = id;
+  document.getElementById('whu-item-name').textContent = item.name + ' (' + (item.unit||'pcs') + ')';
+  document.getElementById('whu-avail-km').textContent = '(' + whGetLoc(item,'km').toLocaleString('id-ID') + ' tersedia)';
+  document.getElementById('whu-avail-sh').textContent = '(' + whGetLoc(item,'sh').toLocaleString('id-ID') + ' tersedia)';
+  document.getElementById('whu-qty').value = 1;
+  document.getElementById('whu-notes').value = '';
+  document.getElementById('whu-error').textContent = '';
+  document.getElementById('whu-loc-km').checked = true;
+  // Populate projects
+  document.getElementById('whu-project').innerHTML =
+    '<option value="">— Tidak terkait project —</option>' +
+    projects.filter(p=>p.status!=='done').map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  document.getElementById('modal-wh-use').classList.add('open');
+}
+
+function confirmUseStock() {
+  const id     = document.getElementById('whu-item-id').value;
+  const item   = warehouse.find(x=>x.id===id);
+  const loc    = document.querySelector('input[name="whu-loc"]:checked')?.value;
+  const qty    = parseFloat(document.getElementById('whu-qty').value)||0;
+  const projId = document.getElementById('whu-project').value;
+  const notes  = document.getElementById('whu-notes').value.trim();
+  const errEl  = document.getElementById('whu-error');
+
+  if (!item || !loc || qty<=0) { errEl.textContent='Isi semua field dengan benar.'; return; }
+  const avail = whGetLoc(item, loc);
+  if (qty > avail) { errEl.textContent='Stok tidak cukup! Tersedia: '+avail.toLocaleString('id-ID')+' '+item.unit; return; }
+
+  let l = item.locations.find(x=>x.loc===loc);
+  if (!l) { errEl.textContent='Lokasi tidak ditemukan.'; return; }
+  l.qty = Math.max(0, (parseFloat(l.qty)||0) - qty);
+  item.updatedAt = Date.now();
+
+  const locLabel = loc==='km' ? 'Kandang Macan' : 'Stock House';
+  const projName = projId ? (projects.find(p=>p.id===projId)?.name||'') : '';
+  whLogMutasi(item, loc, 'out', qty,
+    (notes || 'Diambil') + (projName?' → '+projName:''),
+    projId||null);
+
+  logActivity('Ambil Stok Gudang', qty + ' ' + item.unit + ' ' + item.name + ' dari ' + locLabel + (projName?' → '+projName:''));
+  save(); closeModal('modal-wh-use'); renderWarehouse();
+}
+
+// ── Add stock (terima barang masuk) ───────────────────────────────
+function openAddStockModal(id) {
+  const item = warehouse.find(x=>x.id===id);
+  if (!item) return;
+  document.getElementById('wha-item-id').value = id;
+  document.getElementById('wha-item-name').textContent = item.name + ' (' + (item.unit||'pcs') + ')';
+  document.getElementById('wha-qty').value = 1;
+  document.getElementById('wha-ref').value = '';
+  document.getElementById('wha-notes').value = '';
+  document.getElementById('wha-loc-km').checked = true;
+  document.getElementById('modal-wh-add').classList.add('open');
+}
+
+function confirmAddStock() {
+  const id    = document.getElementById('wha-item-id').value;
+  const item  = warehouse.find(x=>x.id===id);
+  const loc   = document.querySelector('input[name="wha-loc"]:checked')?.value;
+  const qty   = parseFloat(document.getElementById('wha-qty').value)||0;
+  const ref   = document.getElementById('wha-ref').value.trim();
+  const notes = document.getElementById('wha-notes').value.trim();
+  if (!item || !loc || qty<=0) { alert('Isi jumlah dengan benar.'); return; }
+
+  if (!item.locations) item.locations = [];
+  let l = item.locations.find(x=>x.loc===loc);
+  if (!l) { l={loc,qty:0}; item.locations.push(l); }
+  l.qty = (parseFloat(l.qty)||0) + qty;
+  item.updatedAt = Date.now();
+
+  whLogMutasi(item, loc, 'in', qty,
+    (notes || 'Terima barang') + (ref?' | Ref: '+ref:''), null);
+
+  const locLabel = loc==='km' ? 'Kandang Macan' : 'Stock House';
+  logActivity('Terima Stok Gudang', qty + ' ' + item.unit + ' ' + item.name + ' → ' + locLabel);
+  save(); closeModal('modal-wh-add'); renderWarehouse();
+}
+
+// ── Export warehouse ──────────────────────────────────────────────
+function exportWarehouse() {
+  if (!warehouse.length) { alert('Belum ada data stok.'); return; }
+  const rows = [['No','Nama Material','Part No','Satuan','Kandang Macan','Stock House','WSP Gudang Utama','Direservasi','Total','Min Stok','Status','Catatan']];
+  warehouse.forEach((item,i) => {
+    const qKM = whGetLoc(item,'km');
+    const qSH = whGetLoc(item,'sh');
+    const qWSP= whGetLoc(item,'wsp');
+    const qRsv= whReservedQty(item,'wsp');
+    rows.push([i+1, item.name, item.partno||'', item.unit||'pcs',
+      qKM, qSH, qWSP, qRsv, qKM+qSH+qWSP, item.minQty||0, whStockStatus(item), item.notes||'']);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Stock Gudang');
+  XLSX.writeFile(wb, 'StockGudang_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+
+
+// ================================================================
+// ===== WSP RESERVASI SYSTEM =====
+// ================================================================
+
+// reservasi data stored inside each warehouse item: item.reservasi = []
+// reservasi entry: {id, itemId, itemName, qty, projId, projName, requester, notes, targetDate,
+//                   status:'pending'|'approved'|'rejected'|'released',
+//                   createdAt, updatedAt, releasedQty, releasedAt, releasedBy}
+
+// ── Helper: total reserved qty (pending+approved only) ───────────
+function whReservedQty(item, loc) {
+  const rsv = (item.reservasi||[]).filter(r => r.loc===loc && (r.status==='pending'||r.status==='approved'));
+  return rsv.reduce((a,r)=>a+(parseFloat(r.qty)||0), 0);
+}
+function whAvailableQty(item, loc) {
+  return Math.max(0, whGetLoc(item, loc) - whReservedQty(item, loc));
+}
+function whTotalReserved(item) {
+  return (item.reservasi||[])
+    .filter(r=>r.status==='pending'||r.status==='approved')
+    .reduce((a,r)=>a+(parseFloat(r.qty)||0), 0);
+}
+
+// ── Get all pending reservasi across all items ────────────────────
+function getAllReservasi(statusFilter) {
+  const result = [];
+  warehouse.forEach(item => {
+    (item.reservasi||[]).forEach(r => {
+      if (!statusFilter || r.status===statusFilter) {
+        result.push({...r, itemId: item.id, itemName: item.name, itemUnit: item.unit||'pcs'});
+      }
+    });
+  });
+  return result.sort((a,b)=>b.createdAt-a.createdAt);
+}
+
+// ── Update pending badge ──────────────────────────────────────────
+function updateRsvBadge() {
+  const pending = getAllReservasi('pending').length;
+  const el = document.getElementById('nav-rsv-pending');
+  if (el) {
+    el.style.display = pending > 0 ? 'inline' : 'none';
+    el.textContent = pending;
+  }
+}
+
+// ── switchWhLoc override for 'wsp' and 'reservasi' ───────────────
+// Extend existing switchWhLoc to handle new tabs
+const _origSwitchWhLoc = switchWhLoc;
+switchWhLoc = function(loc, el) {
+  _whActiveLoc = loc;
+  document.querySelectorAll('.wh-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if (loc === 'reservasi') {
+    renderReservasiPanel();
+  } else {
+    renderWarehouse();
+  }
+};
+
+// ── Render reservasi tab ──────────────────────────────────────────
+function renderReservasiPanel() {
+  renderWhStats();
+  const tbody = document.getElementById('wh-tbody');
+  const allRsv = getAllReservasi();
+  updateRsvBadge();
+
+  // Group: pending first, then approved, then released/rejected
+  const pending  = allRsv.filter(r=>r.status==='pending');
+  const approved = allRsv.filter(r=>r.status==='approved');
+  const done     = allRsv.filter(r=>r.status==='released'||r.status==='rejected');
+
+  if (!allRsv.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon">📋</div>Belum ada reservasi material WSP.</td></tr>`;
+    return;
+  }
+
+  const renderRsvRow = (r, idx) => {
+    const stMap = {pending:'⏳ Menunggu',approved:'✅ Disetujui',rejected:'❌ Ditolak',released:'📤 Sudah Diambil'};
+    const proj = projects.find(p=>p.id===r.projId);
+    return `<tr class="${r.status==='released'||r.status==='rejected'?'':'mat-row-clickable'}" style="cursor:default;">
+      <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${idx+1}</td>
+      <td>
+        <div style="font-weight:600;font-size:12px;">${r.itemName}</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">WSP · Gudang Utama</div>
+      </td>
+      <td><span class="rsv-badge ${r.status}">${stMap[r.status]||r.status}</span></td>
+      <td style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent2);">${r.qty} ${r.itemUnit}</td>
+      <td style="font-size:11px;">${proj?.name||r.projName||'—'}</td>
+      <td style="font-size:11px;color:var(--text-muted);">${r.requester||'—'}</td>
+      <td style="font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.notes||'—'}</td>
+      <td style="font-family:var(--mono);font-size:10px;">${r.targetDate?fmt(r.targetDate):'—'}</td>
+      <td style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${fmt(r.createdAt)}</td>
+      <td>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          ${r.status==='pending'?`
+            <button class="btn-rsv-approve" onclick="approveReservasi('${r.itemId}','${r.id}')">✓ Setujui</button>
+            <button class="btn-rsv-reject"  onclick="rejectReservasi('${r.itemId}','${r.id}')">✗ Tolak</button>
+          `:''}
+          ${r.status==='approved'?`
+            <button class="btn-rsv-release" onclick="openReleaseModal('${r.itemId}','${r.id}')">📤 Realisasi</button>
+            <button class="btn-rsv-reject"  onclick="rejectReservasi('${r.itemId}','${r.id}')">✗ Batal</button>
+          `:''}
+          ${r.status==='released'?`<span style="font-family:var(--mono);font-size:10px;color:var(--accent3);">✓ ${r.releasedQty||r.qty} diambil</span>`:''}
+          ${r.status==='rejected'?`<span style="font-family:var(--mono);font-size:10px;color:var(--danger);">Ditolak</span>`:''}
+        </div>
+      </td>
+    </tr>`;
+  };
+
+  const headerRow = `<tr style="background:var(--surface2);">
+    <th style="width:32px;">#</th><th>Material</th><th style="width:110px;">Status</th>
+    <th style="width:80px;">Qty</th><th>Project</th><th style="width:100px;">Pemohon</th>
+    <th>Keperluan</th><th style="width:90px;">Tgl Ambil</th>
+    <th style="width:80px;">Tgl Ajuan</th><th style="width:130px;">Aksi</th>
+  </tr>`;
+
+  let html = headerRow;
+  if (pending.length) {
+    html += `<tr><td colspan="10" style="background:rgba(217,119,6,.06);padding:5px 12px;font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;">⏳ MENUNGGU PERSETUJUAN (${pending.length})</td></tr>`;
+    html += pending.map((r,i)=>renderRsvRow(r,i)).join('');
+  }
+  if (approved.length) {
+    html += `<tr><td colspan="10" style="background:rgba(5,150,105,.06);padding:5px 12px;font-family:var(--mono);font-size:9px;color:var(--accent3);letter-spacing:1px;">✅ DISETUJUI — SIAP DIAMBIL (${approved.length})</td></tr>`;
+    html += approved.map((r,i)=>renderRsvRow(r,i)).join('');
+  }
+  if (done.length) {
+    html += `<tr><td colspan="10" style="background:rgba(100,116,139,.06);padding:5px 12px;font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;">RIWAYAT (${done.length})</td></tr>`;
+    html += done.slice(0,30).map((r,i)=>renderRsvRow(r,i)).join('');
+  }
+  tbody.innerHTML = html;
+}
+
+// ── Open reservasi modal ──────────────────────────────────────────
+// removed duplicate - see openRsvModal below
+function _openRsvModalDupe(itemId) {
+  const item = warehouse.find(x=>x.id===itemId);
+  if (!item) return;
+  const avail    = whAvailableQty(item, 'wsp');
+  const reserved = whReservedQty(item, 'wsp');
+  document.getElementById('rsv-item-id').value   = itemId;
+  document.getElementById('rsv-item-name').textContent = item.name + ' (' + (item.unit||'pcs') + ')';
+  document.getElementById('rsv-wsp-avail').textContent = avail.toLocaleString('id-ID') + ' ' + (item.unit||'pcs');
+  document.getElementById('rsv-wsp-reserved').textContent = reserved + ' ' + (item.unit||'pcs');
+  document.getElementById('rsv-qty').value     = 1;
+  document.getElementById('rsv-notes').value   = '';
+  document.getElementById('rsv-requester').value = currentUser?.name || '';
+  document.getElementById('rsv-date').value    = '';
+  document.getElementById('rsv-error').textContent = '';
+  document.getElementById('rsv-project').innerHTML =
+    '<option value="">— Pilih Project —</option>' +
+    projects.filter(p=>p.status!=='done').map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  document.getElementById('modal-wh-rsv').classList.add('open');
+}
+
+function submitReservasi() {
+  const itemId    = document.getElementById('rsv-item-id').value;
+  const item      = warehouse.find(x=>x.id===itemId);
+  const qty       = parseFloat(document.getElementById('rsv-qty').value)||0;
+  const projId    = document.getElementById('rsv-project').value;
+  const notes     = document.getElementById('rsv-notes').value.trim();
+  const requester = document.getElementById('rsv-requester').value.trim();
+  const targetDate= document.getElementById('rsv-date').value;
+  const errEl     = document.getElementById('rsv-error');
+
+  if (!item)      { errEl.textContent='Item tidak ditemukan.'; return; }
+  if (qty <= 0)   { errEl.textContent='Jumlah harus lebih dari 0.'; return; }
+  if (!notes)     { errEl.textContent='Keperluan/keterangan harus diisi.'; return; }
+
+  const avail = whAvailableQty(item, 'wsp');
+  if (qty > avail) {
+    errEl.textContent = 'Stok WSP tidak cukup! Tersedia (setelah reservasi aktif): ' + avail + ' ' + (item.unit||'pcs');
+    return;
+  }
+
+  if (!item.reservasi) item.reservasi = [];
+  const proj = projects.find(p=>p.id===projId);
+  item.reservasi.unshift({
+    id: genId('RSV'),
+    itemId, loc: 'wsp', qty,
+    projId: projId||null,
+    projName: proj?.name || '',
+    requester: requester || currentUser?.name || '—',
+    notes, targetDate,
+    status: 'pending',
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  });
+
+  logActivity('Reservasi WSP', qty + ' ' + (item.unit||'pcs') + ' ' + item.name + (proj?' → '+proj.name:''));
+  save(); closeModal('modal-wh-rsv'); renderWarehouse(); updateRsvBadge();
+  alert('✅ Reservasi berhasil diajukan!\n\nAdmin gudang akan menyetujui atau menolak permintaan ini.');
+}
+
+// ── Approve / Reject ──────────────────────────────────────────────
+function approveReservasi(itemId, rsvId) {
+  const item = warehouse.find(x=>x.id===itemId);
+  const rsv  = item?.reservasi?.find(r=>r.id===rsvId);
+  if (!rsv) return;
+  rsv.status    = 'approved';
+  rsv.updatedAt = Date.now();
+  rsv.approvedBy = currentUser?.name || '—';
+  logActivity('Setujui Reservasi WSP', rsv.qty + ' ' + (item.unit||'pcs') + ' ' + item.name);
+  save(); renderReservasiPanel(); updateRsvBadge();
+}
+
+function rejectReservasi(itemId, rsvId) {
+  if (!confirm('Tolak reservasi ini?')) return;
+  const item = warehouse.find(x=>x.id===itemId);
+  const rsv  = item?.reservasi?.find(r=>r.id===rsvId);
+  if (!rsv) return;
+  rsv.status    = 'rejected';
+  rsv.updatedAt = Date.now();
+  rsv.rejectedBy = currentUser?.name || '—';
+  logActivity('Tolak Reservasi WSP', rsv.qty + ' ' + (item.unit||'pcs') + ' ' + item.name);
+  save(); renderReservasiPanel(); updateRsvBadge();
+}
+
+// ── Release (realisasi ambil) ─────────────────────────────────────
+function openReleaseModal(itemId, rsvId) {
+  const item = warehouse.find(x=>x.id===itemId);
+  const rsv  = item?.reservasi?.find(r=>r.id===rsvId);
+  if (!rsv) return;
+  document.getElementById('rel-rsv-id').value  = rsvId;
+  document.getElementById('rel-item-id').value = itemId;
+  document.getElementById('rel-rsv-info').innerHTML =
+    '<strong>' + item.name + '</strong> — Reservasi: ' + rsv.qty + ' ' + (item.unit||'pcs') +
+    '<br><span style="font-size:11px;color:var(--text-muted);">Project: ' + (rsv.projName||'—') + ' | Pemohon: ' + (rsv.requester||'—') + '</span>';
+  document.getElementById('rel-qty').value  = rsv.qty;
+  document.getElementById('rel-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('rel-notes').value = '';
+  document.getElementById('rel-error').textContent = '';
+  document.getElementById('modal-wh-release').classList.add('open');
+}
+
+function confirmRelease() {
+  const rsvId  = document.getElementById('rel-rsv-id').value;
+  const itemId = document.getElementById('rel-item-id').value;
+  const item   = warehouse.find(x=>x.id===itemId);
+  const rsv    = item?.reservasi?.find(r=>r.id===rsvId);
+  const qty    = parseFloat(document.getElementById('rel-qty').value)||0;
+  const notes  = document.getElementById('rel-notes').value.trim();
+  const date   = document.getElementById('rel-date').value;
+  const errEl  = document.getElementById('rel-error');
+
+  if (!item||!rsv) { errEl.textContent='Data tidak ditemukan.'; return; }
+  if (qty<=0)      { errEl.textContent='Qty harus lebih dari 0.'; return; }
+
+  const wsp = item.locations?.find(l=>l.loc==='wsp');
+  if (!wsp || qty > (parseFloat(wsp.qty)||0)) {
+    errEl.textContent = 'Stok WSP fisik tidak cukup!'; return;
+  }
+
+  // Kurangi stok WSP
+  wsp.qty = Math.max(0, (parseFloat(wsp.qty)||0) - qty);
+  item.updatedAt = Date.now();
+  whLogMutasi(item, 'wsp', 'out', qty,
+    'Realisasi reservasi ' + rsvId + (notes?' | '+notes:''),
+    rsv.projId||null);
+
+  // Update reservasi status
+  rsv.status      = 'released';
+  rsv.releasedQty = qty;
+  rsv.releasedAt  = date || new Date().toISOString().slice(0,10);
+  rsv.releasedBy  = currentUser?.name || '—';
+  rsv.updatedAt   = Date.now();
+
+  const proj = projects.find(p=>p.id===rsv.projId);
+  logActivity('Ambil WSP (Reservasi)', qty + ' ' + (item.unit||'pcs') + ' ' + item.name + (proj?' → '+proj.name:''));
+  save(); closeModal('modal-wh-release'); renderReservasiPanel(); updateRsvBadge();
+}
+
+// ── Override renderWarehouse to add WSP column + reservasi button ─
+const _origRenderWarehouse = renderWarehouse;
+renderWarehouse = function() {
+  renderWhStats();
+  const loc      = _whActiveLoc;
+  if (loc === 'reservasi') { renderReservasiPanel(); return; }
+
+  const search   = (document.getElementById('wh-search')?.value||'').toLowerCase();
+  const filterSt = document.getElementById('wh-filter-status')?.value||'';
+
+  let list = warehouse;
+  if (search)   list = list.filter(i=>(i.name+i.partno+i.notes).toLowerCase().includes(search));
+  if (filterSt) list = list.filter(i=>whStockStatus(i)===filterSt);
+  if (loc!=='all') list = list.filter(i=>whGetLoc(i,loc)>0 || (loc==='wsp' && (i.reservasi||[]).length>0));
+
+  const tbody = document.getElementById('wh-tbody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon">📦</div>${warehouse.length===0?'Belum ada item stok. Klik + Tambah Item.':'Tidak ada item yang cocok.'}</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map((item,idx) => {
+    const qtyKM  = whGetLoc(item,'km');
+    const qtySH  = whGetLoc(item,'sh');
+    const qtyWSP = whGetLoc(item,'wsp');
+    const rsvWSP = whReservedQty(item,'wsp');
+    const availWSP = Math.max(0, qtyWSP - rsvWSP);
+    const total  = qtyKM + qtySH + qtyWSP;
+    const min    = whMinQty(item);
+    const st     = whStockStatus(item);
+    const stBadge= `<span class="stock-badge ${st}">${st==='ok'?'✅ OK':st==='warn'?'⚠ Rendah':'🔴 Kritis'}</span>`;
+    const rowCls = st==='low'?'wh-stock-low':st==='warn'?'wh-stock-warn':'';
+
+    const makeAdj = (loc) => `<div class="stock-adj-wrap">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','${loc}',-1)">−</button>
+      <input class="stock-adj-input" type="number" value="${whGetLoc(item,loc)}" min="0"
+        onchange="event.stopPropagation();whSetQty('${item.id}','${loc}',this.value)"
+        onclick="event.stopPropagation()">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','${loc}',1)">+</button>
+    </div>`;
+
+    const wspCell = `<div onclick="event.stopPropagation();">
+      ${makeAdj('wsp')}
+      ${rsvWSP>0?`<div class="wsp-reserved-info">🔒 ${rsvWSP} direservasi</div>`:''}
+      ${qtyWSP>0?`<div class="wsp-avail-info">✓ ${availWSP} tersedia</div>`:''}
+    </div>`;
+
+    return `<tr class="${rowCls}" onclick="openWhModal('${item.id}')" style="cursor:pointer;">
+      <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${idx+1}</td>
+      <td>
+        <div style="font-weight:600;font-size:12px;">${item.name}</div>
+        ${item.notes?`<div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${item.notes}</div>`:''}
+      </td>
+      <td style="font-family:var(--mono);font-size:10px;">${item.partno||'—'}</td>
+      <td style="font-size:11px;">${item.unit||'pcs'}</td>
+      <td onclick="event.stopPropagation();">${makeAdj('km')}</td>
+      <td onclick="event.stopPropagation();">${makeAdj('sh')}</td>
+      <td onclick="event.stopPropagation();">${wspCell}</td>
+      <td>
+        <div style="font-family:var(--mono);font-size:13px;font-weight:700;">${total.toLocaleString('id-ID')}</div>
+        ${stBadge}
+      </td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">${min>0?min:'—'}</td>
+      <td onclick="event.stopPropagation();">
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          <button class="btn-use-stock" onclick="openUseStockModal('${item.id}')">📤 Ambil</button>
+          <button class="btn-use-stock" style="border-color:rgba(13,148,136,.4);color:var(--teal);" onclick="openAddStockModal('${item.id}')">📥 Terima</button>
+          ${qtyWSP>0||true?`<button class="btn-use-stock" style="border-color:rgba(220,38,38,.4);color:var(--danger);" onclick="openRsvModal('${item.id}')">🔑 Reservasi WSP</button>`:''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  updateRsvBadge();
+};
+
+// ── Override renderWhStats to add WSP stats ───────────────────────
+const _origRenderWhStats = renderWhStats;
+renderWhStats = function() {
+  const list       = warehouse;
+  const totalItems = list.length;
+  const totalKM    = list.reduce((a,i)=>a+whGetLoc(i,'km'),0);
+  const totalSH    = list.reduce((a,i)=>a+whGetLoc(i,'sh'),0);
+  const totalWSP   = list.reduce((a,i)=>a+whGetLoc(i,'wsp'),0);
+  const totalRsv   = list.reduce((a,i)=>a+whTotalReserved(i),0);
+  const lowItems   = list.filter(i=>whStockStatus(i)==='low').length;
+  const pendingRsv = getAllReservasi('pending').length;
+  document.getElementById('wh-stats-row').innerHTML = `
+    <div class="wh-stat"><div class="wh-stat-val">${totalItems}</div><div class="wh-stat-lbl">TOTAL ITEM</div></div>
+    <div class="wh-stat" style="border-top-color:var(--purple);"><div class="wh-stat-val" style="color:var(--purple);">${totalKM.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">KANDANG MACAN</div></div>
+    <div class="wh-stat" style="border-top-color:var(--accent2);"><div class="wh-stat-val" style="color:var(--accent2);">${totalSH.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">STOCK HOUSE</div></div>
+    <div class="wh-stat" style="border-top-color:var(--danger);"><div class="wh-stat-val" style="color:var(--danger);">${totalWSP.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">WSP GUDANG UTAMA</div></div>
+    <div class="wh-stat" style="border-top-color:var(--accent);"><div class="wh-stat-val" style="color:var(--accent);">${totalRsv.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">DIRESERVASI</div></div>
+    <div class="wh-stat" style="border-top-color:var(--accent3);"><div class="wh-stat-val" style="color:${lowItems>0?'var(--danger)':'var(--accent3)'};">${lowItems}</div><div class="wh-stat-lbl">STOK HABIS</div></div>
+    ${pendingRsv>0?`<div class="wh-stat" style="border-top-color:var(--warn);"><div class="wh-stat-val" style="color:var(--warn);">${pendingRsv}</div><div class="wh-stat-lbl">RESERVASI PENDING</div></div>`:''}
+  `;
+};
+
+// ── Also override openWhModal to handle wsp qty ───────────────────
+const _origOpenWhModal = openWhModal;
+openWhModal = function(id) {
+  _origOpenWhModal(id);
+  // Set WSP qty field
+  const item = id ? warehouse.find(x=>x.id===id) : null;
+  const qtyWspEl = document.getElementById('wh-qty-wsp');
+  if (qtyWspEl) qtyWspEl.value = item ? whGetLoc(item,'wsp') : 0;
+};
+
+// ── Also override saveWhItem to handle wsp qty ───────────────────
+const _origSaveWhItem = saveWhItem;
+saveWhItem = function() {
+  // Get WSP qty before calling original
+  const id     = document.getElementById('wh-edit-id').value;
+  const qtyWSP = parseFloat(document.getElementById('wh-qty-wsp')?.value)||0;
+  
+  if (id) {
+    const item = warehouse.find(x=>x.id===id);
+    if (item) {
+      const oldWSP = whGetLoc(item,'wsp');
+      _origSaveWhItem();
+      // Update WSP after original save
+      const updatedItem = warehouse.find(x=>x.id===id);
+      if (updatedItem) {
+        if (!updatedItem.locations) updatedItem.locations = [];
+        let lWSP = updatedItem.locations.find(x=>x.loc==='wsp');
+        if (!lWSP) { lWSP={loc:'wsp',qty:0}; updatedItem.locations.push(lWSP); }
+        if (qtyWSP !== oldWSP) {
+          whLogMutasi(updatedItem,'wsp',qtyWSP>oldWSP?'in':'out',Math.abs(qtyWSP-oldWSP),'Update manual',null);
+          lWSP.qty = qtyWSP;
+          save();
+        }
+      }
+      return;
+    }
+  } else {
+    _origSaveWhItem();
+    // Add WSP to the newly created item
+    const newest = warehouse[warehouse.length-1];
+    if (newest && qtyWSP > 0) {
+      if (!newest.locations) newest.locations = [];
+      let lWSP = newest.locations.find(x=>x.loc==='wsp');
+      if (!lWSP) { lWSP={loc:'wsp',qty:0}; newest.locations.push(lWSP); }
+      lWSP.qty = qtyWSP;
+      whLogMutasi(newest,'wsp','in',qtyWSP,'Stok awal WSP',null);
+      save();
+    }
+    return;
+  }
+  _origSaveWhItem();
+};
+
+// Also update whu-avail for WSP in openUseStockModal
+const _origOpenUseStockModal = openUseStockModal;
+openUseStockModal = function(id) {
+  _origOpenUseStockModal(id);
+  const item = warehouse.find(x=>x.id===id);
+  const wspAvailEl = document.getElementById('whu-avail-wsp');
+  if (wspAvailEl && item) {
+    wspAvailEl.textContent = '(' + whAvailableQty(item,'wsp').toLocaleString('id-ID') + ' tersedia, ' + whReservedQty(item,'wsp') + ' direservasi)';
+  }
+};
+
+// updateNavWarnings call - ensure wsp badge updated
+const _origUpdateNavWarnings = updateNavWarnings;
+updateNavWarnings = function() {
+  _origUpdateNavWarnings();
+  updateRsvBadge();
+};
+
+// Fix typo in openRsvModal function name
+function openRsvModal(itemId) {
+  const item = warehouse.find(x=>x.id===itemId);
+  if (!item) return;
+  const avail    = whAvailableQty(item, 'wsp');
+  const reserved = whReservedQty(item, 'wsp');
+  document.getElementById('rsv-item-id').value   = itemId;
+  document.getElementById('rsv-item-name').textContent = item.name + ' (' + (item.unit||'pcs') + ')';
+  document.getElementById('rsv-wsp-avail').textContent = avail.toLocaleString('id-ID') + ' ' + (item.unit||'pcs') + ' (stok ' + whGetLoc(item,'wsp') + ')';
+  document.getElementById('rsv-wsp-reserved').textContent = reserved + ' ' + (item.unit||'pcs');
+  document.getElementById('rsv-qty').value     = 1;
+  document.getElementById('rsv-notes').value   = '';
+  document.getElementById('rsv-requester').value = (typeof currentUser !== 'undefined' && currentUser?.name) ? currentUser.name : '';
+  document.getElementById('rsv-date').value    = '';
+  document.getElementById('rsv-error').textContent = '';
+  document.getElementById('rsv-project').innerHTML =
+    '<option value="">— Pilih Project —</option>' +
+    projects.filter(p=>p.status!=='done').map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  document.getElementById('modal-wh-rsv').classList.add('open');
 }
 
 </script>
@@ -7900,6 +8948,243 @@ function saveEjoEdit() {
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeModal('modal-ejo-edit')">Batal</button>
       <button class="btn-primary" onclick="saveEjoEdit()" style="background:var(--purple);">&#128190; SIMPAN</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL WAREHOUSE ITEM ===== -->
+<div class="modal-overlay" id="modal-wh">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <span class="modal-title" id="wh-modal-title">TAMBAH ITEM STOK</span>
+      <button class="modal-close" onclick="closeModal('modal-wh')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="wh-edit-id">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Nama Material *</label>
+          <div class="mat-ac-wrap"><input type="text" id="wh-name" autocomplete="off" placeholder="Nama material di gudang"></div>
+        </div>
+        <div class="form-group">
+          <label>Part Number</label>
+          <input type="text" id="wh-partno" style="font-family:var(--mono);" placeholder="Optional">
+        </div>
+        <div class="form-group">
+          <label>Satuan</label>
+          <select id="wh-unit">
+            <option>pcs</option><option>meter</option><option>liter</option><option>kg</option>
+            <option>set</option><option>roll</option><option>box</option><option>lbr</option>
+            <option>klg</option><option>btg</option><option>un</option><option>gln</option><option>tbg</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Stok — Kandang Macan</label>
+          <input type="number" id="wh-qty-km" min="0" value="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>Stok — Stock House Produksi</label>
+          <input type="number" id="wh-qty-sh" min="0" value="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>Stok — WSP (Gudang Utama)</label>
+          <input type="number" id="wh-qty-wsp" min="0" value="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>Minimum Stok (alert)</label>
+          <input type="number" id="wh-min-qty" min="0" value="0" placeholder="Contoh: 5">
+        </div>
+        <div class="form-group full">
+          <label>Catatan</label>
+          <textarea id="wh-notes" rows="2" placeholder="Rak, posisi, keterangan tambahan..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-danger" id="wh-del-btn" style="margin-right:auto;display:none;" onclick="deleteWhItem()">🗑 Hapus</button>
+      <button class="btn-secondary" onclick="closeModal('modal-wh')">Batal</button>
+      <button class="btn-primary" onclick="saveWhItem()" style="background:var(--teal);">💾 SIMPAN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL AMBIL STOK (gunakan untuk project) ===== -->
+<div class="modal-overlay" id="modal-wh-use">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <span class="modal-title" style="color:var(--teal);">📤 AMBIL STOK</span>
+      <button class="modal-close" onclick="closeModal('modal-wh-use')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="whu-item-id">
+      <div style="font-size:13px;font-weight:600;margin-bottom:14px;" id="whu-item-name"></div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Ambil dari</label>
+          <div style="display:flex;gap:8px;">
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
+              <input type="radio" name="whu-loc" value="km" id="whu-loc-km"> Kandang Macan
+              <span id="whu-avail-km" style="color:var(--text-muted);"></span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
+              <input type="radio" name="whu-loc" value="sh" id="whu-loc-sh"> Stock House
+              <span id="whu-avail-sh" style="color:var(--text-muted);"></span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
+              <input type="radio" name="whu-loc" value="wsp" id="whu-loc-wsp"> WSP (Gudang Utama)
+              <span id="whu-avail-wsp" style="color:var(--text-muted);"></span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Jumlah Diambil *</label>
+          <input type="number" id="whu-qty" min="1" value="1" placeholder="1">
+        </div>
+        <div class="form-group">
+          <label>Untuk Project</label>
+          <select id="whu-project">
+            <option value="">— Tidak terkait project —</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Keterangan Pengambilan</label>
+          <input type="text" id="whu-notes" placeholder="Contoh: dipakai untuk perbaikan pompa LC1">
+        </div>
+      </div>
+      <div id="whu-error" style="color:var(--danger);font-family:var(--mono);font-size:11px;min-height:16px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-wh-use')">Batal</button>
+      <button class="btn-primary" onclick="confirmUseStock()" style="background:var(--teal);">✅ AMBIL STOK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL TAMBAH STOK (receiving) ===== -->
+<div class="modal-overlay" id="modal-wh-add">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <span class="modal-title" style="color:var(--accent3);">📥 TAMBAH STOK</span>
+      <button class="modal-close" onclick="closeModal('modal-wh-add')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="wha-item-id">
+      <div style="font-size:13px;font-weight:600;margin-bottom:14px;" id="wha-item-name"></div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Simpan di</label>
+          <div style="display:flex;gap:8px;">
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
+              <input type="radio" name="wha-loc" value="km" id="wha-loc-km" checked> Kandang Macan
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
+              <input type="radio" name="wha-loc" value="sh" id="wha-loc-sh"> Stock House
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
+              <input type="radio" name="wha-loc" value="wsp" id="wha-loc-wsp"> WSP (Gudang Utama)
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Jumlah Masuk *</label>
+          <input type="number" id="wha-qty" min="1" value="1">
+        </div>
+        <div class="form-group">
+          <label>No. Referensi / PR</label>
+          <input type="text" id="wha-ref" placeholder="Optional">
+        </div>
+        <div class="form-group full">
+          <label>Keterangan</label>
+          <input type="text" id="wha-notes" placeholder="Sumber, batch, dll">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-wh-add')">Batal</button>
+      <button class="btn-primary" onclick="confirmAddStock()" style="background:var(--accent3);">📥 SIMPAN STOK MASUK</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MODAL RESERVASI WSP ===== -->
+<div class="modal-overlay" id="modal-wh-rsv">
+  <div class="modal" style="max-width:480px;border-top:3px solid var(--danger);">
+    <div class="modal-header">
+      <span class="modal-title" style="color:var(--danger);">🔑 RESERVASI MATERIAL WSP</span>
+      <button class="modal-close" onclick="closeModal('modal-wh-rsv')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="rsv-item-id">
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px;" id="rsv-item-name"></div>
+      <div style="font-family:var(--mono);font-size:11px;margin-bottom:14px;">
+        Stok WSP: <span id="rsv-wsp-avail" style="color:var(--accent3);font-weight:700;"></span> &nbsp;|&nbsp;
+        Sudah direservasi: <span id="rsv-wsp-reserved" style="color:var(--accent);font-weight:700;"></span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Jumlah Direservasi *</label>
+          <input type="number" id="rsv-qty" min="1" value="1" placeholder="1">
+        </div>
+        <div class="form-group">
+          <label>Terkait Project *</label>
+          <select id="rsv-project">
+            <option value="">— Pilih Project —</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Keperluan / Keterangan *</label>
+          <input type="text" id="rsv-notes" placeholder="Contoh: Penggantian seal pompa LC1">
+        </div>
+        <div class="form-group">
+          <label>Target Pengambilan</label>
+          <input type="date" id="rsv-date">
+        </div>
+        <div class="form-group">
+          <label>Nama Pemohon</label>
+          <input type="text" id="rsv-requester" placeholder="Nama teknisi / engineer">
+        </div>
+      </div>
+      <div id="rsv-error" style="color:var(--danger);font-family:var(--mono);font-size:11px;min-height:16px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-wh-rsv')">Batal</button>
+      <button class="btn-primary" onclick="submitReservasi()" style="background:var(--danger);">📋 AJUKAN RESERVASI</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL RELEASE RESERVASI (realisasi pengambilan) ===== -->
+<div class="modal-overlay" id="modal-wh-release">
+  <div class="modal" style="max-width:420px;border-top:3px solid var(--teal);">
+    <div class="modal-header">
+      <span class="modal-title" style="color:var(--teal);">✅ REALISASI PENGAMBILAN</span>
+      <button class="modal-close" onclick="closeModal('modal-wh-release')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="rel-rsv-id">
+      <input type="hidden" id="rel-item-id">
+      <div style="font-size:13px;font-weight:600;margin-bottom:14px;" id="rel-rsv-info"></div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Qty Aktual Diambil *</label>
+          <input type="number" id="rel-qty" min="1" value="1">
+        </div>
+        <div class="form-group">
+          <label>Tanggal Ambil</label>
+          <input type="date" id="rel-date">
+        </div>
+        <div class="form-group full">
+          <label>Catatan Pengambilan</label>
+          <input type="text" id="rel-notes" placeholder="Optional">
+        </div>
+      </div>
+      <div id="rel-error" style="color:var(--danger);font-family:var(--mono);font-size:11px;min-height:16px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-wh-release')">Batal</button>
+      <button class="btn-primary" onclick="confirmRelease()" style="background:var(--teal);">✅ KONFIRMASI AMBIL</button>
     </div>
   </div>
 </div>
