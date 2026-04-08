@@ -19,10 +19,10 @@
 </script>
 <style>
 :root{
-  --bg:#f4f6f9;--surface:#ffffff;--surface2:#f0f2f7;--border:#dde1ea;
+  --bg:#f0f2f5;--surface:#ffffff;--surface2:#e8ecf2;--border:#d0d7e3;
   --accent:#d97706;--accent2:#2563eb;--accent3:#059669;
   --danger:#dc2626;--warn:#ea580c;--purple:#7c3aed;--teal:#0d9488;
-  --text:#1e2535;--text-muted:#64748b;--text-dim:#475569;
+  --text:#1a2236;--text-muted:#64748b;--text-dim:#475569;
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
   --c5r:#0891b2;--cshe:#e11d48;--cimprove:#7c3aed;--cperbaikan:#d97706;
 }
@@ -30,7 +30,7 @@
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
 
 /* HEADER */
-.header{background:var(--surface);border-bottom:2px solid var(--accent);box-shadow:0 1px 4px rgba(0,0,0,0.08);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header{background:var(--surface);border-bottom:2px solid var(--accent);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .header-left{display:flex;align-items:center;gap:11px;}
 .logo-badge{background:var(--accent);color:#000;font-family:var(--mono);font-weight:700;font-size:11px;padding:4px 9px;letter-spacing:1px;}
 .header-title{font-size:14px;font-weight:600;letter-spacing:0.3px;}
@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 /* LAYOUT */
 .app{display:flex;min-height:calc(100vh - 52px);}
-.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);box-shadow:2px 0 8px rgba(0,0,0,0.04);padding:16px 0;flex-shrink:0;overflow-y:auto;}
+.sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;overflow-y:auto;}
 .nav-label{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;padding:0 14px 6px;text-transform:uppercase;}
 .nav-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.12s;border-left:3px solid transparent;color:var(--text-dim);}
 .nav-item:hover{background:rgba(0,0,0,0.04);color:var(--text);}
@@ -127,9 +127,9 @@ tbody tr:hover{background:rgba(0,0,0,0.025);}
 .ejo-badge{font-family:var(--mono);font-size:9px;color:var(--purple);background:rgba(168,85,247,0.12);padding:2px 6px;border-radius:2px;}
 
 /* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--surface);box-shadow:0 8px 32px rgba(0,0,0,0.15);border:1px solid var(--border);width:720px;max-height:90vh;overflow-y:auto;border-top:3px solid var(--accent);}
+.modal{background:var(--surface);border:1px solid var(--border);width:720px;max-height:90vh;overflow-y:auto;border-top:3px solid var(--accent);}
 .modal.wide{width:800px;}
 .modal-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;}
 .modal-title{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:1px;}
@@ -519,7 +519,7 @@ select option{background:var(--surface);}
 /* ===== DASHBOARD TABLES SCROLLABLE ===== */
 .table-wrap{overflow-x:auto;max-height:calc(100vh - 200px);overflow-y:auto;border:1px solid var(--border);}
 .stat-card{cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.12);}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.1);}
 
 /* ===== CI NOTE ===== */
 .note-filter-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
@@ -581,7 +581,7 @@ select option{background:var(--surface);}
 .master-tbl{width:100%;border-collapse:collapse;font-size:12px;}
 .master-tbl th{background:var(--surface2);padding:8px 10px;text-align:left;font-family:var(--mono);font-size:10px;color:var(--text-muted);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:2;}
 .master-tbl td{padding:7px 10px;border-bottom:1px solid var(--border);}
-.master-tbl tr:hover td{background:rgba(0,0,0,0.02);}
+.master-tbl tr:hover td{background:rgba(0,0,0,0.015);}
 .master-tbl-wrap{max-height:480px;overflow-y:auto;border:1px solid var(--border);}
 .master-pn{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:600;}
 .master-unit-badge{font-family:var(--mono);font-size:9px;padding:2px 6px;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);}
@@ -732,7 +732,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .export-all-card{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.2);border-top:3px solid var(--accent3);padding:20px;display:flex;flex-direction:column;gap:12px;grid-column:1/-1;}
 
 /* =================== PWA INSTALL BANNER =================== */
-.pwa-banner{display:none;position:fixed;bottom:20px;right:20px;z-index:600;background:var(--surface);border:1px solid var(--accent);border-top:3px solid var(--accent);padding:16px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+.pwa-banner{display:none;position:fixed;bottom:20px;right:20px;z-index:600;background:var(--surface);border:1px solid var(--accent);border-top:3px solid var(--accent);padding:16px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.15);}
 .pwa-banner.show{display:block;}
 .pwa-banner-title{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:1px;margin-bottom:6px;}
 .pwa-banner-msg{font-size:12px;color:var(--text-dim);margin-bottom:12px;line-height:1.5;}
@@ -762,7 +762,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .mp-col-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;}
 .mp-slots-grid{display:grid;gap:10px;}
 .mp-slot{position:relative;border-radius:10px;cursor:pointer;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;padding:8px 6px;text-align:center;overflow:hidden;}
-.mp-slot:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.12);}
+.mp-slot:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 .mp-slot-hdr{display:flex;align-items:flex-start;justify-content:space-between;width:100%;margin-bottom:4px;}
 .mp-slot-rlabel{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--text-muted);background:rgba(255,255,255,0.06);padding:2px 5px;border-radius:2px;}
 .mp-slot-plus{font-size:24px;color:var(--border);font-weight:300;transition:color 0.15s;}
@@ -824,7 +824,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .wh-tab.active{border-color:var(--teal);color:var(--teal);background:rgba(20,184,166,.08);}
 
 .wh-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px;}
-.wh-stat{background:var(--surface);border:1px solid var(--border);padding:12px 14px;border-top:2px solid var(--teal);box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.wh-stat{background:var(--surface);border:1px solid var(--border);padding:12px 14px;border-top:2px solid var(--teal);}
 .wh-stat-val{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--teal);}
 .wh-stat-lbl{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;margin-top:2px;}
 
@@ -872,45 +872,68 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .btn-use-stock:hover{background:rgba(20,184,166,.1);border-color:var(--teal);}
 
 
-/* ── WSP RESERVASI ── */
-.stock-loc-badge.wsp{background:rgba(220,38,38,.1);color:var(--danger);border:1px solid rgba(220,38,38,.25);}
-.wsp-tab.active{border-color:var(--danger)!important;color:var(--danger)!important;background:rgba(220,38,38,.06)!important;}
+/* ── MATERIAL TABS ── */
+.mat-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.mat-tab{padding:9px 20px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.8px;
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
+  color:var(--text-muted);transition:all .15s;user-select:none;}
+.mat-tab:hover{color:var(--text);}
+.mat-tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
 
-.reservasi-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
-.reservasi-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  padding:9px 13px;background:var(--surface);border:1px solid var(--border);
-  border-left:3px solid var(--border);}
-.reservasi-row.pending{border-left-color:var(--accent);}
-.reservasi-row.approved{border-left-color:var(--accent3);}
-.reservasi-row.rejected{border-left-color:var(--danger);opacity:0.7;}
-.reservasi-row.released{border-left-color:var(--text-muted);opacity:0.6;}
-.rsv-badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;flex-shrink:0;}
-.rsv-badge.pending {background:rgba(217,119,6,.1);color:var(--accent);border:1px solid rgba(217,119,6,.25);}
-.rsv-badge.approved{background:rgba(5,150,105,.1);color:var(--accent3);border:1px solid rgba(5,150,105,.25);}
-.rsv-badge.rejected{background:rgba(220,38,38,.1);color:var(--danger);border:1px solid rgba(220,38,38,.25);}
-.rsv-badge.released{background:rgba(100,116,139,.1);color:var(--text-muted);border:1px solid var(--border);}
-.rsv-info{flex:1;min-width:0;}
-.rsv-name{font-size:12px;font-weight:600;}
-.rsv-meta{font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-top:1px;}
-.rsv-qty{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent2);flex-shrink:0;}
-.rsv-actions{display:flex;gap:4px;flex-shrink:0;}
-.btn-rsv-approve{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
-  background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.3);color:var(--accent3);cursor:pointer;transition:all .12s;}
-.btn-rsv-approve:hover{background:rgba(5,150,105,.2);}
-.btn-rsv-reject{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
-  background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);color:var(--danger);cursor:pointer;transition:all .12s;}
-.btn-rsv-reject:hover{background:rgba(220,38,38,.15);}
-.btn-rsv-release{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
-  background:rgba(13,148,136,.1);border:1px solid rgba(13,148,136,.3);color:var(--teal);cursor:pointer;transition:all .12s;}
-.btn-rsv-release:hover{background:rgba(13,148,136,.2);}
+/* ── WAREHOUSE TABS ── */
+.wh-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.wh-tab{padding:7px 16px;font-family:var(--mono);font-size:11px;font-weight:700;
+  cursor:pointer;border-radius:3px;border:2px solid var(--border);
+  color:var(--text-muted);background:transparent;transition:all .15s;}
+.wh-tab:hover{border-color:var(--text-muted);}
+.wh-tab.active{border-color:var(--teal);color:var(--teal);background:rgba(13,148,136,.07);}
 
-/* Reserved qty indicator */
+/* ── WAREHOUSE STATS ── */
+.wh-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px;}
+.wh-stat{background:var(--surface);border:1px solid var(--border);padding:12px 14px;
+  border-top:2px solid var(--teal);box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.wh-stat-val{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--teal);}
+.wh-stat-lbl{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;margin-top:2px;}
+.wh-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+.wh-toolbar input{flex:1;min-width:160px;}
+.wh-toolbar select{min-width:160px;}
+
+/* ── STOCK BADGES ── */
+.wh-stock-low td{background:rgba(220,38,38,.04)!important;}
+.wh-stock-warn td{background:rgba(217,119,6,.04)!important;}
+.stock-adj-wrap{display:flex;align-items:center;gap:4px;}
+.stock-adj-btn{background:none;border:1px solid var(--border);color:var(--text-muted);
+  cursor:pointer;width:20px;height:20px;font-size:11px;display:flex;align-items:center;
+  justify-content:center;transition:all .12s;flex-shrink:0;}
+.stock-adj-btn:hover{border-color:var(--accent);color:var(--accent);}
+.stock-adj-input{width:52px;text-align:center;font-family:var(--mono);font-size:11px;
+  font-weight:700;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:2px 4px;}
+.stock-badge{font-family:var(--mono);font-size:9px;padding:1px 6px;font-weight:700;}
+.stock-badge.ok  {background:rgba(5,150,105,.1);color:var(--accent3);border:1px solid rgba(5,150,105,.25);}
+.stock-badge.warn{background:rgba(217,119,6,.1);color:var(--accent);border:1px solid rgba(217,119,6,.25);}
+.stock-badge.low {background:rgba(220,38,38,.1);color:var(--danger);border:1px solid rgba(220,38,38,.25);}
+.btn-use-stock{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;
+  background:transparent;border:1px solid rgba(13,148,136,.4);color:var(--teal);
+  cursor:pointer;transition:all .12s;white-space:nowrap;}
+.btn-use-stock:hover{background:rgba(13,148,136,.08);border-color:var(--teal);}
+
+/* ── MUTASI / HISTORY ── */
+.mutasi-row{font-size:11px;padding:7px 12px;border-bottom:1px solid var(--border);
+  display:flex;gap:10px;align-items:center;}
+.mutasi-row:last-child{border-bottom:none;}
+.mutasi-row.in {border-left:3px solid var(--accent3);}
+.mutasi-row.out{border-left:3px solid var(--danger);}
+.mutasi-type{font-family:var(--mono);font-size:9px;font-weight:700;min-width:55px;}
+.mutasi-type.in {color:var(--accent3);}
+.mutasi-type.out{color:var(--danger);}
+.mutasi-info{flex:1;min-width:0;}
+.mutasi-qty{font-family:var(--mono);font-size:11px;font-weight:700;flex-shrink:0;}
+.mutasi-qty.in {color:var(--accent3);}
+.mutasi-qty.out{color:var(--danger);}
+
+/* ── WSP INFO ── */
 .wsp-reserved-info{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:2px;}
 .wsp-avail-info{font-family:var(--mono);font-size:10px;color:var(--accent3);font-weight:700;}
-
-/* WSP tab in wh-tabs */
-.wh-tab.wsp-tab{border-color:rgba(220,38,38,.3);color:var(--danger);}
-.wh-tab.wsp-tab.active{border-color:var(--danger);background:rgba(220,38,38,.06);}
 
 </style>
 </head>
@@ -1174,6 +1197,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
     <div class="section-header" style="margin-bottom:12px;">
       <span class="section-title">▸ Stock Gudang</span>
       <div style="display:flex;gap:7px;flex-wrap:wrap;">
+        <button class="btn-secondary btn-sm" onclick="openWhHistoryModal()">📋 History Pengambilan</button>
         <button class="btn-secondary btn-sm" onclick="exportWarehouse()">⬇ Export</button>
         <button class="btn-primary" onclick="openWhModal()">+ Tambah Item</button>
       </div>
@@ -1184,8 +1208,7 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <div class="wh-tab active" id="whtab-all" onclick="switchWhLoc('all',this)">📦 Semua Lokasi</div>
       <div class="wh-tab" id="whtab-km"  onclick="switchWhLoc('km',this)">🏠 Kandang Macan</div>
       <div class="wh-tab" id="whtab-sh"  onclick="switchWhLoc('sh',this)">🏭 Stock House Produksi</div>
-      <div class="wh-tab wsp-tab" id="whtab-wsp" onclick="switchWhLoc('wsp',this)">🔑 WSP — Gudang Utama</div>
-      <div class="wh-tab" id="whtab-reservasi" onclick="switchWhLoc('reservasi',this)" style="border-color:rgba(37,99,235,.3);color:var(--accent2);">📋 Reservasi <span id="nav-rsv-pending" style="display:none;background:var(--accent);color:#fff;font-size:8px;padding:1px 5px;margin-left:4px;font-family:var(--mono);font-weight:700;">0</span></div>
+      <div class="wh-tab" id="whtab-wsp" onclick="switchWhLoc('wsp',this)" style="border-color:rgba(220,38,38,.3);color:var(--danger);">🔑 WSP — Gudang Utama</div>
     </div>
 
     <!-- Stats -->
@@ -1213,11 +1236,11 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
             <th style="width:60px;">Sat.</th>
             <th style="width:120px;">Kandang Macan</th>
             <th style="width:120px;">Stock House</th>
-            <th style="width:120px;">WSP (Gudang Utama)</th>
-            <th style="width:90px;">Total Stok</th>
-            <th style="width:80px;">Min. Stok</th>
-            <th style="width:140px;">Aksi</th>
-            <th style="width:40px;"></th>
+            <th style="width:130px;">WSP (Gudang Utama)</th>
+            <th style="width:100px;">Total Stok</th>
+            <th style="width:75px;">Min. Stok</th>
+            <th style="width:150px;">Aksi</th>
+            <th style="width:36px;"></th>
           </tr>
         </thead>
         <tbody id="wh-tbody"></tbody>
@@ -2581,7 +2604,7 @@ let issues     = [];
 let todos      = [];
 let libFolders    = [];
 let libDocs       = [];
-let warehouse     = []; // Stock gudang: [{id,name,partno,unit,locations:[{loc,qty,minQty}],mutasi:[],notes,updatedAt}]
+let warehouse     = [];
 let libActiveTab  = 'sop';      // 'sop' | 'cidata' | 'photo'
 let libActiveProjCidata = '';   // project id filter untuk CI Data tab
 let libActiveProjPhoto  = '';   // project id filter untuk Foto tab
@@ -2676,6 +2699,7 @@ function applyData(data) {
   cinotes    = data.cinotes    || [];
   ganttSchedules = data.ganttSchedules || [];
   calibrations   = data.calibrations   || [];
+  warehouse       = data.warehouse       || [];
   warehouse       = data.warehouse       || [];
   hseGroups      = data.hseGroups      || [];
   lifetimes      = data.lifetimes      || [];
@@ -4494,7 +4518,7 @@ function renderPhotoPreview() {
   el.innerHTML=pendingPhotos.map((p,i)=>`
     <div style="position:relative;width:64px;height:64px;border:1px solid var(--border);overflow:hidden;flex-shrink:0;">
       <img src="${p.src}" style="width:100%;height:100%;object-fit:cover;">
-      <button onclick="removePhoto(${i})" style="position:absolute;top:1px;right:1px;background:rgba(15,23,42,0.5);border:none;color:#fff;cursor:pointer;font-size:11px;padding:0 4px;line-height:18px;">×</button>
+      <button onclick="removePhoto(${i})" style="position:absolute;top:1px;right:1px;background:rgba(15,23,42,0.45);border:none;color:#fff;cursor:pointer;font-size:11px;padding:0 4px;line-height:18px;">×</button>
     </div>`).join('');
 }
 
@@ -8027,67 +8051,6 @@ function saveEjoEdit() {
 
 
 // ===== EJO EDIT MODAL FUNCTIONS =====
-var ejoOverrides = {};
-
-function openEjoEditModal(ejoNo) {
-  var ov  = ejoOverrides[ejoNo] || {};
-  var all = buildEJOList();
-  var ejo = null;
-  for (var i=0;i<all.length;i++){if(all[i].no===ejoNo){ejo=all[i];break;}}
-  document.getElementById('ejo-edit-no').value       = ejoNo;
-  document.getElementById('ejo-edit-no-disp').value  = ejoNo;
-  document.getElementById('ejo-edit-title').textContent = 'EDIT EJO — ' + ejoNo;
-  var curType = ov.ejoType || (ejo ? ejo.ejoType : '') || '';
-  selectEjoTC(curType, false);
-  var curEnd = ov.endDate || (ejo && ejo.entries[0] ? ejo.entries[0].endDate : '') || '';
-  document.getElementById('ejo-edit-enddate').value = curEnd;
-  document.getElementById('ejo-edit-notes').value   = ov.notes || '';
-  document.getElementById('modal-ejo-edit').classList.add('open');
-}
-
-function selectEjoTC(type, doHighlight) {
-  if (doHighlight === undefined) doHighlight = true;
-  var cards = document.querySelectorAll('.ejo-tc');
-  for (var i=0;i<cards.length;i++){
-    var card = cards[i];
-    card.classList.remove('sel');
-    card.style.background = '';
-    card.style.boxShadow  = '';
-  }
-  if (!type) return;
-  var sel = document.querySelector('.ejo-tc[data-type="' + type + '"]');
-  if (sel) {
-    sel.classList.add('sel');
-    var colorMap = {civil:'100,116,139',mechanical:'245,158,11',electrical:'59,130,246',program:'139,92,246',it:'6,182,212',kalibrasi:'16,185,129'};
-    var rgb = colorMap[type] || '245,158,11';
-    sel.style.background  = 'rgba(' + rgb + ',0.15)';
-    sel.style.boxShadow   = '0 0 0 2px ' + sel.style.color;
-  }
-}
-
-function saveEjoEdit() {
-  var ejoNo = document.getElementById('ejo-edit-no').value;
-  if (!ejoNo) return;
-  var sel     = document.querySelector('.ejo-tc.sel');
-  var ejoType = sel ? sel.dataset.type : '';
-  var endDate = document.getElementById('ejo-edit-enddate').value;
-  var notes   = document.getElementById('ejo-edit-notes').value.trim();
-  ejoOverrides[ejoNo] = { ejoType: ejoType, endDate: endDate, notes: notes };
-  // Also update ejoType on matching projects
-  for (var i=0;i<projects.length;i++){
-    if (projects[i].ejo === ejoNo) {
-      projects[i].ejoType = ejoType;
-      if (endDate && !projects[i].endDate) projects[i].endDate = endDate;
-    }
-  }
-  save();
-  closeModal('modal-ejo-edit');
-  renderEJO();
-  addLog('EJO Edit', ejoNo + ' → ' + (ejoType||'—') + ' | selesai: ' + (endDate||'—'));
-}
-
-
-
 // ================================================================
 // ===== STOCK GUDANG (WAREHOUSE) =====
 // ================================================================
@@ -8420,14 +8383,12 @@ function confirmAddStock() {
 // ── Export warehouse ──────────────────────────────────────────────
 function exportWarehouse() {
   if (!warehouse.length) { alert('Belum ada data stok.'); return; }
-  const rows = [['No','Nama Material','Part No','Satuan','Kandang Macan','Stock House','WSP Gudang Utama','Direservasi','Total','Min Stok','Status','Catatan']];
+  const rows = [['No','Nama Material','Part No','Satuan','Kandang Macan','Stock House','Total','Min Stok','Status','Catatan']];
   warehouse.forEach((item,i) => {
     const qKM = whGetLoc(item,'km');
     const qSH = whGetLoc(item,'sh');
-    const qWSP= whGetLoc(item,'wsp');
-    const qRsv= whReservedQty(item,'wsp');
     rows.push([i+1, item.name, item.partno||'', item.unit||'pcs',
-      qKM, qSH, qWSP, qRsv, qKM+qSH+qWSP, item.minQty||0, whStockStatus(item), item.notes||'']);
+      qKM, qSH, qKM+qSH, item.minQty||0, whStockStatus(item), item.notes||'']);
   });
   const ws = XLSX.utils.aoa_to_sheet(rows);
   const wb = XLSX.utils.book_new();
@@ -8438,465 +8399,437 @@ function exportWarehouse() {
 
 
 // ================================================================
-// ===== WSP RESERVASI SYSTEM =====
+// ===== STOCK GUDANG v2 — WSP + HISTORY + AUTOCOMPLETE =====
 // ================================================================
 
-// reservasi data stored inside each warehouse item: item.reservasi = []
-// reservasi entry: {id, itemId, itemName, qty, projId, projName, requester, notes, targetDate,
-//                   status:'pending'|'approved'|'rejected'|'released',
-//                   createdAt, updatedAt, releasedQty, releasedAt, releasedBy}
-
-// ── Helper: total reserved qty (pending+approved only) ───────────
-function whReservedQty(item, loc) {
-  const rsv = (item.reservasi||[]).filter(r => r.loc===loc && (r.status==='pending'||r.status==='approved'));
-  return rsv.reduce((a,r)=>a+(parseFloat(r.qty)||0), 0);
+// ── Helpers ──────────────────────────────────────────────────────
+function whGetLoc(item, loc) {
+  const l = (item.locations||[]).find(x=>x.loc===loc);
+  return l ? (parseFloat(l.qty)||0) : 0;
 }
-function whAvailableQty(item, loc) {
-  return Math.max(0, whGetLoc(item, loc) - whReservedQty(item, loc));
+function whTotalQty(item) {
+  return (item.locations||[]).reduce((a,l)=>a+(parseFloat(l.qty)||0), 0);
 }
-function whTotalReserved(item) {
-  return (item.reservasi||[])
-    .filter(r=>r.status==='pending'||r.status==='approved')
-    .reduce((a,r)=>a+(parseFloat(r.qty)||0), 0);
+function whMinQty(item)  { return parseFloat(item.minQty)||0; }
+function whStockStatus(item) {
+  const t = whTotalQty(item), m = whMinQty(item);
+  if (t<=0) return 'low';
+  if (m>0 && t<m) return 'warn';
+  return 'ok';
 }
 
-// ── Get all pending reservasi across all items ────────────────────
-function getAllReservasi(statusFilter) {
-  const result = [];
-  warehouse.forEach(item => {
-    (item.reservasi||[]).forEach(r => {
-      if (!statusFilter || r.status===statusFilter) {
-        result.push({...r, itemId: item.id, itemName: item.name, itemUnit: item.unit||'pcs'});
-      }
-    });
-  });
-  return result.sort((a,b)=>b.createdAt-a.createdAt);
+// ── Tab switching ─────────────────────────────────────────────────
+function switchMatPage(tab, el) {
+  document.getElementById('mat-sub-tracker').style.display   = tab==='tracker'   ? 'block':'none';
+  document.getElementById('mat-sub-warehouse').style.display = tab==='warehouse' ? 'block':'none';
+  document.querySelectorAll('.mat-tab').forEach(t=>t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab==='warehouse') renderWarehouse();
 }
-
-// ── Update pending badge ──────────────────────────────────────────
-function updateRsvBadge() {
-  const pending = getAllReservasi('pending').length;
-  const el = document.getElementById('nav-rsv-pending');
-  if (el) {
-    el.style.display = pending > 0 ? 'inline' : 'none';
-    el.textContent = pending;
-  }
-}
-
-// ── switchWhLoc override for 'wsp' and 'reservasi' ───────────────
-// Extend existing switchWhLoc to handle new tabs
-const _origSwitchWhLoc = switchWhLoc;
-switchWhLoc = function(loc, el) {
+function switchWhLoc(loc, el) {
   _whActiveLoc = loc;
   document.querySelectorAll('.wh-tab').forEach(t=>t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  if (loc === 'reservasi') {
-    renderReservasiPanel();
-  } else {
-    renderWarehouse();
-  }
-};
+  if (el) el.classList.add('active');
+  renderWarehouse();
+}
 
-// ── Render reservasi tab ──────────────────────────────────────────
-function renderReservasiPanel() {
+// ── Stats ─────────────────────────────────────────────────────────
+function renderWhStats() {
+  const km  = warehouse.reduce((a,i)=>a+whGetLoc(i,'km'),0);
+  const sh  = warehouse.reduce((a,i)=>a+whGetLoc(i,'sh'),0);
+  const wsp = warehouse.reduce((a,i)=>a+whGetLoc(i,'wsp'),0);
+  const low = warehouse.filter(i=>whStockStatus(i)==='low').length;
+  const warn= warehouse.filter(i=>whStockStatus(i)==='warn').length;
+  document.getElementById('wh-stats-row').innerHTML = `
+    <div class="wh-stat"><div class="wh-stat-val">${warehouse.length}</div><div class="wh-stat-lbl">TOTAL ITEM</div></div>
+    <div class="wh-stat" style="border-top-color:var(--purple);"><div class="wh-stat-val" style="color:var(--purple);">${km.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">KANDANG MACAN</div></div>
+    <div class="wh-stat" style="border-top-color:var(--accent2);"><div class="wh-stat-val" style="color:var(--accent2);">${sh.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">STOCK HOUSE</div></div>
+    <div class="wh-stat" style="border-top-color:var(--danger);"><div class="wh-stat-val" style="color:var(--danger);">${wsp.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">WSP GUDANG UTAMA</div></div>
+    <div class="wh-stat" style="border-top-color:${low>0?'var(--danger)':'var(--accent3)'};"><div class="wh-stat-val" style="color:${low>0?'var(--danger)':'var(--accent3)'};">${low}</div><div class="wh-stat-lbl">STOK HABIS</div></div>
+    ${warn>0?`<div class="wh-stat" style="border-top-color:var(--accent);"><div class="wh-stat-val" style="color:var(--accent);">${warn}</div><div class="wh-stat-lbl">STOK RENDAH</div></div>`:''}`;
+}
+
+// ── Render table ──────────────────────────────────────────────────
+function renderWarehouse() {
   renderWhStats();
-  const tbody = document.getElementById('wh-tbody');
-  const allRsv = getAllReservasi();
-  updateRsvBadge();
-
-  // Group: pending first, then approved, then released/rejected
-  const pending  = allRsv.filter(r=>r.status==='pending');
-  const approved = allRsv.filter(r=>r.status==='approved');
-  const done     = allRsv.filter(r=>r.status==='released'||r.status==='rejected');
-
-  if (!allRsv.length) {
-    tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon">📋</div>Belum ada reservasi material WSP.</td></tr>`;
-    return;
-  }
-
-  const renderRsvRow = (r, idx) => {
-    const stMap = {pending:'⏳ Menunggu',approved:'✅ Disetujui',rejected:'❌ Ditolak',released:'📤 Sudah Diambil'};
-    const proj = projects.find(p=>p.id===r.projId);
-    return `<tr class="${r.status==='released'||r.status==='rejected'?'':'mat-row-clickable'}" style="cursor:default;">
-      <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${idx+1}</td>
-      <td>
-        <div style="font-weight:600;font-size:12px;">${r.itemName}</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">WSP · Gudang Utama</div>
-      </td>
-      <td><span class="rsv-badge ${r.status}">${stMap[r.status]||r.status}</span></td>
-      <td style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent2);">${r.qty} ${r.itemUnit}</td>
-      <td style="font-size:11px;">${proj?.name||r.projName||'—'}</td>
-      <td style="font-size:11px;color:var(--text-muted);">${r.requester||'—'}</td>
-      <td style="font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.notes||'—'}</td>
-      <td style="font-family:var(--mono);font-size:10px;">${r.targetDate?fmt(r.targetDate):'—'}</td>
-      <td style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${fmt(r.createdAt)}</td>
-      <td>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;">
-          ${r.status==='pending'?`
-            <button class="btn-rsv-approve" onclick="approveReservasi('${r.itemId}','${r.id}')">✓ Setujui</button>
-            <button class="btn-rsv-reject"  onclick="rejectReservasi('${r.itemId}','${r.id}')">✗ Tolak</button>
-          `:''}
-          ${r.status==='approved'?`
-            <button class="btn-rsv-release" onclick="openReleaseModal('${r.itemId}','${r.id}')">📤 Realisasi</button>
-            <button class="btn-rsv-reject"  onclick="rejectReservasi('${r.itemId}','${r.id}')">✗ Batal</button>
-          `:''}
-          ${r.status==='released'?`<span style="font-family:var(--mono);font-size:10px;color:var(--accent3);">✓ ${r.releasedQty||r.qty} diambil</span>`:''}
-          ${r.status==='rejected'?`<span style="font-family:var(--mono);font-size:10px;color:var(--danger);">Ditolak</span>`:''}
-        </div>
-      </td>
-    </tr>`;
-  };
-
-  const headerRow = `<tr style="background:var(--surface2);">
-    <th style="width:32px;">#</th><th>Material</th><th style="width:110px;">Status</th>
-    <th style="width:80px;">Qty</th><th>Project</th><th style="width:100px;">Pemohon</th>
-    <th>Keperluan</th><th style="width:90px;">Tgl Ambil</th>
-    <th style="width:80px;">Tgl Ajuan</th><th style="width:130px;">Aksi</th>
-  </tr>`;
-
-  let html = headerRow;
-  if (pending.length) {
-    html += `<tr><td colspan="10" style="background:rgba(217,119,6,.06);padding:5px 12px;font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;">⏳ MENUNGGU PERSETUJUAN (${pending.length})</td></tr>`;
-    html += pending.map((r,i)=>renderRsvRow(r,i)).join('');
-  }
-  if (approved.length) {
-    html += `<tr><td colspan="10" style="background:rgba(5,150,105,.06);padding:5px 12px;font-family:var(--mono);font-size:9px;color:var(--accent3);letter-spacing:1px;">✅ DISETUJUI — SIAP DIAMBIL (${approved.length})</td></tr>`;
-    html += approved.map((r,i)=>renderRsvRow(r,i)).join('');
-  }
-  if (done.length) {
-    html += `<tr><td colspan="10" style="background:rgba(100,116,139,.06);padding:5px 12px;font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;">RIWAYAT (${done.length})</td></tr>`;
-    html += done.slice(0,30).map((r,i)=>renderRsvRow(r,i)).join('');
-  }
-  tbody.innerHTML = html;
-}
-
-// ── Open reservasi modal ──────────────────────────────────────────
-// removed duplicate - see openRsvModal below
-function _openRsvModalDupe(itemId) {
-  const item = warehouse.find(x=>x.id===itemId);
-  if (!item) return;
-  const avail    = whAvailableQty(item, 'wsp');
-  const reserved = whReservedQty(item, 'wsp');
-  document.getElementById('rsv-item-id').value   = itemId;
-  document.getElementById('rsv-item-name').textContent = item.name + ' (' + (item.unit||'pcs') + ')';
-  document.getElementById('rsv-wsp-avail').textContent = avail.toLocaleString('id-ID') + ' ' + (item.unit||'pcs');
-  document.getElementById('rsv-wsp-reserved').textContent = reserved + ' ' + (item.unit||'pcs');
-  document.getElementById('rsv-qty').value     = 1;
-  document.getElementById('rsv-notes').value   = '';
-  document.getElementById('rsv-requester').value = currentUser?.name || '';
-  document.getElementById('rsv-date').value    = '';
-  document.getElementById('rsv-error').textContent = '';
-  document.getElementById('rsv-project').innerHTML =
-    '<option value="">— Pilih Project —</option>' +
-    projects.filter(p=>p.status!=='done').map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
-  document.getElementById('modal-wh-rsv').classList.add('open');
-}
-
-function submitReservasi() {
-  const itemId    = document.getElementById('rsv-item-id').value;
-  const item      = warehouse.find(x=>x.id===itemId);
-  const qty       = parseFloat(document.getElementById('rsv-qty').value)||0;
-  const projId    = document.getElementById('rsv-project').value;
-  const notes     = document.getElementById('rsv-notes').value.trim();
-  const requester = document.getElementById('rsv-requester').value.trim();
-  const targetDate= document.getElementById('rsv-date').value;
-  const errEl     = document.getElementById('rsv-error');
-
-  if (!item)      { errEl.textContent='Item tidak ditemukan.'; return; }
-  if (qty <= 0)   { errEl.textContent='Jumlah harus lebih dari 0.'; return; }
-  if (!notes)     { errEl.textContent='Keperluan/keterangan harus diisi.'; return; }
-
-  const avail = whAvailableQty(item, 'wsp');
-  if (qty > avail) {
-    errEl.textContent = 'Stok WSP tidak cukup! Tersedia (setelah reservasi aktif): ' + avail + ' ' + (item.unit||'pcs');
-    return;
-  }
-
-  if (!item.reservasi) item.reservasi = [];
-  const proj = projects.find(p=>p.id===projId);
-  item.reservasi.unshift({
-    id: genId('RSV'),
-    itemId, loc: 'wsp', qty,
-    projId: projId||null,
-    projName: proj?.name || '',
-    requester: requester || currentUser?.name || '—',
-    notes, targetDate,
-    status: 'pending',
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-  });
-
-  logActivity('Reservasi WSP', qty + ' ' + (item.unit||'pcs') + ' ' + item.name + (proj?' → '+proj.name:''));
-  save(); closeModal('modal-wh-rsv'); renderWarehouse(); updateRsvBadge();
-  alert('✅ Reservasi berhasil diajukan!\n\nAdmin gudang akan menyetujui atau menolak permintaan ini.');
-}
-
-// ── Approve / Reject ──────────────────────────────────────────────
-function approveReservasi(itemId, rsvId) {
-  const item = warehouse.find(x=>x.id===itemId);
-  const rsv  = item?.reservasi?.find(r=>r.id===rsvId);
-  if (!rsv) return;
-  rsv.status    = 'approved';
-  rsv.updatedAt = Date.now();
-  rsv.approvedBy = currentUser?.name || '—';
-  logActivity('Setujui Reservasi WSP', rsv.qty + ' ' + (item.unit||'pcs') + ' ' + item.name);
-  save(); renderReservasiPanel(); updateRsvBadge();
-}
-
-function rejectReservasi(itemId, rsvId) {
-  if (!confirm('Tolak reservasi ini?')) return;
-  const item = warehouse.find(x=>x.id===itemId);
-  const rsv  = item?.reservasi?.find(r=>r.id===rsvId);
-  if (!rsv) return;
-  rsv.status    = 'rejected';
-  rsv.updatedAt = Date.now();
-  rsv.rejectedBy = currentUser?.name || '—';
-  logActivity('Tolak Reservasi WSP', rsv.qty + ' ' + (item.unit||'pcs') + ' ' + item.name);
-  save(); renderReservasiPanel(); updateRsvBadge();
-}
-
-// ── Release (realisasi ambil) ─────────────────────────────────────
-function openReleaseModal(itemId, rsvId) {
-  const item = warehouse.find(x=>x.id===itemId);
-  const rsv  = item?.reservasi?.find(r=>r.id===rsvId);
-  if (!rsv) return;
-  document.getElementById('rel-rsv-id').value  = rsvId;
-  document.getElementById('rel-item-id').value = itemId;
-  document.getElementById('rel-rsv-info').innerHTML =
-    '<strong>' + item.name + '</strong> — Reservasi: ' + rsv.qty + ' ' + (item.unit||'pcs') +
-    '<br><span style="font-size:11px;color:var(--text-muted);">Project: ' + (rsv.projName||'—') + ' | Pemohon: ' + (rsv.requester||'—') + '</span>';
-  document.getElementById('rel-qty').value  = rsv.qty;
-  document.getElementById('rel-date').value = new Date().toISOString().slice(0,10);
-  document.getElementById('rel-notes').value = '';
-  document.getElementById('rel-error').textContent = '';
-  document.getElementById('modal-wh-release').classList.add('open');
-}
-
-function confirmRelease() {
-  const rsvId  = document.getElementById('rel-rsv-id').value;
-  const itemId = document.getElementById('rel-item-id').value;
-  const item   = warehouse.find(x=>x.id===itemId);
-  const rsv    = item?.reservasi?.find(r=>r.id===rsvId);
-  const qty    = parseFloat(document.getElementById('rel-qty').value)||0;
-  const notes  = document.getElementById('rel-notes').value.trim();
-  const date   = document.getElementById('rel-date').value;
-  const errEl  = document.getElementById('rel-error');
-
-  if (!item||!rsv) { errEl.textContent='Data tidak ditemukan.'; return; }
-  if (qty<=0)      { errEl.textContent='Qty harus lebih dari 0.'; return; }
-
-  const wsp = item.locations?.find(l=>l.loc==='wsp');
-  if (!wsp || qty > (parseFloat(wsp.qty)||0)) {
-    errEl.textContent = 'Stok WSP fisik tidak cukup!'; return;
-  }
-
-  // Kurangi stok WSP
-  wsp.qty = Math.max(0, (parseFloat(wsp.qty)||0) - qty);
-  item.updatedAt = Date.now();
-  whLogMutasi(item, 'wsp', 'out', qty,
-    'Realisasi reservasi ' + rsvId + (notes?' | '+notes:''),
-    rsv.projId||null);
-
-  // Update reservasi status
-  rsv.status      = 'released';
-  rsv.releasedQty = qty;
-  rsv.releasedAt  = date || new Date().toISOString().slice(0,10);
-  rsv.releasedBy  = currentUser?.name || '—';
-  rsv.updatedAt   = Date.now();
-
-  const proj = projects.find(p=>p.id===rsv.projId);
-  logActivity('Ambil WSP (Reservasi)', qty + ' ' + (item.unit||'pcs') + ' ' + item.name + (proj?' → '+proj.name:''));
-  save(); closeModal('modal-wh-release'); renderReservasiPanel(); updateRsvBadge();
-}
-
-// ── Override renderWarehouse to add WSP column + reservasi button ─
-const _origRenderWarehouse = renderWarehouse;
-renderWarehouse = function() {
-  renderWhStats();
-  const loc      = _whActiveLoc;
-  if (loc === 'reservasi') { renderReservasiPanel(); return; }
-
   const search   = (document.getElementById('wh-search')?.value||'').toLowerCase();
   const filterSt = document.getElementById('wh-filter-status')?.value||'';
+  const loc      = _whActiveLoc;
+  // Update nav badge
+  const lowBadge = document.getElementById('nav-wh-low');
+  if (lowBadge) {
+    const lc = warehouse.filter(i=>whStockStatus(i)!=='ok').length;
+    lowBadge.style.display = lc>0?'inline-flex':'none';
+    lowBadge.textContent   = lc;
+  }
 
   let list = warehouse;
-  if (search)   list = list.filter(i=>(i.name+i.partno+i.notes).toLowerCase().includes(search));
+  if (search)   list = list.filter(i=>(i.name+i.partno+(i.notes||'')).toLowerCase().includes(search));
   if (filterSt) list = list.filter(i=>whStockStatus(i)===filterSt);
-  if (loc!=='all') list = list.filter(i=>whGetLoc(i,loc)>0 || (loc==='wsp' && (i.reservasi||[]).length>0));
+  if (loc!=='all') list = list.filter(i=>whGetLoc(i,loc)>0);
 
   const tbody = document.getElementById('wh-tbody');
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon">📦</div>${warehouse.length===0?'Belum ada item stok. Klik + Tambah Item.':'Tidak ada item yang cocok.'}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11" class="empty-state"><div class="empty-icon">📦</div>${warehouse.length===0?'Belum ada item. Klik + Tambah Item.':'Tidak ada item yang cocok.'}</td></tr>`;
     return;
   }
-
-  tbody.innerHTML = list.map((item,idx) => {
-    const qtyKM  = whGetLoc(item,'km');
-    const qtySH  = whGetLoc(item,'sh');
-    const qtyWSP = whGetLoc(item,'wsp');
-    const rsvWSP = whReservedQty(item,'wsp');
-    const availWSP = Math.max(0, qtyWSP - rsvWSP);
-    const total  = qtyKM + qtySH + qtyWSP;
-    const min    = whMinQty(item);
-    const st     = whStockStatus(item);
-    const stBadge= `<span class="stock-badge ${st}">${st==='ok'?'✅ OK':st==='warn'?'⚠ Rendah':'🔴 Kritis'}</span>`;
-    const rowCls = st==='low'?'wh-stock-low':st==='warn'?'wh-stock-warn':'';
-
-    const makeAdj = (loc) => `<div class="stock-adj-wrap">
-      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','${loc}',-1)">−</button>
-      <input class="stock-adj-input" type="number" value="${whGetLoc(item,loc)}" min="0"
-        onchange="event.stopPropagation();whSetQty('${item.id}','${loc}',this.value)"
+  const LOC_CFG = {km:'Kandang Macan',sh:'Stock House',wsp:'WSP'};
+  tbody.innerHTML = list.map((item,idx)=>{
+    const qKM=whGetLoc(item,'km'), qSH=whGetLoc(item,'sh'), qWSP=whGetLoc(item,'wsp');
+    const total=qKM+qSH+qWSP, min=whMinQty(item), st=whStockStatus(item);
+    const stBadge=`<span class="stock-badge ${st}">${st==='ok'?'✅ OK':st==='warn'?'⚠ Rendah':'🔴 Kritis'}</span>`;
+    const adj=(l)=>`<div class="stock-adj-wrap">
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','${l}',-1)">−</button>
+      <input class="stock-adj-input" type="number" value="${whGetLoc(item,l)}" min="0"
+        onchange="event.stopPropagation();whSetQty('${item.id}','${l}',this.value)"
         onclick="event.stopPropagation()">
-      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','${loc}',1)">+</button>
+      <button class="stock-adj-btn" onclick="event.stopPropagation();whAdjQty('${item.id}','${l}',1)">+</button>
     </div>`;
-
-    const wspCell = `<div onclick="event.stopPropagation();">
-      ${makeAdj('wsp')}
-      ${rsvWSP>0?`<div class="wsp-reserved-info">🔒 ${rsvWSP} direservasi</div>`:''}
-      ${qtyWSP>0?`<div class="wsp-avail-info">✓ ${availWSP} tersedia</div>`:''}
-    </div>`;
-
-    return `<tr class="${rowCls}" onclick="openWhModal('${item.id}')" style="cursor:pointer;">
+    return `<tr class="${st==='low'?'wh-stock-low':st==='warn'?'wh-stock-warn':''}" onclick="openWhModal('${item.id}')" style="cursor:pointer;">
       <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);">${idx+1}</td>
-      <td>
-        <div style="font-weight:600;font-size:12px;">${item.name}</div>
-        ${item.notes?`<div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${item.notes}</div>`:''}
-      </td>
+      <td><div style="font-weight:600;font-size:12px;">${item.name}</div>
+          ${item.notes?`<div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${item.notes}</div>`:''}</td>
       <td style="font-family:var(--mono);font-size:10px;">${item.partno||'—'}</td>
       <td style="font-size:11px;">${item.unit||'pcs'}</td>
-      <td onclick="event.stopPropagation();">${makeAdj('km')}</td>
-      <td onclick="event.stopPropagation();">${makeAdj('sh')}</td>
-      <td onclick="event.stopPropagation();">${wspCell}</td>
-      <td>
-        <div style="font-family:var(--mono);font-size:13px;font-weight:700;">${total.toLocaleString('id-ID')}</div>
-        ${stBadge}
-      </td>
+      <td onclick="event.stopPropagation();">${adj('km')}</td>
+      <td onclick="event.stopPropagation();">${adj('sh')}</td>
+      <td onclick="event.stopPropagation();">${adj('wsp')}</td>
+      <td><div style="font-family:var(--mono);font-size:13px;font-weight:700;">${total.toLocaleString('id-ID')}</div>${stBadge}</td>
       <td style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">${min>0?min:'—'}</td>
       <td onclick="event.stopPropagation();">
         <div style="display:flex;gap:4px;flex-wrap:wrap;">
           <button class="btn-use-stock" onclick="openUseStockModal('${item.id}')">📤 Ambil</button>
-          <button class="btn-use-stock" style="border-color:rgba(13,148,136,.4);color:var(--teal);" onclick="openAddStockModal('${item.id}')">📥 Terima</button>
-          ${qtyWSP>0||true?`<button class="btn-use-stock" style="border-color:rgba(220,38,38,.4);color:var(--danger);" onclick="openRsvModal('${item.id}')">🔑 Reservasi WSP</button>`:''}
+          <button class="btn-use-stock" style="border-color:rgba(5,150,105,.4);color:var(--accent3);" onclick="openAddStockModal('${item.id}')">📥 Terima</button>
         </div>
       </td>
+      <td><button class="btn-danger" style="padding:2px 7px;font-size:10px;" onclick="event.stopPropagation();whDeleteItem('${item.id}')">×</button></td>
     </tr>`;
   }).join('');
-  updateRsvBadge();
-};
+}
 
-// ── Override renderWhStats to add WSP stats ───────────────────────
-const _origRenderWhStats = renderWhStats;
-renderWhStats = function() {
-  const list       = warehouse;
-  const totalItems = list.length;
-  const totalKM    = list.reduce((a,i)=>a+whGetLoc(i,'km'),0);
-  const totalSH    = list.reduce((a,i)=>a+whGetLoc(i,'sh'),0);
-  const totalWSP   = list.reduce((a,i)=>a+whGetLoc(i,'wsp'),0);
-  const totalRsv   = list.reduce((a,i)=>a+whTotalReserved(i),0);
-  const lowItems   = list.filter(i=>whStockStatus(i)==='low').length;
-  const pendingRsv = getAllReservasi('pending').length;
-  document.getElementById('wh-stats-row').innerHTML = `
-    <div class="wh-stat"><div class="wh-stat-val">${totalItems}</div><div class="wh-stat-lbl">TOTAL ITEM</div></div>
-    <div class="wh-stat" style="border-top-color:var(--purple);"><div class="wh-stat-val" style="color:var(--purple);">${totalKM.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">KANDANG MACAN</div></div>
-    <div class="wh-stat" style="border-top-color:var(--accent2);"><div class="wh-stat-val" style="color:var(--accent2);">${totalSH.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">STOCK HOUSE</div></div>
-    <div class="wh-stat" style="border-top-color:var(--danger);"><div class="wh-stat-val" style="color:var(--danger);">${totalWSP.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">WSP GUDANG UTAMA</div></div>
-    <div class="wh-stat" style="border-top-color:var(--accent);"><div class="wh-stat-val" style="color:var(--accent);">${totalRsv.toLocaleString('id-ID')}</div><div class="wh-stat-lbl">DIRESERVASI</div></div>
-    <div class="wh-stat" style="border-top-color:var(--accent3);"><div class="wh-stat-val" style="color:${lowItems>0?'var(--danger)':'var(--accent3)'};">${lowItems}</div><div class="wh-stat-lbl">STOK HABIS</div></div>
-    ${pendingRsv>0?`<div class="wh-stat" style="border-top-color:var(--warn);"><div class="wh-stat-val" style="color:var(--warn);">${pendingRsv}</div><div class="wh-stat-lbl">RESERVASI PENDING</div></div>`:''}
-  `;
-};
+// ── Inline adj ────────────────────────────────────────────────────
+function whAdjQty(id,loc,delta){
+  const item=warehouse.find(x=>x.id===id); if(!item)return;
+  if(!item.locations)item.locations=[];
+  let l=item.locations.find(x=>x.loc===loc);
+  if(!l){l={loc,qty:0};item.locations.push(l);}
+  const nq=Math.max(0,(parseFloat(l.qty)||0)+delta);
+  const diff=nq-(parseFloat(l.qty)||0);
+  l.qty=nq;
+  if(diff!==0)whLogMutasi(item,loc,diff>0?'in':'out',Math.abs(diff),'Penyesuaian manual',null);
+  item.updatedAt=Date.now();
+  save();renderWarehouse();
+}
+function whSetQty(id,loc,val){
+  const item=warehouse.find(x=>x.id===id); if(!item)return;
+  if(!item.locations)item.locations=[];
+  let l=item.locations.find(x=>x.loc===loc);
+  if(!l){l={loc,qty:0};item.locations.push(l);}
+  const nq=Math.max(0,parseFloat(val)||0);
+  const diff=nq-(parseFloat(l.qty)||0);
+  l.qty=nq;
+  if(diff!==0)whLogMutasi(item,loc,diff>0?'in':'out',Math.abs(diff),'Set manual',null);
+  item.updatedAt=Date.now();
+  save();
+}
 
-// ── Also override openWhModal to handle wsp qty ───────────────────
-const _origOpenWhModal = openWhModal;
-openWhModal = function(id) {
-  _origOpenWhModal(id);
-  // Set WSP qty field
-  const item = id ? warehouse.find(x=>x.id===id) : null;
-  const qtyWspEl = document.getElementById('wh-qty-wsp');
-  if (qtyWspEl) qtyWspEl.value = item ? whGetLoc(item,'wsp') : 0;
-};
+// ── Mutasi log ─────────────────────────────────────────────────────
+function whLogMutasi(item,loc,type,qty,notes,projId){
+  if(!item.mutasi)item.mutasi=[];
+  item.mutasi.unshift({
+    ts:Date.now(),type,loc,qty,notes:notes||'',
+    projId:projId||null,
+    projName:projId?(projects.find(p=>p.id===projId)?.name||''):'',
+    by:(typeof currentUser!=='undefined'&&currentUser?.name)||'—'
+  });
+  if(item.mutasi.length>300)item.mutasi=item.mutasi.slice(0,300);
+}
 
-// ── Also override saveWhItem to handle wsp qty ───────────────────
-const _origSaveWhItem = saveWhItem;
-saveWhItem = function() {
-  // Get WSP qty before calling original
-  const id     = document.getElementById('wh-edit-id').value;
-  const qtyWSP = parseFloat(document.getElementById('wh-qty-wsp')?.value)||0;
-  
-  if (id) {
-    const item = warehouse.find(x=>x.id===id);
-    if (item) {
-      const oldWSP = whGetLoc(item,'wsp');
-      _origSaveWhItem();
-      // Update WSP after original save
-      const updatedItem = warehouse.find(x=>x.id===id);
-      if (updatedItem) {
-        if (!updatedItem.locations) updatedItem.locations = [];
-        let lWSP = updatedItem.locations.find(x=>x.loc==='wsp');
-        if (!lWSP) { lWSP={loc:'wsp',qty:0}; updatedItem.locations.push(lWSP); }
-        if (qtyWSP !== oldWSP) {
-          whLogMutasi(updatedItem,'wsp',qtyWSP>oldWSP?'in':'out',Math.abs(qtyWSP-oldWSP),'Update manual',null);
-          lWSP.qty = qtyWSP;
-          save();
-        }
-      }
-      return;
-    }
+// ── Open item modal ───────────────────────────────────────────────
+function openWhModal(id){
+  const isEdit=!!id, item=id?warehouse.find(x=>x.id===id):null;
+  document.getElementById('wh-modal-title').textContent=isEdit?'EDIT ITEM STOK':'TAMBAH ITEM STOK';
+  document.getElementById('wh-edit-id').value=id||'';
+  document.getElementById('wh-name').value=item?.name||'';
+  document.getElementById('wh-partno').value=item?.partno||'';
+  document.getElementById('wh-unit').value=item?.unit||'pcs';
+  document.getElementById('wh-qty-km').value=item?whGetLoc(item,'km'):0;
+  document.getElementById('wh-qty-sh').value=item?whGetLoc(item,'sh'):0;
+  const wsp=document.getElementById('wh-qty-wsp');
+  if(wsp)wsp.value=item?whGetLoc(item,'wsp'):0;
+  document.getElementById('wh-min-qty').value=item?.minQty||0;
+  document.getElementById('wh-notes').value=item?.notes||'';
+  document.getElementById('wh-del-btn').style.display=isEdit?'inline-flex':'none';
+  document.getElementById('modal-wh').classList.add('open');
+}
+
+function saveWhItem(){
+  const name=document.getElementById('wh-name').value.trim();
+  if(!name){alert('Nama material harus diisi!');return;}
+  const id=document.getElementById('wh-edit-id').value;
+  const qKM=parseFloat(document.getElementById('wh-qty-km').value)||0;
+  const qSH=parseFloat(document.getElementById('wh-qty-sh').value)||0;
+  const qWSP=parseFloat(document.getElementById('wh-qty-wsp')?.value)||0;
+  const minQty=parseFloat(document.getElementById('wh-min-qty').value)||0;
+  const setLoc=(item,loc,nq,label)=>{
+    if(!item.locations)item.locations=[];
+    let l=item.locations.find(x=>x.loc===loc);
+    if(!l){l={loc,qty:0};item.locations.push(l);}
+    if(nq!==parseFloat(l.qty||0))whLogMutasi(item,loc,nq>l.qty?'in':'out',Math.abs(nq-l.qty),label,null);
+    l.qty=nq;
+  };
+  if(id){
+    const item=warehouse.find(x=>x.id===id); if(!item)return;
+    item.name=name; item.partno=document.getElementById('wh-partno').value.trim();
+    item.unit=document.getElementById('wh-unit').value;
+    item.minQty=minQty; item.notes=document.getElementById('wh-notes').value.trim();
+    item.updatedAt=Date.now();
+    setLoc(item,'km',qKM,'Update manual'); setLoc(item,'sh',qSH,'Update manual'); setLoc(item,'wsp',qWSP,'Update manual');
+    logActivity('Update Stok Gudang',name);
   } else {
-    _origSaveWhItem();
-    // Add WSP to the newly created item
-    const newest = warehouse[warehouse.length-1];
-    if (newest && qtyWSP > 0) {
-      if (!newest.locations) newest.locations = [];
-      let lWSP = newest.locations.find(x=>x.loc==='wsp');
-      if (!lWSP) { lWSP={loc:'wsp',qty:0}; newest.locations.push(lWSP); }
-      lWSP.qty = qtyWSP;
-      whLogMutasi(newest,'wsp','in',qtyWSP,'Stok awal WSP',null);
-      save();
-    }
+    const item={id:genId('WH'),name,partno:document.getElementById('wh-partno').value.trim(),
+      unit:document.getElementById('wh-unit').value,minQty,
+      notes:document.getElementById('wh-notes').value.trim(),
+      locations:[],mutasi:[],createdAt:Date.now(),updatedAt:Date.now()};
+    if(qKM>0){item.locations.push({loc:'km',qty:qKM});whLogMutasi(item,'km','in',qKM,'Stok awal',null);}
+    if(qSH>0){item.locations.push({loc:'sh',qty:qSH});whLogMutasi(item,'sh','in',qSH,'Stok awal',null);}
+    if(qWSP>0){item.locations.push({loc:'wsp',qty:qWSP});whLogMutasi(item,'wsp','in',qWSP,'Stok awal',null);}
+    if(!item.locations.length)item.locations=[{loc:'km',qty:0},{loc:'sh',qty:0},{loc:'wsp',qty:0}];
+    warehouse.push(item);
+    logActivity('Tambah Stok Gudang',name);
+  }
+  save();closeModal('modal-wh');renderWarehouse();
+}
+
+function whDeleteItem(id){
+  const item=warehouse.find(x=>x.id===id); if(!item)return;
+  if(!confirm('Hapus item "'+item.name+'" dari stok gudang?'))return;
+  warehouse=warehouse.filter(x=>x.id!==id);
+  logActivity('Hapus Stok Gudang',item.name);
+  save();renderWarehouse();
+}
+
+// ── Use stock modal ───────────────────────────────────────────────
+function openUseStockModal(id){
+  const item=warehouse.find(x=>x.id===id); if(!item)return;
+  document.getElementById('whu-item-id').value=id;
+  document.getElementById('whu-item-name').textContent=item.name+' ('+( item.unit||'pcs')+')';
+  document.getElementById('whu-avail-km').textContent='('+whGetLoc(item,'km').toLocaleString('id-ID')+' tersedia)';
+  document.getElementById('whu-avail-sh').textContent='('+whGetLoc(item,'sh').toLocaleString('id-ID')+' tersedia)';
+  const wspEl=document.getElementById('whu-avail-wsp');
+  if(wspEl)wspEl.textContent='('+whGetLoc(item,'wsp').toLocaleString('id-ID')+' tersedia)';
+  document.getElementById('whu-qty').value=1;
+  document.getElementById('whu-notes').value='';
+  document.getElementById('whu-error').textContent='';
+  document.getElementById('whu-loc-km').checked=true;
+  document.getElementById('whu-project').innerHTML=
+    '<option value="">— Tidak terkait project —</option>'+
+    projects.filter(p=>p.status!=='done').map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  document.getElementById('modal-wh-use').classList.add('open');
+}
+function confirmUseStock(){
+  const id=document.getElementById('whu-item-id').value;
+  const item=warehouse.find(x=>x.id===id);
+  const loc=document.querySelector('input[name="whu-loc"]:checked')?.value;
+  const qty=parseFloat(document.getElementById('whu-qty').value)||0;
+  const projId=document.getElementById('whu-project').value;
+  const notes=document.getElementById('whu-notes').value.trim();
+  const errEl=document.getElementById('whu-error');
+  if(!item||!loc||qty<=0){errEl.textContent='Isi semua field.';return;}
+  const avail=whGetLoc(item,loc);
+  if(qty>avail){errEl.textContent='Stok tidak cukup! Tersedia: '+avail.toLocaleString('id-ID')+' '+item.unit;return;}
+  let l=item.locations?.find(x=>x.loc===loc);
+  if(!l){errEl.textContent='Lokasi tidak ditemukan.';return;}
+  l.qty=Math.max(0,(parseFloat(l.qty)||0)-qty);
+  item.updatedAt=Date.now();
+  const locLabel={km:'Kandang Macan',sh:'Stock House',wsp:'WSP Gudang Utama'}[loc]||loc;
+  const projName=projId?(projects.find(p=>p.id===projId)?.name||''):'';
+  whLogMutasi(item,loc,'out',qty,(notes||'Diambil')+(projName?' → '+projName:''),projId||null);
+  logActivity('Ambil Stok Gudang',qty+' '+(item.unit||'pcs')+' '+item.name+' dari '+locLabel+(projName?' → '+projName:''));
+  save();closeModal('modal-wh-use');renderWarehouse();
+}
+
+// ── Add stock modal ───────────────────────────────────────────────
+function openAddStockModal(id){
+  const item=warehouse.find(x=>x.id===id); if(!item)return;
+  document.getElementById('wha-item-id').value=id;
+  document.getElementById('wha-item-name').textContent=item.name+' ('+(item.unit||'pcs')+')';
+  document.getElementById('wha-qty').value=1;
+  document.getElementById('wha-ref').value='';
+  document.getElementById('wha-notes').value='';
+  document.getElementById('wha-loc-km').checked=true;
+  document.getElementById('modal-wh-add').classList.add('open');
+}
+function confirmAddStock(){
+  const id=document.getElementById('wha-item-id').value;
+  const item=warehouse.find(x=>x.id===id);
+  const loc=document.querySelector('input[name="wha-loc"]:checked')?.value;
+  const qty=parseFloat(document.getElementById('wha-qty').value)||0;
+  const ref=document.getElementById('wha-ref').value.trim();
+  const notes=document.getElementById('wha-notes').value.trim();
+  if(!item||!loc||qty<=0){alert('Isi jumlah dengan benar.');return;}
+  if(!item.locations)item.locations=[];
+  let l=item.locations.find(x=>x.loc===loc);
+  if(!l){l={loc,qty:0};item.locations.push(l);}
+  l.qty=(parseFloat(l.qty)||0)+qty;
+  item.updatedAt=Date.now();
+  whLogMutasi(item,loc,'in',qty,(notes||'Terima barang')+(ref?' | Ref: '+ref:''),null);
+  const locLabel={km:'Kandang Macan',sh:'Stock House',wsp:'WSP Gudang Utama'}[loc]||loc;
+  logActivity('Terima Stok Gudang',qty+' '+(item.unit||'pcs')+' '+item.name+' → '+locLabel);
+  save();closeModal('modal-wh-add');renderWarehouse();
+}
+
+// ══════════════════════════════════════════════════════════
+// HISTORY PENGAMBILAN
+// ══════════════════════════════════════════════════════════
+function openWhHistoryModal(){
+  document.getElementById('hist-search').value='';
+  document.getElementById('hist-filter-loc').value='';
+  document.getElementById('hist-filter-type').value='out'; // default: show pengambilan
+  renderHistory();
+  document.getElementById('modal-wh-history').classList.add('open');
+}
+
+function renderHistory(){
+  const search = (document.getElementById('hist-search')?.value||'').toLowerCase();
+  const fLoc   = document.getElementById('hist-filter-loc')?.value||'';
+  const fType  = document.getElementById('hist-filter-type')?.value||'';
+  const LOC_LABEL = {km:'🏠 Kandang Macan',sh:'🏭 Stock House',wsp:'🔑 WSP'};
+  // Collect all mutasi from all items
+  const rows = [];
+  warehouse.forEach(item=>{
+    (item.mutasi||[]).forEach(m=>{
+      rows.push({...m, itemId:item.id, itemName:item.name, itemUnit:item.unit||'pcs', itemPartno:item.partno||''});
+    });
+  });
+  // Sort newest first
+  rows.sort((a,b)=>b.ts-a.ts);
+
+  // Filter
+  let list = rows;
+  if (fType) list = list.filter(r=>r.type===fType);
+  if (fLoc)  list = list.filter(r=>r.loc===fLoc);
+  if (search) list = list.filter(r=>
+    r.itemName.toLowerCase().includes(search)||
+    (r.notes||'').toLowerCase().includes(search)||
+    (r.projName||'').toLowerCase().includes(search)||
+    (r.by||'').toLowerCase().includes(search)||
+    (r.itemPartno||'').toLowerCase().includes(search)
+  );
+
+  const countEl = document.getElementById('hist-count');
+  if (countEl) countEl.textContent = list.length + ' entri';
+
+  const container = document.getElementById('hist-list');
+  if (!list.length) {
+    container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted);font-family:var(--mono);font-size:11px;">Belum ada history yang cocok.</div>';
     return;
   }
-  _origSaveWhItem();
-};
 
-// Also update whu-avail for WSP in openUseStockModal
-const _origOpenUseStockModal = openUseStockModal;
-openUseStockModal = function(id) {
-  _origOpenUseStockModal(id);
-  const item = warehouse.find(x=>x.id===id);
-  const wspAvailEl = document.getElementById('whu-avail-wsp');
-  if (wspAvailEl && item) {
-    wspAvailEl.textContent = '(' + whAvailableQty(item,'wsp').toLocaleString('id-ID') + ' tersedia, ' + whReservedQty(item,'wsp') + ' direservasi)';
-  }
-};
+  // Group by date
+  const groups = {};
+  list.forEach(r=>{
+    const d = new Date(r.ts).toLocaleDateString('id-ID',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+    if(!groups[d]) groups[d]=[];
+    groups[d].push(r);
+  });
 
-// updateNavWarnings call - ensure wsp badge updated
-const _origUpdateNavWarnings = updateNavWarnings;
-updateNavWarnings = function() {
-  _origUpdateNavWarnings();
-  updateRsvBadge();
-};
-
-// Fix typo in openRsvModal function name
-function openRsvModal(itemId) {
-  const item = warehouse.find(x=>x.id===itemId);
-  if (!item) return;
-  const avail    = whAvailableQty(item, 'wsp');
-  const reserved = whReservedQty(item, 'wsp');
-  document.getElementById('rsv-item-id').value   = itemId;
-  document.getElementById('rsv-item-name').textContent = item.name + ' (' + (item.unit||'pcs') + ')';
-  document.getElementById('rsv-wsp-avail').textContent = avail.toLocaleString('id-ID') + ' ' + (item.unit||'pcs') + ' (stok ' + whGetLoc(item,'wsp') + ')';
-  document.getElementById('rsv-wsp-reserved').textContent = reserved + ' ' + (item.unit||'pcs');
-  document.getElementById('rsv-qty').value     = 1;
-  document.getElementById('rsv-notes').value   = '';
-  document.getElementById('rsv-requester').value = (typeof currentUser !== 'undefined' && currentUser?.name) ? currentUser.name : '';
-  document.getElementById('rsv-date').value    = '';
-  document.getElementById('rsv-error').textContent = '';
-  document.getElementById('rsv-project').innerHTML =
-    '<option value="">— Pilih Project —</option>' +
-    projects.filter(p=>p.status!=='done').map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
-  document.getElementById('modal-wh-rsv').classList.add('open');
+  container.innerHTML = Object.entries(groups).map(([date,entries])=>`
+    <div style="padding:8px 16px 4px;background:var(--surface2);border-bottom:1px solid var(--border);">
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:1px;">${date.toUpperCase()}</span>
+    </div>
+    ${entries.map(r=>`
+    <div class="mutasi-row ${r.type}">
+      <div>
+        <div class="mutasi-type ${r.type}">${r.type==='out'?'📤 AMBIL':'📥 MASUK'}</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-top:1px;">${LOC_LABEL[r.loc]||r.loc||'—'}</div>
+      </div>
+      <div class="mutasi-info">
+        <div style="font-weight:600;font-size:12px;">${r.itemName}</div>
+        ${r.itemPartno?`<div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${r.itemPartno}</div>`:''}
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${r.notes||'—'}</div>
+        ${r.projName?`<div style="font-size:10px;color:var(--accent2);margin-top:1px;">↗ ${r.projName}</div>`:''}
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div class="mutasi-qty ${r.type}">${r.type==='out'?'−':'+'}${r.qty} ${r.itemUnit}</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-top:3px;">${new Date(r.ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);">${r.by||'—'}</div>
+      </div>
+    </div>`).join('')}
+  `).join('');
 }
+
+function exportHistoryCSV(){
+  const fLoc  = document.getElementById('hist-filter-loc')?.value||'';
+  const fType = document.getElementById('hist-filter-type')?.value||'';
+  const LOC_LABEL={km:'Kandang Macan',sh:'Stock House',wsp:'WSP Gudang Utama'};
+  const rows=[['Tanggal','Waktu','Tipe','Nama Material','Part No','Lokasi','Qty','Satuan','Keterangan','Project','Oleh']];
+  warehouse.forEach(item=>{
+    (item.mutasi||[]).forEach(m=>{
+      if(fType && m.type!==fType) return;
+      if(fLoc  && m.loc!==fLoc)   return;
+      const d=new Date(m.ts);
+      rows.push([
+        d.toLocaleDateString('id-ID'),d.toLocaleTimeString('id-ID'),
+        m.type==='out'?'Pengambilan':'Penerimaan',
+        item.name,item.partno||'',LOC_LABEL[m.loc]||m.loc,
+        m.qty,item.unit||'pcs',m.notes||'',m.projName||'',m.by||''
+      ]);
+    });
+  });
+  rows.sort((a,b)=>b[0].localeCompare(a[0]));
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'History Stok');
+  XLSX.writeFile(wb,'HistoryStok_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+// ══════════════════════════════════════════════════════════
+// AUTOCOMPLETE WAREHOUSE — menggunakan materialMaster
+// ══════════════════════════════════════════════════════════
+function whAcInput(el, byPartno=false){
+  if(!materialMaster.length) return;
+  const q=el.value.trim();
+  if(!q){acClose(el);return;}
+  const results=acSearch(q,byPartno);
+  acShowDropdown(el, results, q, byPartno, (item)=>{
+    document.getElementById('wh-name').value   = item.name||'';
+    document.getElementById('wh-partno').value = item.partno||'';
+    const unitEl=document.getElementById('wh-unit');
+    if(unitEl){const opt=[...unitEl.options].find(o=>o.value===item.unit);if(opt)unitEl.value=item.unit;}
+    acClose(el);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// EXPORT WAREHOUSE
+// ══════════════════════════════════════════════════════════
+function exportWarehouse(){
+  if(!warehouse.length){alert('Belum ada data stok.');return;}
+  const rows=[['No','Nama Material','Part No','Satuan','Kandang Macan','Stock House','WSP Gudang Utama','Total','Min Stok','Status','Catatan']];
+  warehouse.forEach((item,i)=>{
+    const km=whGetLoc(item,'km'),sh=whGetLoc(item,'sh'),wsp=whGetLoc(item,'wsp');
+    rows.push([i+1,item.name,item.partno||'',item.unit||'pcs',km,sh,wsp,km+sh+wsp,item.minQty||0,whStockStatus(item),item.notes||'']);
+  });
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Stock Gudang');
+  XLSX.writeFile(wb,'StockGudang_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+// updateNavWarnings patch
+const _whOrigUpdateNavWarnings = typeof updateNavWarnings === 'function' ? updateNavWarnings : null;
+if (_whOrigUpdateNavWarnings) {
+  const _whPrev = updateNavWarnings;
+  updateNavWarnings = function() {
+    _whPrev();
+    const lowBadge=document.getElementById('nav-wh-low');
+    if(lowBadge){const lc=warehouse.filter(i=>whStockStatus(i)!=='ok').length;lowBadge.style.display=lc>0?'inline-flex':'none';lowBadge.textContent=lc;}
+  };
+}
+
+// wire warehouse to applyData & stateObj (if not already)
+// These are handled by inline patches below — just ensure warehouse is in save()
 
 </script>
 
@@ -8965,11 +8898,11 @@ function openRsvModal(itemId) {
       <div class="form-grid">
         <div class="form-group full">
           <label>Nama Material *</label>
-          <div class="mat-ac-wrap"><input type="text" id="wh-name" autocomplete="off" placeholder="Nama material di gudang"></div>
+          <div class="mat-ac-wrap"><input type="text" id="wh-name" autocomplete="off" placeholder="Ketik nama atau part no — saran dari Material Master" oninput="whAcInput(this,false)" onkeydown="acKey(event,this)" onblur="acBlur(this)"></div>
         </div>
         <div class="form-group">
           <label>Part Number</label>
-          <input type="text" id="wh-partno" style="font-family:var(--mono);" placeholder="Optional">
+          <div class="mat-ac-wrap"><input type="text" id="wh-partno" autocomplete="off" style="font-family:var(--mono);" placeholder="Optional" oninput="whAcInput(this,true)" onkeydown="acKey(event,this)" onblur="acBlur(this)"></div>
         </div>
         <div class="form-group">
           <label>Satuan</label>
@@ -9028,11 +8961,11 @@ function openRsvModal(itemId) {
               <span id="whu-avail-km" style="color:var(--text-muted);"></span>
             </label>
             <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
-              <input type="radio" name="whu-loc" value="sh" id="whu-loc-sh"> Stock House
+              <input type="radio" name="whu-loc" value="sh" id="whu-loc-sh"> Stock House Produksi
               <span id="whu-avail-sh" style="color:var(--text-muted);"></span>
             </label>
             <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
-              <input type="radio" name="whu-loc" value="wsp" id="whu-loc-wsp"> WSP (Gudang Utama)
+              <input type="radio" name="whu-loc" value="wsp" id="whu-loc-wsp"> WSP Gudang Utama
               <span id="whu-avail-wsp" style="color:var(--text-muted);"></span>
             </label>
           </div>
@@ -9079,10 +9012,10 @@ function openRsvModal(itemId) {
               <input type="radio" name="wha-loc" value="km" id="wha-loc-km" checked> Kandang Macan
             </label>
             <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
-              <input type="radio" name="wha-loc" value="sh" id="wha-loc-sh"> Stock House
+              <input type="radio" name="wha-loc" value="sh" id="wha-loc-sh"> Stock House Produksi
             </label>
             <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;">
-              <input type="radio" name="wha-loc" value="wsp" id="wha-loc-wsp"> WSP (Gudang Utama)
+              <input type="radio" name="wha-loc" value="wsp" id="wha-loc-wsp"> WSP Gudang Utama
             </label>
           </div>
         </div>
@@ -9108,83 +9041,35 @@ function openRsvModal(itemId) {
 </div>
 
 
-<!-- ===== MODAL RESERVASI WSP ===== -->
-<div class="modal-overlay" id="modal-wh-rsv">
-  <div class="modal" style="max-width:480px;border-top:3px solid var(--danger);">
+<!-- ===== MODAL HISTORY PENGAMBILAN ===== -->
+<div class="modal-overlay" id="modal-wh-history">
+  <div class="modal" style="max-width:800px;width:95vw;">
     <div class="modal-header">
-      <span class="modal-title" style="color:var(--danger);">🔑 RESERVASI MATERIAL WSP</span>
-      <button class="modal-close" onclick="closeModal('modal-wh-rsv')">&times;</button>
+      <span class="modal-title">📋 HISTORY PENGAMBILAN STOK</span>
+      <button class="modal-close" onclick="closeModal('modal-wh-history')">&times;</button>
     </div>
-    <div class="modal-body">
-      <input type="hidden" id="rsv-item-id">
-      <div style="font-size:13px;font-weight:600;margin-bottom:4px;" id="rsv-item-name"></div>
-      <div style="font-family:var(--mono);font-size:11px;margin-bottom:14px;">
-        Stok WSP: <span id="rsv-wsp-avail" style="color:var(--accent3);font-weight:700;"></span> &nbsp;|&nbsp;
-        Sudah direservasi: <span id="rsv-wsp-reserved" style="color:var(--accent);font-weight:700;"></span>
+    <div class="modal-body" style="padding:0;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface2);">
+        <input type="text" id="hist-search" placeholder="🔍 Cari nama material / project / keterangan..." style="flex:1;min-width:180px;" oninput="renderHistory()">
+        <select id="hist-filter-loc" onchange="renderHistory()" style="min-width:150px;">
+          <option value="">Semua Lokasi</option>
+          <option value="km">Kandang Macan</option>
+          <option value="sh">Stock House</option>
+          <option value="wsp">WSP Gudang Utama</option>
+        </select>
+        <select id="hist-filter-type" onchange="renderHistory()" style="min-width:130px;">
+          <option value="">Semua Tipe</option>
+          <option value="out">📤 Pengambilan</option>
+          <option value="in">📥 Penerimaan</option>
+        </select>
       </div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Jumlah Direservasi *</label>
-          <input type="number" id="rsv-qty" min="1" value="1" placeholder="1">
-        </div>
-        <div class="form-group">
-          <label>Terkait Project *</label>
-          <select id="rsv-project">
-            <option value="">— Pilih Project —</option>
-          </select>
-        </div>
-        <div class="form-group full">
-          <label>Keperluan / Keterangan *</label>
-          <input type="text" id="rsv-notes" placeholder="Contoh: Penggantian seal pompa LC1">
-        </div>
-        <div class="form-group">
-          <label>Target Pengambilan</label>
-          <input type="date" id="rsv-date">
-        </div>
-        <div class="form-group">
-          <label>Nama Pemohon</label>
-          <input type="text" id="rsv-requester" placeholder="Nama teknisi / engineer">
-        </div>
+      <div style="max-height:65vh;overflow-y:auto;" id="hist-list">
+        <div style="padding:40px;text-align:center;color:var(--text-muted);font-family:var(--mono);font-size:11px;">Memuat history...</div>
       </div>
-      <div id="rsv-error" style="color:var(--danger);font-family:var(--mono);font-size:11px;min-height:16px;"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-wh-rsv')">Batal</button>
-      <button class="btn-primary" onclick="submitReservasi()" style="background:var(--danger);">📋 AJUKAN RESERVASI</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL RELEASE RESERVASI (realisasi pengambilan) ===== -->
-<div class="modal-overlay" id="modal-wh-release">
-  <div class="modal" style="max-width:420px;border-top:3px solid var(--teal);">
-    <div class="modal-header">
-      <span class="modal-title" style="color:var(--teal);">✅ REALISASI PENGAMBILAN</span>
-      <button class="modal-close" onclick="closeModal('modal-wh-release')">&times;</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="rel-rsv-id">
-      <input type="hidden" id="rel-item-id">
-      <div style="font-size:13px;font-weight:600;margin-bottom:14px;" id="rel-rsv-info"></div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Qty Aktual Diambil *</label>
-          <input type="number" id="rel-qty" min="1" value="1">
-        </div>
-        <div class="form-group">
-          <label>Tanggal Ambil</label>
-          <input type="date" id="rel-date">
-        </div>
-        <div class="form-group full">
-          <label>Catatan Pengambilan</label>
-          <input type="text" id="rel-notes" placeholder="Optional">
-        </div>
+      <div style="padding:10px 16px;border-top:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;">
+        <span id="hist-count" style="font-family:var(--mono);font-size:10px;color:var(--text-muted);"></span>
+        <button class="btn-secondary btn-sm" onclick="exportHistoryCSV()">⬇ Export History</button>
       </div>
-      <div id="rel-error" style="color:var(--danger);font-family:var(--mono);font-size:11px;min-height:16px;"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-wh-release')">Batal</button>
-      <button class="btn-primary" onclick="confirmRelease()" style="background:var(--teal);">✅ KONFIRMASI AMBIL</button>
     </div>
   </div>
 </div>
