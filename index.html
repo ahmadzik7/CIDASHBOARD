@@ -4515,11 +4515,16 @@ function handlePhotoUpload(e) {
 function renderPhotoPreview() {
   const el=document.getElementById('f-photo-preview'); if(!el) return;
   if(!pendingPhotos.length){ el.innerHTML=''; return; }
-  el.innerHTML=pendingPhotos.map((p,i)=>`
-    <div style="position:relative;width:64px;height:64px;border:1px solid var(--border);overflow:hidden;flex-shrink:0;">
-      <img src="${p.src}" style="width:100%;height:100%;object-fit:cover;">
-      <button onclick="removePhoto(${i})" style="position:absolute;top:1px;right:1px;background:rgba(15,23,42,0.45);border:none;color:#fff;cursor:pointer;font-size:11px;padding:0 4px;line-height:18px;">×</button>
-    </div>`).join('');
+  el.innerHTML=pendingPhotos.map((p,i)=>{
+    const src = p.src||p.thumbUrl||p.viewUrl||'';
+    const hasDriveUrl = !!(p.viewUrl||p.directUrl);
+    return `<div style="position:relative;width:64px;height:64px;border:1px solid var(--border);overflow:hidden;flex-shrink:0;cursor:pointer;"
+      onclick="openB64Lightbox(this.querySelector('img'))" title="Klik untuk preview">
+      <img src="${src}" style="width:100%;height:100%;object-fit:cover;" data-full="${src}">
+      <button onclick="event.stopPropagation();removePhoto(${i})" style="position:absolute;top:1px;right:1px;background:rgba(15,23,42,0.55);border:none;color:#fff;cursor:pointer;font-size:11px;padding:0 4px;line-height:18px;">×</button>
+      ${hasDriveUrl?`<a href="${p.viewUrl||p.directUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="position:absolute;bottom:1px;right:1px;background:rgba(37,99,235,0.75);color:#fff;font-size:9px;padding:1px 4px;text-decoration:none;">↗</a>`:''}
+    </div>`;
+  }).join('');
 }
 
 function removePhoto(i) {
@@ -4782,21 +4787,36 @@ function renderDetailPhotos(p) {
   sec.style.display='block';
   let html='';
   if(hasDrive) html+=`<div style="margin-bottom:6px;"><a href="${p.gdrive}" target="_blank" style="color:var(--accent2);font-size:12px;word-break:break-all;">🔗 Buka di Google Drive</a></div>`;
-  if(hasPhotos) html+=`<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;">`+
-    p.photos.map(ph=>{
-      const imgSrc  = ph.src || ph.thumbUrl || ph.viewUrl || '';
-      const linkUrl = ph.src || ph.viewUrl  || ph.directUrl || '#';
-      if(!imgSrc && !linkUrl) return '';
-      // Foto dari CI Form: tidak punya src, pakai thumbUrl untuk gambar & viewUrl untuk link
-      // Foto dari Dashboard: pakai src untuk keduanya
-      return `<a href="${linkUrl}" target="_blank">` +
-        (imgSrc
-          ? `<img src="${imgSrc}" style="width:72px;height:72px;object-fit:cover;border:1px solid var(--border);" title="${ph.name||''}">`
-          : `<div style="width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);font-size:10px;text-align:center;color:var(--muted);">📷 ${(ph.name||'foto').slice(0,10)}</div>`) +
-        `</a>`;
-    }).join('')+`</div>`;
-  link.innerHTML=html;
+  if(hasPhotos) {
+    html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">';
+    p.photos.forEach((ph, idx) => {
+      // thumbUrl/viewUrl = sudah di Drive → aman dibuka di tab baru
+      // ph.src dimulai 'data:' = base64 lokal → JANGAN jadi href (menyebabkan reload)
+      const isBase64  = ph.src && ph.src.startsWith('data:');
+      const driveUrl  = ph.viewUrl || ph.directUrl || '';
+      const displaySrc = ph.thumbUrl || (isBase64 ? ph.src : ph.src) || ph.viewUrl || '';
+      if (!displaySrc && !driveUrl) return;
+
+      if (driveUrl) {
+        // Photo already uploaded to Drive — open in new tab safely
+        html += `<a href="${driveUrl}" target="_blank" rel="noopener" style="display:inline-block;">` +
+          (displaySrc
+            ? `<img src="${displaySrc}" style="width:72px;height:72px;object-fit:cover;border:1px solid var(--border);display:block;" title="${ph.name||''}">`
+            : `<div style="width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);font-size:18px;">🖼️</div>`) +
+          '</a>';
+      } else if (isBase64) {
+        // Base64 only — show in lightbox to avoid page reload
+        const safeId = 'ph_' + idx + '_' + Date.now();
+        html += `<span style="display:inline-block;cursor:pointer;" onclick="openB64Lightbox(this)" title="${ph.name||'Foto'}">` +
+          `<img src="${ph.src}" style="width:72px;height:72px;object-fit:cover;border:2px solid var(--accent);display:block;" title="${ph.name||''}" data-full="${ph.src}">` +
+          '</span>';
+      }
+    });
+    html += '</div>';
+  }
+  link.innerHTML = html;
 }
+
 
 // ===== CI NOTE — TAG SYSTEM =====
 // Tags stored as array of strings per note, global tag pool derived from all notes
@@ -8830,6 +8850,47 @@ if (_whOrigUpdateNavWarnings) {
 
 // wire warehouse to applyData & stateObj (if not already)
 // These are handled by inline patches below — just ensure warehouse is in save()
+
+
+// ── Photo Lightbox — safe preview for base64 photos ────────────────
+// Prevents browser restart caused by navigating to data: URLs
+function openB64Lightbox(imgEl) {
+  if (!imgEl) return;
+  const src  = imgEl.getAttribute('data-full') || imgEl.src || '';
+  const name = imgEl.title || imgEl.alt || 'Foto';
+  if (!src) return;
+
+  // Remove existing lightbox if any
+  const existing = document.getElementById('_b64_lightbox');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = '_b64_lightbox';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';
+  overlay.onclick = function(e) { if(e.target===overlay) overlay.remove(); };
+
+  const img = document.createElement('img');
+  img.src = src;
+  img.style.cssText = 'max-width:92vw;max-height:80vh;object-fit:contain;border:2px solid rgba(255,255,255,0.15);';
+
+  const caption = document.createElement('div');
+  caption.style.cssText = 'margin-top:10px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.7);';
+  caption.textContent = name;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '× Tutup';
+  closeBtn.style.cssText = 'position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:var(--mono);font-size:11px;padding:5px 12px;cursor:pointer;';
+  closeBtn.onclick = () => overlay.remove();
+
+  overlay.appendChild(closeBtn);
+  overlay.appendChild(img);
+  overlay.appendChild(caption);
+  document.body.appendChild(overlay);
+
+  // Close on Escape
+  const escHandler = (e) => { if(e.key==='Escape'){ overlay.remove(); document.removeEventListener('keydown',escHandler); } };
+  document.addEventListener('keydown', escHandler);
+}
 
 </script>
 
