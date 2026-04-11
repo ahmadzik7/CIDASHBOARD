@@ -935,6 +935,35 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
 .wsp-reserved-info{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:2px;}
 .wsp-avail-info{font-family:var(--mono);font-size:10px;color:var(--accent3);font-weight:700;}
 
+
+/* =================== BULK INPUT GENERIC =================== */
+.bulk-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:14px;}
+.bulk-tab-btn2{padding:8px 18px;font-family:var(--mono);font-size:10px;font-weight:700;
+  border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;
+  color:var(--text-muted);background:transparent;transition:all .15s;letter-spacing:.5px;}
+.bulk-tab-btn2:hover{color:var(--text);}
+.bulk-tab-btn2.active{color:var(--accent);border-bottom-color:var(--accent);}
+.bulk-generic-wrap{overflow-x:auto;border:1px solid var(--border);margin-bottom:8px;}
+.bulk-generic-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:500px;}
+.bulk-generic-tbl th{background:var(--surface2);padding:6px 8px;text-align:left;
+  font-family:var(--mono);font-size:10px;color:var(--text-muted);
+  border-bottom:2px solid var(--border);white-space:nowrap;position:sticky;top:0;}
+.bulk-generic-tbl td{padding:2px 3px;border-bottom:1px solid var(--border);}
+.bulk-generic-tbl td input,.bulk-generic-tbl td select{
+  width:100%;background:transparent;border:none;color:var(--text);
+  font-family:var(--sans);font-size:11px;padding:5px 6px;outline:none;}
+.bulk-generic-tbl td input:focus,.bulk-generic-tbl td select:focus{
+  background:rgba(217,119,6,.07);outline:1px solid var(--accent);}
+.bulk-generic-tbl tr:hover td{background:rgba(0,0,0,.02);}
+.bulk-row-del{background:none;border:none;color:var(--danger);cursor:pointer;
+  font-size:14px;padding:2px 6px;opacity:.4;transition:opacity .12s;}
+.bulk-row-del:hover{opacity:1;}
+.bulk-footer{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap;}
+.bulk-hint{font-family:var(--mono);font-size:10px;color:var(--text-muted);
+  padding:8px 12px;background:var(--surface2);border:1px solid var(--border);
+  border-left:3px solid var(--accent);margin-bottom:12px;line-height:1.7;}
+.bulk-count{font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;}
+
 </style>
 </head>
 <body>
@@ -2118,7 +2147,15 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <button class="modal-close" onclick="closeModal('modal-project')">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-grid">
+      
+      <div class="bulk-tabs"><button class="bulk-tab-btn2 active" id="proj-tab-single" onclick="switchProjTab('single',this)">✏️ Input Manual</button><button class="bulk-tab-btn2" id="proj-tab-bulk" onclick="switchProjTab('bulk',this)">📋 Bulk Import</button></div>
+      <div id="proj-mode-bulk" style="display:none;">
+        <div class="bulk-hint">💡 Copy dari Excel/spreadsheet lalu <strong>paste (Ctrl+V) di sel mana saja</strong> dalam tabel.<br>Format: <span style="color:var(--accent);">Nama Project | Kategori | No.EJO | Lokasi | PIC | Prioritas | Status | Tgl Mulai | Deadline</span><br>Kategori: <code>perbaikan</code>/<code>5r</code>/<code>she</code>/<code>improve</code> · Prio: <code>H</code>/<code>M</code>/<code>L</code> · Status: <code>open</code>/<code>inprogress</code>/<code>waiting</code>/<code>blocked</code></div>
+        <div class="bulk-generic-wrap"><table class="bulk-generic-tbl"><thead><tr><th>#</th><th style="min-width:180px">Nama Project *</th><th style="min-width:80px">Kategori</th><th style="min-width:90px">No.EJO</th><th style="min-width:90px">Lokasi</th><th style="min-width:70px">PIC</th><th style="width:45px">Prio</th><th style="min-width:80px">Status</th><th style="width:105px">Tgl Mulai</th><th style="width:105px">Deadline</th><th></th></tr></thead><tbody id="bulk-proj-body"></tbody></table></div>
+        <div class="bulk-footer"><button class="btn-secondary btn-sm" onclick="addBulkProjRow()">+ Baris</button><button class="btn-secondary btn-sm" onclick="clearBulkProj()">🗑 Bersihkan</button><span class="bulk-count" id="bulk-proj-count">0 baris</span></div>
+      </div>
+      <div id="proj-mode-single">
+<div class="form-grid">
         <div class="form-group full"><label>Nama Project / Deskripsi Masalah *</label><input type="text" id="f-name" placeholder="Contoh: Perbaikan Pipa Bocor Line 3" oninput="updateDocDest()"></div>
         <div class="form-group"><label>Kategori Project *</label>
           <select id="f-category">
@@ -2201,11 +2238,12 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
         <div class="phase-header-labels"><span>Nama Fase</span><span>EJO Fase</span><span>Deskripsi</span><span>PIC</span><span>Tgl Mulai</span><span>Tgl Selesai</span><span></span></div>
         <div class="phase-rows" id="phase-rows"></div>
         <button class="btn-add-phase" onclick="addPhaseRow()">+ Tambah Fase</button>
-      </div>
+      
+      </div><!-- /proj-mode-single --></div>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeModal('modal-project')">Batal</button>
-      <button class="btn-primary" onclick="saveProject()">SIMPAN PROJECT</button>
+      <button class="btn-primary" onclick="window._projTab==='bulk'?saveBulkProj():saveProject()">SIMPAN PROJECT</button>
     </div>
   </div>
 </div>
@@ -2218,7 +2256,15 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       <button class="modal-close" onclick="closeModal('modal-todo')">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-grid">
+      
+      <div class="bulk-tabs"><button class="bulk-tab-btn2 active" id="todo-tab-single" onclick="switchTodoTab('single',this)">✏️ Input Manual</button><button class="bulk-tab-btn2" id="todo-tab-bulk" onclick="switchTodoTab('bulk',this)">📋 Bulk Import</button></div>
+      <div id="todo-mode-bulk" style="display:none;">
+        <div class="bulk-hint">💡 Paste dari Excel. Format: <span style="color:var(--accent);">Judul Task | Catatan | Deadline (YYYY-MM-DD) | Prioritas (H/M/L)</span></div>
+        <div class="bulk-generic-wrap"><table class="bulk-generic-tbl"><thead><tr><th>#</th><th style="min-width:200px">Judul Task *</th><th style="min-width:140px">Catatan</th><th style="width:115px">Deadline</th><th style="width:55px">Prio</th><th></th></tr></thead><tbody id="bulk-todo-body"></tbody></table></div>
+        <div class="bulk-footer"><button class="btn-secondary btn-sm" onclick="addBulkTodoRow()">+ Baris</button><button class="btn-secondary btn-sm" onclick="clearBulkTodo()">🗑 Bersihkan</button><span class="bulk-count" id="bulk-todo-count">0 baris</span></div>
+      </div>
+      <div id="todo-mode-single">
+<div class="form-grid">
         <div class="form-group full"><label>Judul Task *</label><input type="text" id="tf-title" placeholder="Contoh: Follow up Engineering terkait EJO-001"></div>
         <div class="form-group full"><label>Catatan / Deskripsi</label><textarea id="tf-desc" placeholder="Detail task, langkah-langkah, atau catatan penting..."></textarea></div>
         <div class="form-group"><label>Tanggal Deadline</label><input type="date" id="tf-date"></div>
@@ -2228,11 +2274,12 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
         <div class="form-group full"><label>Terkait Project (Opsional)</label>
           <select id="tf-project"><option value="">— Tidak terkait project —</option></select>
         </div>
-      </div>
+      
+      </div><!-- /todo-mode-single --></div>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeModal('modal-todo')">Batal</button>
-      <button class="btn-teal" onclick="saveTodo()">SIMPAN TASK</button>
+      <button class="btn-teal" onclick="window._todoTab==='bulk'?saveBulkTodo():saveTodo()">SIMPAN TASK</button>
     </div>
   </div>
 </div>
@@ -2306,16 +2353,25 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
   <div class="modal" style="width:490px;">
     <div class="modal-header"><span class="modal-title">LOG ISSUE BARU</span><button class="modal-close" onclick="closeModal('modal-issue')">×</button></div>
     <div class="modal-body">
-      <div class="form-grid">
+      
+      <div class="bulk-tabs"><button class="bulk-tab-btn2 active" id="iss-tab-single" onclick="switchIssTab('single',this)">✏️ Input Manual</button><button class="bulk-tab-btn2" id="iss-tab-bulk" onclick="switchIssTab('bulk',this)">📋 Bulk Import</button></div>
+      <div id="iss-mode-bulk" style="display:none;">
+        <div class="bulk-hint">💡 Paste dari Excel. Format: <span style="color:var(--accent);">Judul Issue | Urgensi (critical/warning/info) | Deskripsi | Tgl Temukan | Deadline</span></div>
+        <div class="bulk-generic-wrap"><table class="bulk-generic-tbl"><thead><tr><th>#</th><th style="min-width:190px">Judul Issue *</th><th style="width:85px">Urgensi</th><th style="min-width:190px">Deskripsi</th><th style="width:115px">Tgl Temukan</th><th style="width:115px">Deadline</th><th></th></tr></thead><tbody id="bulk-iss-body"></tbody></table></div>
+        <div class="bulk-footer"><button class="btn-secondary btn-sm" onclick="addBulkIssRow()">+ Baris</button><button class="btn-secondary btn-sm" onclick="clearBulkIss()">🗑 Bersihkan</button><span class="bulk-count" id="bulk-iss-count">0 baris</span></div>
+      </div>
+      <div id="iss-mode-single">
+<div class="form-grid">
         <div class="form-group full"><label>Judul Issue *</label><input type="text" id="if-title"></div>
         <div class="form-group"><label>Terkait Project</label><select id="if-project"></select></div>
         <div class="form-group"><label>Urgensi</label><select id="if-severity"><option value="critical">Critical</option><option value="warning">Warning</option><option value="info">Info</option></select></div>
         <div class="form-group full"><label>Deskripsi & Rencana Tindak Lanjut</label><textarea id="if-desc"></textarea></div>
         <div class="form-group"><label>Tanggal Temukan</label><input type="date" id="if-date"></div>
         <div class="form-group"><label>Deadline Resolve</label><input type="date" id="if-deadline"></div>
-      </div>
+      
+      </div><!-- /iss-mode-single --></div>
     </div>
-    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-issue')">Batal</button><button class="btn-primary" onclick="saveIssue()">LOG ISSUE</button></div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-issue')">Batal</button><button class="btn-primary" onclick="window._issTab==='bulk'?saveBulkIss():saveIssue()">LOG ISSUE</button></div>
   </div>
 </div>
 
@@ -2517,19 +2573,28 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
     <div class="modal-body">
       <input type="hidden" id="cf-id">
       <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="form-group"><label>Nama Alat *</label><input type="text" id="cf-name" placeholder="Contoh: Thermometer Digital"></div>
+        
+      <div class="bulk-tabs"><button class="bulk-tab-btn2 active" id="calib-tab-single" onclick="switchCalibTab('single',this)">✏️ Input Manual</button><button class="bulk-tab-btn2" id="calib-tab-bulk" onclick="switchCalibTab('bulk',this)">📋 Bulk Import</button></div>
+      <div id="calib-mode-bulk" style="display:none;">
+        <div class="bulk-hint">💡 Paste dari Excel. Format: <span style="color:var(--accent);">Nama Alat | Tag No. | Kalibrator | Faktor Koreksi | Tgl Kalibrasi | Tgl Ulang | Catatan</span><br>Tanggal format: <code>YYYY-MM-DD</code> atau <code>DD/MM/YYYY</code></div>
+        <div class="bulk-generic-wrap"><table class="bulk-generic-tbl"><thead><tr><th>#</th><th style="min-width:150px">Nama Alat *</th><th style="min-width:80px">Tag No.</th><th style="min-width:110px">Kalibrator</th><th style="min-width:90px">Faktor Koreksi</th><th style="width:115px">Tgl Kalibrasi *</th><th style="width:115px">Tgl Kalibrasi Ulang *</th><th style="min-width:110px">Catatan</th><th></th></tr></thead><tbody id="bulk-calib-body"></tbody></table></div>
+        <div class="bulk-footer"><button class="btn-secondary btn-sm" onclick="addBulkCalibRow()">+ Baris</button><button class="btn-secondary btn-sm" onclick="clearBulkCalib()">🗑 Bersihkan</button><span class="bulk-count" id="bulk-calib-count">0 baris</span></div>
+      </div>
+      <div id="calib-mode-single">
+<div class="form-group"><label>Nama Alat *</label><input type="text" id="cf-name" placeholder="Contoh: Thermometer Digital"></div>
         <div class="form-group"><label>Tag Number</label><input type="text" id="cf-tag" placeholder="Contoh: TG-001"></div>
         <div class="form-group"><label>Nama Kalibrator / Lab</label><input type="text" id="cf-kalibrator" placeholder="Nama lembaga / personel"></div>
         <div class="form-group"><label>Faktor Koreksi</label><input type="text" id="cf-faktor" placeholder="Contoh: +0.2°C atau 1.003"></div>
         <div class="form-group"><label>Tanggal Kalibrasi *</label><input type="date" id="cf-tglkalib"></div>
         <div class="form-group"><label>Tanggal Kalibrasi Ulang *</label><input type="date" id="cf-tglulang"></div>
         <div class="form-group" style="grid-column:1/-1;"><label>Catatan / Keterangan</label><textarea id="cf-notes" rows="2" placeholder="Catatan tambahan, lokasi alat, range ukur, dll."></textarea></div>
-      </div>
+      
+      </div><!-- /calib-mode-single --></div>
     </div>
     <div class="modal-footer">
       <button class="btn-danger" id="cf-del-btn" style="display:none;" onclick="delCalibration(document.getElementById('cf-id').value)">🗑 Hapus Alat</button>
       <button class="btn-secondary" onclick="closeModal('modal-calib')">Batal</button>
-      <button class="btn-primary" style="background:var(--c5r);color:#000;" onclick="saveCalibration()">SIMPAN</button>
+      <button class="btn-primary" style="background:var(--c5r);color:#000;" onclick="window._calibTab==='bulk'?saveBulkCalib():saveCalibration()">SIMPAN</button>
     </div>
   </div>
 </div>
@@ -2544,7 +2609,15 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
     <div class="modal-body">
       <input type="hidden" id="hf-id">
       <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="form-group"><label>Nama Grup *</label><input type="text" id="hf-nama" placeholder="Contoh: Operator Produksi A"></div>
+        
+      <div class="bulk-tabs"><button class="bulk-tab-btn2 active" id="hse-tab-single" onclick="switchHseTab('single',this)">✏️ Input Manual</button><button class="bulk-tab-btn2" id="hse-tab-bulk" onclick="switchHseTab('bulk',this)">📋 Bulk Import</button></div>
+      <div id="hse-mode-bulk" style="display:none;">
+        <div class="bulk-hint">💡 Paste dari Excel. Format: <span style="color:var(--accent);">Nama Grup | Topik | PIC | Peserta | Interval(bln) | Tgl Terakhir | Tgl Berikutnya | Catatan</span><br>Interval angka: <code>1</code>/<code>2</code>/<code>3</code>/<code>6</code>/<code>12</code></div>
+        <div class="bulk-generic-wrap"><table class="bulk-generic-tbl"><thead><tr><th>#</th><th style="min-width:140px">Nama Grup *</th><th style="min-width:130px">Topik *</th><th style="min-width:80px">PIC</th><th style="width:65px">Peserta</th><th style="width:65px">Interval</th><th style="width:115px">Tgl Terakhir</th><th style="width:115px">Tgl Berikutnya</th><th style="min-width:110px">Catatan</th><th></th></tr></thead><tbody id="bulk-hse-body"></tbody></table></div>
+        <div class="bulk-footer"><button class="btn-secondary btn-sm" onclick="addBulkHseRow()">+ Baris</button><button class="btn-secondary btn-sm" onclick="clearBulkHse()">🗑 Bersihkan</button><span class="bulk-count" id="bulk-hse-count">0 baris</span></div>
+      </div>
+      <div id="hse-mode-single">
+<div class="form-group"><label>Nama Grup *</label><input type="text" id="hf-nama" placeholder="Contoh: Operator Produksi A"></div>
         <div class="form-group"><label>Topik Refreshment *</label><input type="text" id="hf-topik" placeholder="Contoh: APD & LOTO"></div>
         <div class="form-group"><label>PIC / Trainer</label><input type="text" id="hf-pic" placeholder="Nama PIC pelaksana"></div>
         <div class="form-group"><label>Jumlah Peserta</label><input type="number" id="hf-peserta" min="1" placeholder="Jumlah orang"></div>
@@ -2564,12 +2637,13 @@ tr.mat-used{background:rgba(16,185,129,0.05);}
       </div>
       <div class="note-box" style="margin-top:4px;padding:8px 12px;">
         <span style="font-size:11px;color:var(--text-muted);">💡 Jika diisi Terakhir Dilaksanakan, Jadwal Berikutnya akan dihitung otomatis saat simpan (Terakhir + Interval bulan). Bisa diubah manual.</span>
-      </div>
+      
+      </div><!-- /hse-mode-single --></div>
     </div>
     <div class="modal-footer">
       <button class="btn-danger" id="hf-del-btn" style="display:none;" onclick="delHSE(document.getElementById('hf-id').value)">🗑 Hapus Grup</button>
       <button class="btn-secondary" onclick="closeModal('modal-hse')">Batal</button>
-      <button class="btn-primary" style="background:var(--cshe);color:#fff;" onclick="saveHSE()">SIMPAN</button>
+      <button class="btn-primary" style="background:var(--cshe);color:#fff;" onclick="window._hseTab==='bulk'?saveBulkHse():saveHSE()">SIMPAN</button>
     </div>
   </div>
 </div>
@@ -8891,6 +8965,495 @@ function openB64Lightbox(imgEl) {
   const escHandler = (e) => { if(e.key==='Escape'){ overlay.remove(); document.removeEventListener('keydown',escHandler); } };
   document.addEventListener('keydown', escHandler);
 }
+
+
+
+// ================================================================
+// ===== BULK INPUT — ALL MODULES =================================
+// ================================================================
+
+// ── Generic helpers ──────────────────────────────────────────────
+function _parseTSV(text) {
+  return text.trim().split('\n')
+    .map(l => l.split('\t').map(c => c.trim()))
+    .filter(cols => cols.some(c => c));
+}
+
+function _updateBulkCount(tbodyId, countId) {
+  const rows   = document.querySelectorAll('#' + tbodyId + ' tr');
+  const filled = [...rows].filter(r => r.querySelector('input[data-field]')?.value?.trim());
+  const el     = document.getElementById(countId);
+  if (el) el.textContent = filled.length + ' baris terisi';
+}
+
+function _addGenericPasteHandler(inputEl, tbodyId, buildRow, pasteHandler) {
+  inputEl.addEventListener('paste', function(e) {
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    const lines = text.trim().split('\n').filter(l => l.trim());
+    if (lines.length <= 1) return; // single cell — let browser handle
+    e.preventDefault();
+    document.getElementById(tbodyId).innerHTML = '';
+    lines.forEach(line => {
+      const cols = line.split('\t').map(c => c.trim());
+      buildRow(cols);
+    });
+  });
+}
+
+// ── Tab switchers ─────────────────────────────────────────────────
+function switchProjTab(tab, el) {
+  document.getElementById('proj-mode-single').style.display = tab === 'single' ? 'block' : 'none';
+  document.getElementById('proj-mode-bulk').style.display   = tab === 'bulk'   ? 'block' : 'none';
+  document.querySelectorAll('#modal-project .bulk-tab-btn2').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab === 'bulk' && !document.getElementById('bulk-proj-body').children.length) initBulkProj();
+  window._projTab = tab;
+}
+function switchTodoTab(tab, el) {
+  document.getElementById('todo-mode-single').style.display = tab === 'single' ? 'block' : 'none';
+  document.getElementById('todo-mode-bulk').style.display   = tab === 'bulk'   ? 'block' : 'none';
+  document.querySelectorAll('#modal-todo .bulk-tab-btn2').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab === 'bulk' && !document.getElementById('bulk-todo-body').children.length) initBulkTodo();
+  window._todoTab = tab;
+}
+function switchCalibTab(tab, el) {
+  document.getElementById('calib-mode-single').style.display = tab === 'single' ? 'block' : 'none';
+  document.getElementById('calib-mode-bulk').style.display   = tab === 'bulk'   ? 'block' : 'none';
+  document.querySelectorAll('#modal-calib .bulk-tab-btn2').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab === 'bulk' && !document.getElementById('bulk-calib-body').children.length) initBulkCalib();
+  window._calibTab = tab;
+}
+function switchHseTab(tab, el) {
+  document.getElementById('hse-mode-single').style.display = tab === 'single' ? 'block' : 'none';
+  document.getElementById('hse-mode-bulk').style.display   = tab === 'bulk'   ? 'block' : 'none';
+  document.querySelectorAll('#modal-hse .bulk-tab-btn2').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab === 'bulk' && !document.getElementById('bulk-hse-body').children.length) initBulkHse();
+  window._hseTab = tab;
+}
+function switchIssTab(tab, el) {
+  document.getElementById('iss-mode-single').style.display = tab === 'single' ? 'block' : 'none';
+  document.getElementById('iss-mode-bulk').style.display   = tab === 'bulk'   ? 'block' : 'none';
+  document.querySelectorAll('#modal-issue .bulk-tab-btn2').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab === 'bulk' && !document.getElementById('bulk-iss-body').children.length) initBulkIss();
+  window._issTab = tab;
+}
+
+// ════════════════════════════════════════════════════
+// BULK PROJECT
+// ════════════════════════════════════════════════════
+const PROJ_CATS   = ['perbaikan','5r','she','improve'];
+const PROJ_PRIOS  = ['H','M','L'];
+const PROJ_STATUS = ['open','inprogress','waiting','blocked'];
+
+function initBulkProj() {
+  document.getElementById('bulk-proj-body').innerHTML = '';
+  for (let i = 0; i < 5; i++) addBulkProjRow();
+}
+function clearBulkProj() { initBulkProj(); }
+
+function addBulkProjRow(data = {}) {
+  const tbody = document.getElementById('bulk-proj-body');
+  const idx   = tbody.children.length + 1;
+  const tr    = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);text-align:center;width:28px;">${idx}</td>
+    <td><input data-field="name"     value="${(data.name||'').replace(/"/g,'&quot;')}"     placeholder="Nama project..." onpaste="handleBulkProjPaste(event)" oninput="_updateBulkCount('bulk-proj-body','bulk-proj-count')"></td>
+    <td><select data-field="category">
+      <option value="perbaikan" ${(data.category||'perbaikan')==='perbaikan'?'selected':''}>Perbaikan</option>
+      <option value="5r"        ${data.category==='5r'?'selected':''}>5R</option>
+      <option value="she"       ${data.category==='she'?'selected':''}>SHE</option>
+      <option value="improve"   ${data.category==='improve'?'selected':''}>Improve</option>
+    </select></td>
+    <td><input data-field="ejo"      value="${(data.ejo||'').replace(/"/g,'&quot;')}"       placeholder="EJO-001" style="font-family:var(--mono);font-size:10px;"></td>
+    <td><input data-field="location" value="${(data.location||'').replace(/"/g,'&quot;')}"  placeholder="Lokasi/mesin"></td>
+    <td><input data-field="pic"      value="${(data.pic||'').replace(/"/g,'&quot;')}"       placeholder="PIC"></td>
+    <td><select data-field="priority">
+      <option value="M" ${(data.priority||'M')==='M'?'selected':''}>M</option>
+      <option value="H" ${data.priority==='H'?'selected':''}>H</option>
+      <option value="L" ${data.priority==='L'?'selected':''}>L</option>
+    </select></td>
+    <td><select data-field="status">
+      <option value="open"       ${(data.status||'open')==='open'?'selected':''}>Open</option>
+      <option value="inprogress" ${data.status==='inprogress'?'selected':''}>In Progress</option>
+      <option value="waiting"    ${data.status==='waiting'?'selected':''}>Waiting</option>
+      <option value="blocked"    ${data.status==='blocked'?'selected':''}>Blocked</option>
+    </select></td>
+    <td><input data-field="startDate" type="date" value="${data.startDate||''}"></td>
+    <td><input data-field="endDate"   type="date" value="${data.endDate||''}"></td>
+    <td><button class="bulk-row-del" onclick="this.closest('tr').remove();_updateBulkCount('bulk-proj-body','bulk-proj-count')">×</button></td>`;
+  tbody.appendChild(tr);
+  _updateBulkCount('bulk-proj-body','bulk-proj-count');
+}
+
+function handleBulkProjPaste(e) {
+  const text  = (e.clipboardData || window.clipboardData).getData('text');
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length <= 1) return;
+  e.preventDefault();
+  document.getElementById('bulk-proj-body').innerHTML = '';
+  lines.forEach(line => {
+    const c = line.split('\t').map(x => x.trim());
+    const cat = PROJ_CATS.find(v => (c[1]||'').toLowerCase().includes(v)) || 'perbaikan';
+    const prio = PROJ_PRIOS.includes((c[5]||'').toUpperCase()) ? c[5].toUpperCase() : 'M';
+    const st   = PROJ_STATUS.find(v => (c[6]||'').toLowerCase().includes(v)) || 'open';
+    addBulkProjRow({
+      name: c[0]||'', category: cat, ejo: c[2]||'', location: c[3]||'',
+      pic: c[4]||'', priority: prio, status: st,
+      startDate: c[7]||'', endDate: c[8]||''
+    });
+  });
+  _updateBulkCount('bulk-proj-body','bulk-proj-count');
+}
+
+function getBulkProjRows() {
+  return [...document.querySelectorAll('#bulk-proj-body tr')].map(tr => ({
+    name:      tr.querySelector('[data-field="name"]')?.value.trim()||'',
+    category:  tr.querySelector('[data-field="category"]')?.value||'perbaikan',
+    ejo:       tr.querySelector('[data-field="ejo"]')?.value.trim()||'',
+    location:  tr.querySelector('[data-field="location"]')?.value.trim()||'',
+    pic:       tr.querySelector('[data-field="pic"]')?.value.trim()||'',
+    priority:  tr.querySelector('[data-field="priority"]')?.value||'M',
+    status:    tr.querySelector('[data-field="status"]')?.value||'open',
+    startDate: tr.querySelector('[data-field="startDate"]')?.value||'',
+    endDate:   tr.querySelector('[data-field="endDate"]')?.value||'',
+  })).filter(r => r.name);
+}
+
+function saveBulkProj() {
+  const rows = getBulkProjRows();
+  if (!rows.length) { alert('Tidak ada data project untuk disimpan.'); return; }
+  rows.forEach(r => {
+    projects.unshift({
+      id: genId('P'), name: r.name, category: r.category,
+      ejo: r.ejo, ejoType: '', location: r.location, pic: r.pic,
+      priority: r.priority, status: r.status,
+      startDate: r.startDate, endDate: r.endDate,
+      matStatus: 'pending', rootcause: '', notes: '',
+      progress: 0, photos: [], docs: [], phases: [],
+      createdAt: Date.now()
+    });
+  });
+  logActivity('Bulk Tambah Project', rows.length + ' project baru');
+  save(); closeModal('modal-project');
+  renderAllProjects(); renderDashboard();
+  alert('✅ ' + rows.length + ' project berhasil ditambahkan!');
+}
+
+// ════════════════════════════════════════════════════
+// BULK TODO
+// ════════════════════════════════════════════════════
+function initBulkTodo() {
+  document.getElementById('bulk-todo-body').innerHTML = '';
+  for (let i = 0; i < 5; i++) addBulkTodoRow();
+}
+function clearBulkTodo() { initBulkTodo(); }
+
+function addBulkTodoRow(data = {}) {
+  const tbody = document.getElementById('bulk-todo-body');
+  const idx   = tbody.children.length + 1;
+  const tr    = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);text-align:center;width:28px;">${idx}</td>
+    <td><input data-field="title" value="${(data.title||'').replace(/"/g,'&quot;')}" placeholder="Judul task..." onpaste="handleBulkTodoPaste(event)" oninput="_updateBulkCount('bulk-todo-body','bulk-todo-count')"></td>
+    <td><input data-field="desc"  value="${(data.desc||'').replace(/"/g,'&quot;')}"  placeholder="Catatan/deskripsi"></td>
+    <td><input data-field="date"  type="date" value="${data.date||''}"></td>
+    <td><select data-field="priority">
+      <option value="M" ${(data.priority||'M')==='M'?'selected':''}>M</option>
+      <option value="H" ${data.priority==='H'?'selected':''}>H</option>
+      <option value="L" ${data.priority==='L'?'selected':''}>L</option>
+    </select></td>
+    <td><button class="bulk-row-del" onclick="this.closest('tr').remove();_updateBulkCount('bulk-todo-body','bulk-todo-count')">×</button></td>`;
+  tbody.appendChild(tr);
+  _updateBulkCount('bulk-todo-body','bulk-todo-count');
+}
+
+function handleBulkTodoPaste(e) {
+  const text  = (e.clipboardData || window.clipboardData).getData('text');
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length <= 1) return;
+  e.preventDefault();
+  document.getElementById('bulk-todo-body').innerHTML = '';
+  lines.forEach(line => {
+    const c = line.split('\t').map(x => x.trim());
+    addBulkTodoRow({
+      title: c[0]||'', desc: c[1]||'', date: c[2]||'',
+      priority: PROJ_PRIOS.includes((c[3]||'').toUpperCase()) ? c[3].toUpperCase() : 'M'
+    });
+  });
+  _updateBulkCount('bulk-todo-body','bulk-todo-count');
+}
+
+function getBulkTodoRows() {
+  return [...document.querySelectorAll('#bulk-todo-body tr')].map(tr => ({
+    title:    tr.querySelector('[data-field="title"]')?.value.trim()||'',
+    desc:     tr.querySelector('[data-field="desc"]')?.value.trim()||'',
+    date:     tr.querySelector('[data-field="date"]')?.value||'',
+    priority: tr.querySelector('[data-field="priority"]')?.value||'M',
+  })).filter(r => r.title);
+}
+
+function saveBulkTodo() {
+  const rows = getBulkTodoRows();
+  if (!rows.length) { alert('Tidak ada task untuk disimpan.'); return; }
+  rows.forEach(r => {
+    todos.unshift({
+      id: genId('TD'), title: r.title, desc: r.desc,
+      dueDate: r.date, priority: r.priority, done: false,
+      projectId: document.getElementById('tf-project')?.value||'',
+      createdAt: Date.now()
+    });
+  });
+  logActivity('Bulk Tambah To Do', rows.length + ' task baru');
+  save(); closeModal('modal-todo'); renderTodo(); renderDashboard();
+  alert('✅ ' + rows.length + ' task berhasil ditambahkan!');
+}
+
+// ════════════════════════════════════════════════════
+// BULK KALIBRASI
+// ════════════════════════════════════════════════════
+function initBulkCalib() {
+  document.getElementById('bulk-calib-body').innerHTML = '';
+  for (let i = 0; i < 5; i++) addBulkCalibRow();
+}
+function clearBulkCalib() { initBulkCalib(); }
+
+function addBulkCalibRow(data = {}) {
+  const tbody = document.getElementById('bulk-calib-body');
+  const idx   = tbody.children.length + 1;
+  const tr    = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);text-align:center;width:28px;">${idx}</td>
+    <td><input data-field="nama"       value="${(data.nama||'').replace(/"/g,'&quot;')}"       placeholder="Thermometer, Pressure Gauge..." onpaste="handleBulkCalibPaste(event)" oninput="_updateBulkCount('bulk-calib-body','bulk-calib-count')"></td>
+    <td><input data-field="tag"        value="${(data.tag||'').replace(/"/g,'&quot;')}"        placeholder="TG-001" style="font-family:var(--mono);font-size:10px;"></td>
+    <td><input data-field="kalibrator" value="${(data.kalibrator||'').replace(/"/g,'&quot;')}" placeholder="Lembaga / lab"></td>
+    <td><input data-field="faktor"     value="${(data.faktor||'').replace(/"/g,'&quot;')}"     placeholder="+0.2°C"></td>
+    <td><input data-field="tglkalib"   type="date" value="${data.tglkalib||''}"></td>
+    <td><input data-field="tglulang"   type="date" value="${data.tglulang||''}"></td>
+    <td><input data-field="notes"      value="${(data.notes||'').replace(/"/g,'&quot;')}"      placeholder="Catatan"></td>
+    <td><button class="bulk-row-del" onclick="this.closest('tr').remove();_updateBulkCount('bulk-calib-body','bulk-calib-count')">×</button></td>`;
+  tbody.appendChild(tr);
+  _updateBulkCount('bulk-calib-body','bulk-calib-count');
+}
+
+function handleBulkCalibPaste(e) {
+  const text  = (e.clipboardData || window.clipboardData).getData('text');
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length <= 1) return;
+  e.preventDefault();
+  document.getElementById('bulk-calib-body').innerHTML = '';
+  lines.forEach(line => {
+    const c = line.split('\t').map(x => x.trim());
+    addBulkCalibRow({ nama: c[0]||'', tag: c[1]||'', kalibrator: c[2]||'', faktor: c[3]||'', tglkalib: c[4]||'', tglulang: c[5]||'', notes: c[6]||'' });
+  });
+  _updateBulkCount('bulk-calib-body','bulk-calib-count');
+}
+
+function getBulkCalibRows() {
+  return [...document.querySelectorAll('#bulk-calib-body tr')].map(tr => ({
+    nama:       tr.querySelector('[data-field="nama"]')?.value.trim()||'',
+    tag:        tr.querySelector('[data-field="tag"]')?.value.trim()||'',
+    kalibrator: tr.querySelector('[data-field="kalibrator"]')?.value.trim()||'',
+    faktor:     tr.querySelector('[data-field="faktor"]')?.value.trim()||'',
+    tglkalib:   tr.querySelector('[data-field="tglkalib"]')?.value||'',
+    tglulang:   tr.querySelector('[data-field="tglulang"]')?.value||'',
+    notes:      tr.querySelector('[data-field="notes"]')?.value.trim()||'',
+  })).filter(r => r.nama);
+}
+
+function saveBulkCalib() {
+  const rows = getBulkCalibRows();
+  if (!rows.length) { alert('Tidak ada data kalibrasi untuk disimpan.'); return; }
+  const missing = rows.filter(r => !r.tglkalib || !r.tglulang);
+  if (missing.length) {
+    if (!confirm(`${missing.length} baris tidak punya tanggal kalibrasi/ulang. Simpan tetap?`)) return;
+  }
+  rows.forEach(r => {
+    calibrations.push({
+      id: genId('CAL'), nama: r.nama, tag: r.tag,
+      kalibrator: r.kalibrator, faktor: r.faktor,
+      tglkalib: r.tglkalib, tglulang: r.tglulang,
+      notes: r.notes, createdAt: Date.now()
+    });
+  });
+  logActivity('Bulk Tambah Kalibrasi', rows.length + ' alat ukur');
+  save(); closeModal('modal-calib'); renderCalibration(); updateNavWarnings();
+  alert('✅ ' + rows.length + ' alat ukur berhasil ditambahkan!');
+}
+
+// ════════════════════════════════════════════════════
+// BULK HSE
+// ════════════════════════════════════════════════════
+const HSE_INTERVALS = ['1','2','3','6','12'];
+
+function initBulkHse() {
+  document.getElementById('bulk-hse-body').innerHTML = '';
+  for (let i = 0; i < 5; i++) addBulkHseRow();
+}
+function clearBulkHse() { initBulkHse(); }
+
+function addBulkHseRow(data = {}) {
+  const tbody = document.getElementById('bulk-hse-body');
+  const idx   = tbody.children.length + 1;
+  const tr    = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);text-align:center;width:28px;">${idx}</td>
+    <td><input data-field="nama"        value="${(data.nama||'').replace(/"/g,'&quot;')}"       placeholder="Operator Produksi A..." onpaste="handleBulkHsePaste(event)" oninput="_updateBulkCount('bulk-hse-body','bulk-hse-count')"></td>
+    <td><input data-field="topik"       value="${(data.topik||'').replace(/"/g,'&quot;')}"      placeholder="APD & LOTO"></td>
+    <td><input data-field="pic"         value="${(data.pic||'').replace(/"/g,'&quot;')}"        placeholder="PIC/Trainer"></td>
+    <td><input data-field="peserta"     type="number" value="${data.peserta||''}"               placeholder="0" min="1" style="text-align:center;"></td>
+    <td><select data-field="interval">
+      <option value="3"  ${(data.interval||'3')==='3'?'selected':''}>3 bln</option>
+      <option value="1"  ${data.interval==='1'?'selected':''}>1 bln</option>
+      <option value="2"  ${data.interval==='2'?'selected':''}>2 bln</option>
+      <option value="6"  ${data.interval==='6'?'selected':''}>6 bln</option>
+      <option value="12" ${data.interval==='12'?'selected':''}>12 bln</option>
+    </select></td>
+    <td><input data-field="terakhir"    type="date" value="${data.terakhir||''}"></td>
+    <td><input data-field="berikutnya"  type="date" value="${data.berikutnya||''}"></td>
+    <td><input data-field="notes"       value="${(data.notes||'').replace(/"/g,'&quot;')}"      placeholder="Catatan/materi"></td>
+    <td><button class="bulk-row-del" onclick="this.closest('tr').remove();_updateBulkCount('bulk-hse-body','bulk-hse-count')">×</button></td>`;
+  tbody.appendChild(tr);
+  _updateBulkCount('bulk-hse-body','bulk-hse-count');
+}
+
+function handleBulkHsePaste(e) {
+  const text  = (e.clipboardData || window.clipboardData).getData('text');
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length <= 1) return;
+  e.preventDefault();
+  document.getElementById('bulk-hse-body').innerHTML = '';
+  lines.forEach(line => {
+    const c = line.split('\t').map(x => x.trim());
+    const iv = HSE_INTERVALS.includes(c[4]||'') ? c[4] : '3';
+    addBulkHseRow({ nama: c[0]||'', topik: c[1]||'', pic: c[2]||'', peserta: c[3]||'', interval: iv, terakhir: c[5]||'', berikutnya: c[6]||'', notes: c[7]||'' });
+  });
+  _updateBulkCount('bulk-hse-body','bulk-hse-count');
+}
+
+function getBulkHseRows() {
+  return [...document.querySelectorAll('#bulk-hse-body tr')].map(tr => ({
+    nama:       tr.querySelector('[data-field="nama"]')?.value.trim()||'',
+    topik:      tr.querySelector('[data-field="topik"]')?.value.trim()||'',
+    pic:        tr.querySelector('[data-field="pic"]')?.value.trim()||'',
+    peserta:    tr.querySelector('[data-field="peserta"]')?.value||'',
+    interval:   tr.querySelector('[data-field="interval"]')?.value||'3',
+    terakhir:   tr.querySelector('[data-field="terakhir"]')?.value||'',
+    berikutnya: tr.querySelector('[data-field="berikutnya"]')?.value||'',
+    notes:      tr.querySelector('[data-field="notes"]')?.value.trim()||'',
+  })).filter(r => r.nama && r.topik);
+}
+
+function saveBulkHse() {
+  const rows = getBulkHseRows();
+  if (!rows.length) { alert('Tidak ada data HSE untuk disimpan.'); return; }
+  rows.forEach(r => {
+    // Auto-calculate berikutnya jika belum diisi
+    let berikutnya = r.berikutnya;
+    if (!berikutnya && r.terakhir) {
+      const d = new Date(r.terakhir);
+      d.setMonth(d.getMonth() + parseInt(r.interval));
+      berikutnya = d.toISOString().slice(0,10);
+    }
+    hseGroups.push({
+      id: genId('HSE'), nama: r.nama, topik: r.topik, pic: r.pic,
+      peserta: parseInt(r.peserta)||0, interval: parseInt(r.interval)||3,
+      jam: '08:00', terakhir: r.terakhir, berikutnya,
+      notes: r.notes, createdAt: Date.now()
+    });
+  });
+  logActivity('Bulk Tambah HSE', rows.length + ' grup refreshment');
+  save(); closeModal('modal-hse'); renderHSE(); updateNavWarnings();
+  alert('✅ ' + rows.length + ' grup HSE berhasil ditambahkan!');
+}
+
+// ════════════════════════════════════════════════════
+// BULK ISSUE
+// ════════════════════════════════════════════════════
+function initBulkIss() {
+  document.getElementById('bulk-iss-body').innerHTML = '';
+  for (let i = 0; i < 5; i++) addBulkIssRow();
+}
+function clearBulkIss() { initBulkIss(); }
+
+function addBulkIssRow(data = {}) {
+  const tbody = document.getElementById('bulk-iss-body');
+  const idx   = tbody.children.length + 1;
+  const tr    = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="font-family:var(--mono);font-size:10px;color:var(--text-muted);text-align:center;width:28px;">${idx}</td>
+    <td><input data-field="title"    value="${(data.title||'').replace(/"/g,'&quot;')}"   placeholder="Judul issue..." onpaste="handleBulkIssPaste(event)" oninput="_updateBulkCount('bulk-iss-body','bulk-iss-count')"></td>
+    <td><select data-field="severity">
+      <option value="warning"  ${(data.severity||'warning')==='warning'?'selected':''}>Warning</option>
+      <option value="critical" ${data.severity==='critical'?'selected':''}>Critical</option>
+      <option value="info"     ${data.severity==='info'?'selected':''}>Info</option>
+    </select></td>
+    <td><input data-field="desc"     value="${(data.desc||'').replace(/"/g,'&quot;')}"    placeholder="Deskripsi issue"></td>
+    <td><input data-field="date"     type="date" value="${data.date||''}"></td>
+    <td><input data-field="deadline" type="date" value="${data.deadline||''}"></td>
+    <td><button class="bulk-row-del" onclick="this.closest('tr').remove();_updateBulkCount('bulk-iss-body','bulk-iss-count')">×</button></td>`;
+  tbody.appendChild(tr);
+  _updateBulkCount('bulk-iss-body','bulk-iss-count');
+}
+
+function handleBulkIssPaste(e) {
+  const text  = (e.clipboardData || window.clipboardData).getData('text');
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length <= 1) return;
+  e.preventDefault();
+  document.getElementById('bulk-iss-body').innerHTML = '';
+  lines.forEach(line => {
+    const c = line.split('\t').map(x => x.trim());
+    const sev = ['critical','warning','info'].includes((c[1]||'').toLowerCase()) ? c[1].toLowerCase() : 'warning';
+    addBulkIssRow({ title: c[0]||'', severity: sev, desc: c[2]||'', date: c[3]||'', deadline: c[4]||'' });
+  });
+  _updateBulkCount('bulk-iss-body','bulk-iss-count');
+}
+
+function getBulkIssRows() {
+  return [...document.querySelectorAll('#bulk-iss-body tr')].map(tr => ({
+    title:    tr.querySelector('[data-field="title"]')?.value.trim()||'',
+    severity: tr.querySelector('[data-field="severity"]')?.value||'warning',
+    desc:     tr.querySelector('[data-field="desc"]')?.value.trim()||'',
+    date:     tr.querySelector('[data-field="date"]')?.value||'',
+    deadline: tr.querySelector('[data-field="deadline"]')?.value||'',
+  })).filter(r => r.title);
+}
+
+function saveBulkIss() {
+  const rows = getBulkIssRows();
+  if (!rows.length) { alert('Tidak ada issue untuk disimpan.'); return; }
+  const projId = document.getElementById('if-project')?.value||'';
+  rows.forEach(r => {
+    issues.unshift({
+      id: genId('ISS'), projectId: projId, title: r.title,
+      severity: r.severity, desc: r.desc,
+      date: r.date, deadline: r.deadline, createdAt: Date.now()
+    });
+  });
+  logActivity('Bulk Tambah Issue', rows.length + ' issue baru');
+  save(); closeModal('modal-issue'); renderIssues(); renderDashboard();
+  alert('✅ ' + rows.length + ' issue berhasil ditambahkan!');
+}
+
+// Reset all bulk tables when modal opens/closes
+const _origOpenMatModal = typeof openMatModal === 'function' ? openMatModal : null;
+// Reset tabs when modals close
+const _origCloseModal = closeModal;
+closeModal = function(id) {
+  _origCloseModal(id);
+  const resets = {
+    'modal-project': () => { switchProjTab('single', document.getElementById('proj-tab-single')); },
+    'modal-todo':    () => { switchTodoTab('single',  document.getElementById('todo-tab-single')); },
+    'modal-calib':   () => { switchCalibTab('single', document.getElementById('calib-tab-single')); },
+    'modal-hse':     () => { switchHseTab('single',   document.getElementById('hse-tab-single')); },
+    'modal-issue':   () => { switchIssTab('single',   document.getElementById('iss-tab-single')); },
+  };
+  if (resets[id]) resets[id]();
+};
 
 </script>
 
